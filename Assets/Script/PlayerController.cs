@@ -4,43 +4,43 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int speed = 1;
+    public float movementSpeed = 1f;
+    public float waitTime = 1f;
     public GameObject start;
-    public GameObject end;
-    // Start is called before the first frame update
-    void Start()
-    {
+    public List<Transform> path;
 
-    }
+    private int _currentTargetIndex = 0;
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, end.transform.position, 0.01f);
-        //if (Input.GetKey("w"))
-        //{
-        //    // di len
-        //    transform.Translate(Vector3.up * Time.deltaTime * speed);
-        //}
-        //else if (Input.GetKey("s"))
-        //{
-        //    transform.Translate(Vector3.down * Time.deltaTime * speed);
-        //}
-        //else if (Input.GetKey("a"))
-        //{
-        //    transform.Translate(Vector3.left * Time.deltaTime * speed);
-        //}
-        //else if (Input.GetKey("d"))
-        //{
-        //    transform.Translate(Vector3.right * Time.deltaTime * speed);
-        //}
+        if (_currentTargetIndex == -1) return;
+        
+        transform.position = Vector3.MoveTowards(
+                transform.position,
+                path[_currentTargetIndex].position,
+                movementSpeed * Time.deltaTime);
+        
+        if (Vector3.Distance(transform.position, path[_currentTargetIndex].position) < 0.01f)
+        {
+            if (_currentTargetIndex == path.Count - 1)
+            {
+                StartCoroutine(RestartPath());
+                return;
+            }
+            
+            _currentTargetIndex++;
+        }
+    }
 
-        //if (absNumber(gameObject.transform.position.x, end.transform.position.x) < 1f
-        //    && absNumber(gameObject.transform.position.y, end.transform.position.y) < 1f)
-        //{
-        //    // gan vi tri
-        //    gameObject.transform.position = start.transform.position;
-        //}
+    IEnumerator RestartPath()
+    {
+        _currentTargetIndex = -1;
+        gameObject.transform.position = start.transform.position;
+
+        yield return new WaitForSeconds(waitTime);
+
+        _currentTargetIndex = 0;
     }
 
     private float absNumber(float x, float y)
@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Lan dau tien khi va cham
+
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "End")
