@@ -10,33 +10,39 @@ public class player : MonoBehaviour
     [SerializeField] private float speedPlayer = 2f;
     [SerializeField] private float distance = 0.3f;
     [SerializeField] private float timeLoop = 0.0f;
-    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D rb; 
     [SerializeField] private LayerMask endLayer;
     [SerializeField] private float moveTime;
+    [SerializeField] private Animator anim;
 
     public GameObject end;
     public GameObject end1;
     public GameObject end2;
     public GameObject start;
-
+    public float journeyTime = 1.0f;
+     
     private float speed;
     private Vector2 currentDirection;
     private int countPoint = -1;
     private Vector3 target;
     private bool IsMoving = true;
-
+    private float startTime;
+    private string currentAnim;
+    private bool isMoving = false;
     // Start is called before the first frame update
     void Start()
     {
         transform.position = start.transform.position;
         //3
-        target = end1.transform.position;
+        //target = end1.transform.position;
+        //4
+        //startTime = Time.time;
         //5
         //target = end.transform.position;
         //7
         //changeDirection();
         //8
-        //target = end.transform.position;
+        target = end.transform.position;
 
         //9
         //target = end.transform.position;
@@ -52,28 +58,46 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(Vector3.right * speedPlayer * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Translate(Vector3.left * speedPlayer * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(Vector3.down * speedPlayer * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(Vector3.up * speedPlayer * Time.deltaTime);
-        }
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    transform.Translate(Vector3.right * speedPlayer * Time.deltaTime);
+        //}
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    transform.Translate(Vector3.left * speedPlayer * Time.deltaTime);
+        //}
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    transform.Translate(Vector3.down * speedPlayer * Time.deltaTime);
+        //}
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    transform.Translate(Vector3.up * speedPlayer * Time.deltaTime);
+        //}
 
-        //float horizontalInput = Input.GetAxis("Horizontal");
-        //float verticalInput = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-        //Vector3 movement = new Vector3(horizontalInput, verticalInput, 0).normalized;
-        //transform.Translate(movement * speedPlayer * Time.deltaTime);
+        Vector3 movement = new Vector3(horizontal, vertical,0).normalized;
+        
+        if (movement != Vector3.zero)
+        {
+            if (!isMoving)
+            {
+                ChangeAnim("run");
+                isMoving = true;
+            }
+            transform.rotation = Quaternion.Euler(0, horizontal > 0 ? 0 : 180, 0);
+            rb.velocity = new Vector2(horizontal * speedPlayer, vertical * speedPlayer);
+        }
+        else
+        {
+            if (isMoving)
+            {
+                ChangeAnim("idle");
+                isMoving = false;
+            }
+        }
 
         //2
         //while (Vector3.Distance(transform.position, end.transform.position) < distance)
@@ -82,26 +106,37 @@ public class player : MonoBehaviour
         //}
 
         //3
-        transform.position = Vector3.MoveTowards(transform.position, target, speedPlayer * Time.deltaTime);
+        //transform.position = Vector3.MoveTowards(transform.position, target, speedPlayer * Time.deltaTime);
 
-        if (Vector2.Distance(transform.position, end1.transform.position) < 0.1f)
-        {
-            target = end2.transform.position;
-        }
-        if (Vector2.Distance(transform.position, end2.transform.position) < 0.1f)
-        {
-            target = end.transform.position;
-        }
-        if (Vector2.Distance(transform.position, end.transform.position) < 0.1f)
-        {
-            target = start.transform.position;
+        //if (Vector2.Distance(transform.position, end1.transform.position) < 0.1f)
+        //{
+        //    target = end2.transform.position;
+        //}
+        //if (Vector2.Distance(transform.position, end2.transform.position) < 0.1f)
+        //{
+        //    target = end.transform.position;
+        //}
+        //if (Vector2.Distance(transform.position, end.transform.position) < 0.1f)
+        //{
+        //    target = start.transform.position;
 
-        }
-        if (Vector2.Distance(transform.position, start.transform.position) < 0.1f)
-        {
-            target = end1.transform.position;
+        //}
+        //if (Vector2.Distance(transform.position, start.transform.position) < 0.1f)
+        //{
+        //    target = end1.transform.position;
 
-        }
+        //}
+
+
+        //4
+        //Vector3 center = (start.transform.position - end.transform.position) * 0.5f;
+        //center -= new Vector3(0, 3 , 0);
+        //Vector3 riseRelCenter = start.transform.position - center;
+        //Vector3 setRelCenter = end.transform.position - center;
+        //float fracComplete = (Time.time - startTime) / journeyTime;
+
+        //transform.position = Vector3.Slerp(riseRelCenter, setRelCenter, fracComplete);
+        //transform.position += center;
 
 
         //5
@@ -134,7 +169,7 @@ public class player : MonoBehaviour
 
         //8
         //timeLoop += Time.deltaTime;
-        //if(timeLoop -1 > 0.1f)
+        //if (timeLoop - 1 > 0.1f)
         //{
         //    IsMoving = !IsMoving;
         //    timeLoop = 0f;
@@ -142,13 +177,13 @@ public class player : MonoBehaviour
         //if (IsMoving)
         //{
 
-        //    //transform.position = Vector3.Lerp(transform.position, target,speedPlayer);
+        //    transform.position = Vector3.Lerp(transform.position, target,speedPlayer);
         //    transform.position = Vector3.MoveTowards(transform.position, target, speedPlayer * Time.deltaTime);
         //}
         //else
-        //    {
+        //{
         //    rb.velocity = Vector2.zero;
-        //    }
+        //}
 
         //if (Vector2.Distance(transform.position, end.transform.position) < 0.1f)
         //{
@@ -216,5 +251,15 @@ public class player : MonoBehaviour
         currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
         timeLoop = 0.0f;
         countPoint++;
+    }
+
+    private void ChangeAnim(string nameAnim)
+    {
+        if(currentAnim != nameAnim)
+        {
+            anim.ResetTrigger(nameAnim);
+            currentAnim = nameAnim;
+            anim.SetTrigger(currentAnim);
+        }
     }
 }
