@@ -7,16 +7,56 @@ public class PlayerController : MonoBehaviour
     public int speed = 1;
     public GameObject start;
     public GameObject end;
+    public GameObject[] left;
+    public GameObject[] right;
+    private int step = 0;
+    public GameObject characterSpawn;
+    public Transform spawnPoint;
+    private float timeSpawn=3.0f;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        Invoke(nameof(SpawnCharacter),timeSpawn);
+        //StartCoroutine(stopPerSecond());
     }
+    IEnumerator stopPerSecond()
+    {
+        yield return new WaitForSeconds(1f);
+        speed = 1 - speed;
+        StartCoroutine(stopPerSecond());
+    }
+    public void SpawnCharacter()
+    {
+        Debug.Log("spawn");
+        Instantiate(characterSpawn, spawnPoint.position,Quaternion.identity);
+    }    
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, end.transform.position, 0.01f);
+        transform.position = Vector3.MoveTowards(transform.position, left[step].transform.position, 0.01f*speed);
+        if (transform.position == left[step].transform.position) 
+        {
+            //step=Random.Range(0,5);
+            if (step == 5)
+            {
+                step = 0;
+                gameObject.transform.position = start.transform.position;
+            }
+
+        }
+        transform.position = Vector3.MoveTowards(transform.position, right[step].transform.position, 0.01f * speed);
+        if (transform.position == right[step].transform.position)
+        {
+            //step = Random.Range(0, 5);
+            if (step == 5)
+            {
+                step = 0;
+                gameObject.transform.position = start.transform.position;
+            }
+
+        }
         //if (Input.GetKey("w"))
         //{
         //    // di len
