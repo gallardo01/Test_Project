@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 8064927343415947465}
   - component: {fileID: 8064927343415947464}
   - component: {fileID: 8064927343415947467}
+  - component: {fileID: 8046078733557734989}
   m_Layer: 0
-  m_Name: Character 2
+  m_Name: Anubis
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 8064927343415947466}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.08, y: 3.71, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -159,3 +160,23 @@ MonoBehaviour:
   - {fileID: 6989394874680406426, guid: e1e5c7b5ea68f5b4081fe851b7334024, type: 3}
   - {fileID: 6054068395657112754, guid: 13459f3a4ffcdf54b88b317ff17d2b15, type: 3}
   - {fileID: 2281570529863178146, guid: 141f977086d404641a1aff13c941f5c8, type: 3}
+--- !u!95 &8046078733557734989
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8064927343415947466}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a4bd4c6a13627794ba8a3bda445776b8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
