@@ -11,18 +11,18 @@ public class MoveNode : MonoBehaviour
 
     public MoveNode GetNextNode()
     {
-        return connectedNodes[Random.Range(0, connectedNodes.Count)];
+        return connectedNodes.Count > 0 ? connectedNodes[Random.Range(0, connectedNodes.Count)] : null;
     }
 
 #if UNITY_EDITOR
-    public void OnDrawGizmosSelected()
+    public void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         if (connectedNodes.Count > 0)
         {
             foreach (var node in connectedNodes)
             {
-                Gizmos.DrawLine(node.transform.position, transform.position);
+                if (node) Gizmos.DrawLine(node.transform.position, transform.position);
             }
         }
     }

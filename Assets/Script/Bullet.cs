@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,14 @@ public class Bullet : MonoBehaviour
         else if (Vector3.Distance(transform.position, end.position) < 0.1f)
         {
             _target = start.position;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.TryGetComponent(out EnemyController enemy))
+        {
+            enemy.OnHit();
         }
     }
 }
