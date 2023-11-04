@@ -8,23 +8,24 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float moveChangeRate;
     [SerializeField] private Animator animator;
+    internal Transform End, Four;
 
     private Vector3 originalPosition, move, newMove;
     // private Collider2D target;
     private int randomDirection;
     private float originalSpeed, time;
     private string currentAnim;
+    private bool finish, fixedAnim;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentAnim = "isRun";
         originalPosition = transform.position;
         move = Vector3.up;
         newMove = move;
-     
+
         originalSpeed = speed;
-     
+
         randomDirection = 1;
         CalculateTime();
         // target = one;
@@ -34,23 +35,33 @@ public class PlayerController : MonoBehaviour
         // StartCoroutine(StopPerSecond());
     }
 
-    private void ChangeAnim(string newAnim) {
-        animator.ResetTrigger(currentAnim);
-        currentAnim = newAnim;
-        animator.SetTrigger(currentAnim);
+    private void ChangeAnim(string newAnim)
+    {
+        if (fixedAnim)
+        {
+            animator.ResetTrigger(currentAnim);
+            currentAnim = newAnim;
+            animator.SetTrigger(currentAnim);
+        }
     }
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
+        currentAnim = "isRun";
         animator.SetTrigger("isRun");
         move = Vector3.up;
         newMove = Vector3.up;
+        finish = false;
+        fixedAnim = false;
     }
 
-    private void Death() {
+    private void Death()
+    {
         gameObject.SetActive(false);
     }
 
-    IEnumerator StopPerSecond() {
+    IEnumerator StopPerSecond()
+    {
         yield return new WaitForSecondsRealtime(1);
         speed = speed == 0 ? originalSpeed : 0;
         StartCoroutine(StopPerSecond());
@@ -60,47 +71,64 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // move = Vector3.zero;
-        
+
         // if (Input.GetKey(KeyCode.W)) move += Vector3.up; 
         // if (Input.GetKey(KeyCode.A)) move += Vector3.left; 
         // if (Input.GetKey(KeyCode.S)) move += Vector3.down; 
         // if (Input.GetKey(KeyCode.D)) move += Vector3.right;
 
-        Curve();
+        if (Vector3.Distance(transform.position, End.position) < 0.000001f)
+        {
+            gameObject.SetActive(false);
+        }
 
+        if (Mathf.Abs(transform.position.x - Four.position.x) < 0.01f && finish)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, End.position, speed * Time.deltaTime);
+            move = Vector2.zero;
+            newMove = Vector2.zero;
+        }
+
+        Curve();
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
 
         // Vector
         rb.MovePosition(transform.position + move.normalized * speed * Time.deltaTime);
 
         // Move Toward
         // rb.MovePosition(Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.fixedDeltaTime));
-        
+
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        
-        if (other.tag == "Bullet") {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+
+        if (other.tag == "Bullet")
+        {
+            fixedAnim = true;
             GameController.Instance.IncreaseScore();
             ChangeAnim("isDeath");
             animator.speed = 1;
-            Invoke(nameof(Death), 0.75f);
+            Invoke(nameof(Death), 1);
+            speed = 0;
         }
 
         // Vector
-        if (other.tag == "one") {
+        if (other.tag == "one")
+        {
             randomDirection = Random.Range(0, 2) * 2 - 1;
             newMove = Quaternion.Euler(0, 0, -90 * randomDirection) * move;
         }
         else if (other.tag == "two") newMove = Quaternion.Euler(0, 0, 90 * randomDirection) * move;
-        else if (other.tag == "three") newMove = Quaternion.Euler(0, 0, 90 * randomDirection) * move;
-        else if (other.tag == "four") newMove = Quaternion.Euler(0, 0, -90 * randomDirection) * move;
-        else if (other.tag == "Finish") {
-            transform.position = originalPosition;
-            gameObject.SetActive(false);
+        else if (other.tag == "three")
+        {
+            newMove = Quaternion.Euler(0, 0, 90 * randomDirection) * move;
+            finish = true;
         }
+
 
 
         // Move Toward
@@ -111,21 +139,24 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void Curve() {
+    private void Curve()
+    {
         move = Vector3.Lerp(move, newMove, moveChangeRate * Time.deltaTime);
     }
 
-    private void Stop() {
+    private void Stop()
+    {
         speed = 0;
         if (currentAnim == "isRun") animator.speed = 0;
-        
+
         CalculateTime();
 
         Invoke(nameof(Move), time);
     }
 
-    private void Move() {
-        speed = originalSpeed;        
+    private void Move()
+    {
+        speed = originalSpeed;
         animator.speed = 1;
 
         CalculateTime();
@@ -133,7 +164,8 @@ public class PlayerController : MonoBehaviour
         Invoke(nameof(Stop), time);
     }
 
-    private void CalculateTime() {
+    private void CalculateTime()
+    {
         time = Random.Range(1f, 3f);
         time = time > 2 ? 2 : time;
     }

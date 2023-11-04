@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private Transform Base;
+    [SerializeField] private Transform Base, End;
     [SerializeField] private TextMeshProUGUI textMeshPro;
     
     private int score = 0;
@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Invoke(nameof(CreateBullet), 0.00001f);
-        Invoke(nameof(CreatePlayer), 1f);
+        Invoke(nameof(CreatePlayer), 3f);
         textMeshPro.text = 0.ToString();
     }
 

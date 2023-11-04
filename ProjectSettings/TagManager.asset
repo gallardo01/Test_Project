@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - one
+  - two
+  - three
+  - four
+  - Start
+  - Bullet
   layers:
   - Default
   - TransparentFX

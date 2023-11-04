@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour
     public List<GameObject> pooledObjects, pooledPlayerObjects;
     public GameObject objectToPool, playerObject;
     public int amountToPool;
-    [SerializeField] private Transform Base, end;
+    [SerializeField] private Transform Base, End, Four;
 
     void Awake()
     {
@@ -24,7 +24,7 @@ public class ObjectPool : MonoBehaviour
         {
             tmp = Instantiate(objectToPool);
             tmp.GetComponent<Bullet>().Base = Base;
-            tmp.GetComponent<Bullet>().end = end;
+            tmp.GetComponent<Bullet>().End = End;
             tmp.SetActive(false);
             pooledObjects.Add(tmp);
         }
@@ -32,6 +32,8 @@ public class ObjectPool : MonoBehaviour
         for (int i = 0; i < amountToPool * 5; i++)
         {
             tmp = Instantiate(playerObject);
+            tmp.GetComponent<PlayerController>().End = End;
+            tmp.GetComponent<PlayerController>().Four = Four;
             tmp.SetActive(false);
             pooledPlayerObjects.Add(tmp);
         }
@@ -51,8 +53,7 @@ public class ObjectPool : MonoBehaviour
 
     public GameObject GetPlayer()
     {
-        // for (int i = 0; i < 1 amountToPool * 5; i++)
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < amountToPool * 3; i++)
         {
             if (!pooledPlayerObjects[i].activeInHierarchy)
             {
