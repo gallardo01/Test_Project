@@ -5,35 +5,57 @@ using UnityEngine;
 public class bot : MonoBehaviour
 {
 
-    [SerializeField] private float speed;
-    [SerializeField] private GameObject[] path1;
-    public GameObject start;
-    public GameObject end;
-    private int step=0;
+    [SerializeField] private float speedBot;
+    //[SerializeField] private GameObject[] path1;
+    //[SerializeField] private GameObject[] path2;
 
-    private Vector3 target;
+    public GameObject[] path1;
+    public GameObject[] path2;
+    //public GameObject end;
+    private int step=0;
+    private int x;
+    
 
     // Start is called before the first frame update
     void Start()
-    {
-        transform.position = start.transform.position;
+    {       
+         x = Random.Range(1, 10);
     }
 
     // Update is called once per frame
     void Update()
     {
         
-               
-        transform.position = Vector3.MoveTowards(transform.position, path1[step].transform.position, speed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, path1[step].transform.position) < 0.1f)
+        if (x % 2 == 1)
         {
-            step++;
-        }
+            transform.position = Vector3.MoveTowards(transform.position, path1[step].transform.position, speedBot * Time.deltaTime);
+            if (Vector3.Distance(transform.position, path1[step].transform.position) < 0.1f)
+            {
+                step++;
+            }
 
-        if (Vector3.Distance(transform.position, path1[4].transform.position) < 0.1f)
+            if (Vector3.Distance(transform.position, path1[4].transform.position) < 0.1f)
+            {
+                Score.instance.increaseScore();
+                Score.instance.setScore();
+                Destroy(gameObject);             
+            }
+        }
+        else
         {
-            transform.position = start.transform.position;
-            step = 0;
+            transform.position = Vector3.MoveTowards(transform.position, path2[step].transform.position, speedBot * Time.deltaTime);
+            if (Vector3.Distance(transform.position, path2[step].transform.position) < 0.1f)
+            {
+                step++;
+            }
+
+            if (Vector3.Distance(transform.position, path2[4].transform.position) < 0.1f)
+            {
+                Score.instance.increaseScore();
+                Score.instance.setScore();
+                Destroy(gameObject);
+
+            }
         }
 
     }

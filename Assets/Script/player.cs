@@ -32,7 +32,7 @@ public class player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = start.transform.position;
+        //transform.position = start.transform.position;
         //3
         //target = end1.transform.position;
         //4
