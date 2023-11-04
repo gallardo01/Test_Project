@@ -185,6 +185,37 @@ Transform:
   m_Father: {fileID: 950287001}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &477457433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 477457434}
+  m_Layer: 0
+  m_Name: Point6
+  m_TagString: Untagged
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &477457434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477457433}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.95, y: -1.92, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 950287001}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,6 +389,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &726640052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 726640053}
+  m_Layer: 0
+  m_Name: Point5
+  m_TagString: Untagged
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &726640053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726640052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.98, y: 1.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 950287001}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &796207543
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +432,7 @@ GameObject:
   - component: {fileID: 796207544}
   m_Layer: 0
   m_Name: GameController
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -387,6 +449,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78462b06ff455144d973cf05321248a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1
+  Mummy: {fileID: 4606132533353177852, guid: 274b7b2aef5d2f145a613a9313987aee, type: 3}
+  Bullet: {fileID: 1931743888440084834, guid: 499a93da6c4f4d74bac7e5bea495060c, type: 3}
+  DefenderSide: {fileID: 1668508374}
+  StartO: {fileID: 1668508374}
+  EndO: {fileID: 676342352}
+  path1:
+  - {fileID: 371092313}
+  - {fileID: 1007137965}
+  - {fileID: 627976802}
+  - {fileID: 1045072056}
+  - {fileID: 97726496}
+  path2:
+  - {fileID: 371092313}
+  - {fileID: 726640052}
+  - {fileID: 477457433}
+  - {fileID: 1045072056}
+  - {fileID: 97726496}
 --- !u!4 &796207545
 Transform:
   m_ObjectHideFlags: 0
@@ -435,6 +515,8 @@ Transform:
   - {fileID: 627976803}
   - {fileID: 1045072057}
   - {fileID: 97726497}
+  - {fileID: 726640053}
+  - {fileID: 477457434}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -457,7 +539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &991159774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,13 +557,7 @@ MonoBehaviour:
   endPoint: {x: 0, y: 0, z: 0}
   StartO: {fileID: 1668508374}
   EndO: {fileID: 676342352}
-  PointA: {fileID: 371092313}
-  path:
-  - {fileID: 371092313}
-  - {fileID: 1007137965}
-  - {fileID: 627976802}
-  - {fileID: 1045072056}
-  - {fileID: 97726496}
+  gameController: {fileID: 0}
 --- !u!212 &991159775
 SpriteRenderer:
   m_ObjectHideFlags: 0

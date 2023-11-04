@@ -9,17 +9,19 @@ public class PlayerController : MonoBehaviour
     public int speed = 1;
     public Vector3 startPoint, endPoint;
     public  GameObject StartO, EndO;
-    public GameObject[] path;
+    private GameObject[] path;
     private int step = 0;
-
+    public GameObject gameController;
     // Start is called before the first frame update
     void Start()
     {
+        gameController = GameObject.FindGameObjectWithTag("GameController");
+        path = gameController.GetComponent<GameController>().returnPath();
+
         startPoint = transform.position;
         endPoint = new Vector3(0, -1.5f, 0);
         // StartCoroutine(stopRun());
     }
-
 
     // làm hàm lặp chạy 1s dừng 1s
     // private IEnumerator stopRun(){
@@ -33,16 +35,39 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        // transform.position = Vector3.MoveTowards(transform.position, path[step].transform.position, 0.01f * speed);
+
         transform.position = Vector3.MoveTowards(transform.position, path[step].transform.position, 0.01f * speed);
         if (transform.position == path[step].transform.position)
         {
             step++;
             if (step >= path.Length)
             {
-                step = Random.Range(0, 5);
-                gameObject.transform.position = StartO.transform.position;
+                Destroy(gameObject);
             }
         }
+        // Đi theo path1
+
+        // Đi random theo path1 hoặc path2
+
+
+        // Nếu vị trí của player bằng với vị trí cuối
+        // if ((transform.position-endPoint).sqrMagnitude < .01){
+        //     Debug.Log("End");
+        //     step++;
+        //     }
+
+
+        // Đi đến điểm random
+        // if (transform.position == path[step].transform.position)
+        // {
+        //     step++;
+        //     if (step >= path.Length)
+        //     {
+        //         step = Random.Range(0, 5);
+        //         gameObject.transform.position = StartO.transform.position;
+        //     }
+        // }
 
         // transform.position = Vector3.MoveTowards(transform.position, PointA.transform.position, 0.01f);
 
