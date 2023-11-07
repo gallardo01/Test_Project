@@ -5,18 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class Bullet : MonoBehaviour
 {
-
-    [SerializeField] private GameObject start;
-    [SerializeField] private GameObject end;
     [SerializeField] private float speedBullet;
-
-
-    Vector3 target;
+    private Transform start;
+    private Transform end;
+    private Vector3 target;
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = start.transform.position;
-        target = end.transform.position;
+        GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
+        start = gameController.GetComponent<gameController>().getStart();
+        end = gameController.GetComponent<gameController>().getEnd();
+        transform.position = start.position;
+        target = end.position;
     }
 
     // Update is called once per frame
@@ -34,15 +34,6 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        
-        if (collision.tag == "bot")
-        {
-            Destroy(collision.gameObject);
-            
-        }
-    }
 
    
 }

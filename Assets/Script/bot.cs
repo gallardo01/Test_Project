@@ -6,57 +6,66 @@ public class bot : MonoBehaviour
 {
 
     [SerializeField] private float speedBot;
-    //[SerializeField] private GameObject[] path1;
-    //[SerializeField] private GameObject[] path2;
-
-    public GameObject[] path1;
-    public GameObject[] path2;
-    //public GameObject end;
+    [SerializeField] private Animator Anim;
+    [SerializeField] private Rigidbody2D rb;
+     private GameObject gameController;
+     private GameObject[] path;
     private int step=0;
-    private int x;
+    private string currentAnim;
+    private bool isMoving = true;
     
 
     // Start is called before the first frame update
     void Start()
     {       
-         x = Random.Range(1, 10);
+         
+        gameController = GameObject.FindGameObjectWithTag("GameController");
+        path = gameController.GetComponent<gameController>().returnPath(Random.Range(0, 2));
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isMoving)
+        {
+
+            transform.position = Vector3.MoveTowards(transform.position, path[step].transform.position, speedBot * Time.deltaTime);
+            if (Vector3.Distance(transform.position, path[step].transform.position) < 0.1f)
+            {
+                step++;
+                if (Vector3.Distance(transform.position, path[4].transform.position) < 0.1f)
+                {
+                    gameController.GetComponent<gameController>().increaseScore();
+                    Destroy(gameObject);
+                }
+
+            }
+        }
+    }
+    private void OnDespawn()
+    {
+        Destroy(gameObject);
+    }
+
+    public void ChangeAnim(string nameAnim)
+    {
+        if (currentAnim != nameAnim)
+        {
+            
+            Anim.ResetTrigger(nameAnim);
+            currentAnim = nameAnim;
+            Anim.SetTrigger(currentAnim);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         
-        if (x % 2 == 1)
+
+        if (collision.tag == "Bullet")
         {
-            transform.position = Vector3.MoveTowards(transform.position, path1[step].transform.position, speedBot * Time.deltaTime);
-            if (Vector3.Distance(transform.position, path1[step].transform.position) < 0.1f)
-            {
-                step++;
-            }
-
-            if (Vector3.Distance(transform.position, path1[4].transform.position) < 0.1f)
-            {
-                Score.instance.increaseScore();
-                Score.instance.setScore();
-                Destroy(gameObject);             
-            }
+            isMoving = false;
+            ChangeAnim("die");
+            Invoke(nameof(OnDespawn), 1f);
         }
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, path2[step].transform.position, speedBot * Time.deltaTime);
-            if (Vector3.Distance(transform.position, path2[step].transform.position) < 0.1f)
-            {
-                step++;
-            }
-
-            if (Vector3.Distance(transform.position, path2[4].transform.position) < 0.1f)
-            {
-                Score.instance.increaseScore();
-                Score.instance.setScore();
-                Destroy(gameObject);
-
-            }
-        }
-
     }
 }
