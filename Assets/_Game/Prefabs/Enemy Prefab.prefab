@@ -148,7 +148,7 @@ MonoBehaviour:
   moveSpeed: 2
   rb: {fileID: 1547533560960284008}
   attackArea: {fileID: 1547533561977529619}
-  healthPotion: {fileID: 0}
+  healthPotion: {fileID: 1575716707156031310, guid: e8916065881a5fa4a9f8debb242aa3b3, type: 3}
 --- !u!1 &1547533561281701830
 GameObject:
   m_ObjectHideFlags: 0

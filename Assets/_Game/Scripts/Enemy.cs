@@ -39,15 +39,18 @@ public class Enemy : Character
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "EnemyWall") {
             ChangeDirection(!isRight);
+            ChangeState(new IdleState());
+            DeActiveAttack();
+            Invoke(nameof(ActiveAttack), 5f);
         }
-    }
-
-    private void ActiveAttack() {
-        attackArea.SetActive(true);
     }
 
     private void DeActiveAttack() {
         attackArea.SetActive(false);
+    }
+
+    private void ActiveAttack() {
+        attackArea.SetActive(true);
     }
 
     protected override void OnDeath()

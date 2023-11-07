@@ -40,8 +40,7 @@ public class Character : MonoBehaviour
                 hp = 0;
                 OnDeath();
             }
-
-            healthBar.SetNewHp(hp);
+            OnHealthChanged();
             Instantiate(combatTextPrefab, transform.position + Vector3.up, Quaternion.identity).OnInit(damage);
         }
     }
@@ -75,7 +74,11 @@ public class Character : MonoBehaviour
 
     public void Heal(int amount) {
         hp += amount;
-        healthBar.SetNewHp(hp);
+        OnHealthChanged();
     }
 
+    private void OnHealthChanged() {
+        healthBar.SetNewHp(hp);
+        anim.SetFloat("speed", 1f + (100 - hp) / 100);
+    }
 }
