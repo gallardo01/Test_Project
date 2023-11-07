@@ -7,6 +7,7 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image imageFill;
     [SerializeField] private Vector3 offset;
+    [SerializeField] private GameObject Player;
     float hp;
     float maxHp;
 
@@ -32,5 +33,4 @@ public class HealthBar : MonoBehaviour
 
         // imageFill.fillAmount = hp / maxHp;
     }
-
 }

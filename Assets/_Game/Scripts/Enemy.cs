@@ -7,7 +7,7 @@ public class Enemy : Character
     [SerializeField] private float attackRange;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private GameObject attackArea;
+    [SerializeField] private GameObject attackArea, Blood;
 
     // Start is called before the first frame update
     private IState currentState;
@@ -39,13 +39,13 @@ public class Enemy : Character
         base.OnDespawn();
         Destroy(healthBar.gameObject);
         Destroy(gameObject);
+        Instantiate(Blood, transform.position, Quaternion.identity);
     }
 
     protected override void OnDeath(){
         ChangeState(null);
         base.OnDeath();
     }
-
 
     public void ChangeState(IState newState){
         if(currentState != null){

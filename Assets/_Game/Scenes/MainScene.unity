@@ -2824,7 +2824,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 259ba2b819bfe9b44b8e4a44cf4b37a3, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -8575,6 +8575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageFill: {fileID: 922711879}
   offset: {x: 0, y: 2, z: 0}
+  Player: {fileID: 0}
 --- !u!114 &993853482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9328,6 +9329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageFill: {fileID: 1906278529}
   offset: {x: 0, y: 2, z: 0}
+  Player: {fileID: 0}
 --- !u!224 &1328137485
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11017,6 +11019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageFill: {fileID: 1868619430}
   offset: {x: 0, y: 2, z: 0}
+  Player: {fileID: 0}
 --- !u!224 &1846239428
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11342,7 +11345,7 @@ MonoBehaviour:
   moveSpeed: 2
   rb: {fileID: 1899010921}
   attackArea: {fileID: 1978592253}
-  Coin: {fileID: 6981201902210817398, guid: 9a9527a0438429740b66b49a44df786f, type: 3}
+  Blood: {fileID: 6981201902210817398, guid: d600cae044dd2c343aa32469818504f5, type: 3}
 --- !u!50 &1899010921
 Rigidbody2D:
   serializedVersion: 4
@@ -11983,7 +11986,7 @@ MonoBehaviour:
   moveSpeed: 2
   rb: {fileID: 1969982681}
   attackArea: {fileID: 1528606390}
-  Coin: {fileID: 6981201902210817398, guid: 9a9527a0438429740b66b49a44df786f, type: 3}
+  Blood: {fileID: 6981201902210817398, guid: d600cae044dd2c343aa32469818504f5, type: 3}
 --- !u!1 &1978592253
 GameObject:
   m_ObjectHideFlags: 0

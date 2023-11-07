@@ -6,6 +6,11 @@ TagManager:
   tags:
   - End
   - BulletController
+  - EnemyWall
+  - DeathZone
+  - Enemy
+  - Coin
+  - Blood
   layers:
   - Default
   - TransparentFX
@@ -15,11 +20,11 @@ TagManager:
   - UI
   - 
   - 
+  - Ground
+  - Player
+  - Enemy
   - 
-  - 
-  - 
-  - 
-  - 
+  - None-Important
   - 
   - 
   - 

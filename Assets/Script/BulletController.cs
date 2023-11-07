@@ -29,6 +29,7 @@ public class BulletController : MonoBehaviour
         //     transform.position = Vector3.MoveTowards(transform.position, StartO.transform.position, 0.01f * speed);
         //     Debug.Log("Go Up");
         // }
+        
         //transform.position = Vector3.MoveTowards(transform.position, target.transform.position, 0.01f * -speed);
         // if(transform.position == target.transform.position){
         //     if(road == 0){
@@ -51,6 +52,6 @@ public class BulletController : MonoBehaviour
         {
             target = EndO;
         }
-        
+
     }
 }

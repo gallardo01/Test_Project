@@ -44,6 +44,10 @@ public class Character : MonoBehaviour
         }
     }
 
+    public void updateHealth(){
+        healthBar.SetNewHp(hp);
+    }
+
     protected void ChangeAnim(string animName){
         if(currentAnimName != animName){
             anim.ResetTrigger(animName);

@@ -27,6 +27,7 @@ public class Player : Character
     void Awake()
     {
         coin = PlayerPrefs.GetInt("coin", 0);
+        speed = 1200f;
     }
 
     // Update is called once per frame
@@ -50,10 +51,10 @@ public class Player : Character
         }
 
         // Attack
-        if(Input.GetKeyDown(KeyCode.X)){
-            // isAttack = true;
-            Attack();
-        }
+            if(Input.GetKeyDown(KeyCode.X)){
+                // isAttack = true;
+                Attack();
+            }
 
         if(isGrounded){
             if(isJumping){
@@ -70,10 +71,10 @@ public class Player : Character
             }
 
             // Attack
-            if(Input.GetKeyDown(KeyCode.X)){
-                // isAttack = true;
-                Attack();
-            }
+            // if(Input.GetKeyDown(KeyCode.X)){
+            //     // isAttack = true;
+            //     Attack();
+            // }
 
             // Throw
             if(Input.GetKeyDown(KeyCode.V)){
@@ -210,6 +211,16 @@ public class Player : Character
             ChangeAnim("die");
 
             Invoke(nameof(OnInit), 1f);
+        }
+        if(other.tag == "Blood"){
+            if(hp < 70){
+                hp += 30;
+            }
+            else if(hp >= 70){
+                hp = 100;
+            }
+            Destroy(other.gameObject);
+            updateHealth();
         }
     }
 
