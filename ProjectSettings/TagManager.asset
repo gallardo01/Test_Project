@@ -10,6 +10,12 @@ TagManager:
   - four
   - Start
   - Bullet
+  - Death Zone
+  - EnemyWall
+  - Enemy
+  - Rope
+  - Coin
+  - Ground
   layers:
   - Default
   - TransparentFX

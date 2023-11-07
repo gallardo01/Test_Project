@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : Character
@@ -60,7 +61,10 @@ public class Player : Character
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(rb.velocity.y);
+
         isGrounded = CheckGrounded();
+        
         if (climbing) climbing = !isGrounded;
         if (IsDead || isDeath) return;
 
@@ -69,6 +73,13 @@ public class Player : Character
 
         if (isAttack)
         {
+            return;
+        }
+
+        // attack
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Attack();
             return;
         }
 
@@ -84,13 +95,6 @@ public class Player : Character
             if (Mathf.Abs(horizontal) > 0.1f)
             {
                 ChangeAnim("run");
-            }
-
-            // attack
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                Attack();
-                return;
             }
 
             // throw
@@ -114,7 +118,7 @@ public class Player : Character
         // check falling
         if (!isGrounded && rb.velocity.y < 0 && !climbing)
         {
-            if (Input.GetKey(KeyCode.Space)) 
+            if (Input.GetKey(KeyCode.Space))
             {
                 ChangeAnim("glide");
                 rb.velocity = new Vector2(rb.velocity.x, glideSpeed);
@@ -138,7 +142,9 @@ public class Player : Character
             {
                 ChangeAnim("idle");
                 rb.velocity = Vector2.zero;
-            } else if (!climbing) {
+            }
+            else if (!climbing)
+            {
                 // rb.velocity = new Vector2(0, rb.velocity.y);
             }
         }
@@ -178,7 +184,9 @@ public class Player : Character
 
     public void Attack()
     {
-        ChangeAnim("attack");
+        PlayAnimator();
+        if (isGrounded) ChangeAnim("attack");
+        else ChangeAnim("jump_attack");
         isAttack = true;
         Invoke(nameof(ResetAttack), 0.5f);
 
@@ -207,7 +215,8 @@ public class Player : Character
     private void ResetAttack()
     {
         isAttack = false;
-        ChangeAnim("idle");
+        ToPreviousAnim();
+        if (climbing) PauseAnimator();
     }
 
     internal void SavePoint()
@@ -224,6 +233,7 @@ public class Player : Character
 
     protected override void OnDeath()
     {
+        rb.velocity = Vector2.zero;
         base.OnDeath();
     }
 
@@ -261,6 +271,7 @@ public class Player : Character
         {
             climbing = true;
             ChangeAnim("climb");
+            Debug.Log(1);
         }
     }
 

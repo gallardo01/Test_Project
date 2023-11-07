@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -10,12 +11,17 @@ public class Character : MonoBehaviour
     [SerializeField] protected CombatText combatTextPrefab;
 
     private float hp;
+    private String previousAnimName = "idle";
     protected string currentAnimName = "idle";
 
     public bool IsDead => hp <= 0;
 
     private void Start() {
         OnInit();
+    }
+
+    protected void ToPreviousAnim() {
+        ChangeAnim(previousAnimName);
     }
 
     public virtual void OnInit() {
@@ -54,6 +60,7 @@ public class Character : MonoBehaviour
         {
             anim.ResetTrigger(currentAnimName);
 
+            previousAnimName = currentAnimName;
             currentAnimName = animName;
 
             anim.SetTrigger(currentAnimName);
@@ -63,8 +70,12 @@ public class Character : MonoBehaviour
     protected virtual void OnDeath()
     {
         ChangeAnim("die");
-        
         Invoke(nameof(OnDespawn), 2f);
+    }
+
+    public void Heal(int amount) {
+        hp += amount;
+        healthBar.SetNewHp(hp);
     }
 
 }

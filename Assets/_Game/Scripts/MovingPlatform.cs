@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
@@ -7,8 +9,10 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private Transform aPoint, bPoint;
     [SerializeField] private float speed;
     private Vector3 target;
+    private Collider2D _collider;
 
     private void Start() {
+        _collider = GetComponent<Collider2D>();
         target = bPoint.position;
         transform.position = aPoint.position;
     }
@@ -24,12 +28,21 @@ public class MovingPlatform : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.tag == "Player") {
+        double height = other.collider.bounds.size.y;
+        double collider_height = _collider.bounds.size.y;
+
+        // if (other.gameObject.tag == "Player" && MathF.Abs((float) (other.transform.position.y - height / 2 - (transform.position.y + collider_height / 2))) < 0.1) {
+        //     other.transform.SetParent(transform);
+        // }
+
+        if (other.gameObject.tag == "Player")
             other.transform.SetParent(transform);
-        }
+
+        // other.rigidbody.velocity = Vector2.zero;
     }
 
     private void OnCollisionExit2D(Collision2D other) {
+
         if (other.gameObject.tag == "Player") {
             other.transform.SetParent(null);
         }
