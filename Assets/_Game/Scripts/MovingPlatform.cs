@@ -31,14 +31,10 @@ public class MovingPlatform : MonoBehaviour
         double height = other.collider.bounds.size.y;
         double collider_height = _collider.bounds.size.y;
 
-        // if (other.gameObject.tag == "Player" && MathF.Abs((float) (other.transform.position.y - height / 2 - (transform.position.y + collider_height / 2))) < 0.1) {
-        //     other.transform.SetParent(transform);
-        // }
-
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && MathF.Abs((float) (other.transform.position.y - height / 2 - (transform.position.y + collider_height / 2))) < 0.1) {
             other.transform.SetParent(transform);
+        }
 
-        // other.rigidbody.velocity = Vector2.zero;
     }
 
     private void OnCollisionExit2D(Collision2D other) {
