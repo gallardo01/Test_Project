@@ -9,6 +9,7 @@ public class Enermy : Character
     [SerializeField] private float attackRange;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private GameObject Heal;
     private bool isRight = true;
     private IState currentState;
     private Character target;
@@ -33,6 +34,8 @@ public class Enermy : Character
     }
     private void Des()
     {
+        if(UnityEngine.Random.Range(1,3)==1)
+        Instantiate(Heal,transform.position,Quaternion.identity);
         Destroy(gameObject);
         Destroy(healthBar.gameObject);
     }

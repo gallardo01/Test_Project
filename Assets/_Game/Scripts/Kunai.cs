@@ -24,6 +24,7 @@ public class Kunai : MonoBehaviour
     }
     public void OnDespawn()
     {
+        hitVFX.SetActive(false);
         Destroy(gameObject);
     }
     private void OnTriggerEnter2D(Collider2D collision)

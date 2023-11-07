@@ -33,60 +33,63 @@ public class Player : Character
         coin = PlayerPrefs.GetInt("coin", 0);
         
     }
-    void FixedUpdate()
+    void Update()
     {
-        
-        if (isDead||isDeath) return;
+
+        if (isDead || isDeath) return;
         isGrounded = CheckGrounded();
         horizontal = Input.GetAxisRaw("Horizontal");
-        
-        if (Input.GetKey(KeyCode.P)) 
+
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            
+
             ActiveCarpet.SetActive(true);
-            
+
             isCarpet = true;
         }
-        if (Input.GetKey(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             ActiveCarpet.SetActive(false);
             isCarpet = false;
-            
+
         }
-        
+
         if (isCarpet)
         {
-            rb.position = Vector3.Lerp(rb.position, flyPos.position , speed * Time.fixedDeltaTime);
-            if (Mathf.Abs(horizontal)>0.1f)
+            rb.position = Vector3.Lerp(rb.position, flyPos.position, speed * Time.fixedDeltaTime);
+            if (Mathf.Abs(horizontal) > 0.1f)
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, horizontal > 0 ? 0 : 180, 0));
             }
             ChangeAnim("idle");
             return;
         }
-        if (isAttack)
+        if (isAttack && isGrounded)
         {
             rb.velocity = Vector2.zero;
             return;
         }
-        if(isGrounded)
+        
+        if (isGrounded)
         {
-            if(isJumping)
+            if (isJumping)
             {
                 return;
             }
-            if ((Input.GetKey(KeyCode.Space)||(Input.GetKey(KeyCode.UpArrow)) && isGrounded))
+            if ((Input.GetKeyDown(KeyCode.Space) || (Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded))
             {
                 Jump();
             }
-            if(Mathf.Abs(horizontal) >0.1f ) {
+            if (Mathf.Abs(horizontal) > 0.1f)
+            {
                 ChangeAnim("run");
             }
-            if (Input.GetKey(KeyCode.C) && isGrounded)
+            if (Input.GetKeyDown(KeyCode.C) && isGrounded)
             {
                 Attack();
             }
-            if (Input.GetKey(KeyCode.V) && isGrounded)
+            
+            if (Input.GetKeyDown(KeyCode.V) && isGrounded)
             {
                 Throw();
             }
@@ -101,14 +104,15 @@ public class Player : Character
             rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed, rb.velocity.y);
             transform.rotation = Quaternion.Euler(new Vector3(0, horizontal > 0 ? 0 : 180, 0));
         }
-        else if(isGrounded)
+        else if (isGrounded)
         {
             ChangeAnim("idle");
             rb.velocity = Vector2.zero;
         }
-        
+
     }
-    
+
+
     public override void OnInit()
     {
         base.OnInit();
@@ -129,7 +133,14 @@ public class Player : Character
     {
         base.OnDeath();
     }
-
+    public float GetHP()
+    {
+        return hp;
+    }
+    public float GetMaxHP()
+    {
+        return maxHP;
+    }
     private bool CheckGrounded()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(0,-1), 1.1f, groudLayer);

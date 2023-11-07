@@ -17,9 +17,9 @@ public class Character : MonoBehaviour
     }
     public virtual void OnInit()
     {
-        maxHP = 1000;
+        maxHP = 200;
         hp = maxHP;
-        healthBar.OnInit(1000,transform);
+        healthBar.OnInit(200,transform);
     }
     public virtual void OnDespawn()
     {
@@ -60,7 +60,6 @@ public class Character : MonoBehaviour
                 Instantiate(HealTextPrb, transform.position + Vector3.up, Quaternion.identity).OnInit(HP);
                 healthBar.SetNewHp(hp);
             }
-            Debug.Log(hp);
         }
     }
     

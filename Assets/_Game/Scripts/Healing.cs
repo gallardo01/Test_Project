@@ -10,8 +10,12 @@ public class Healing : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            heal = UnityEngine.Random.Range(250, 500);
-            collision.GetComponent<Player>().OnHeal(heal);
+            //heal = UnityEngine.Random.Range(250, 500);
+            //float hp = collision.GetComponent<Player>().GetHP();
+            float maxHP = collision.GetComponent<Player>().GetMaxHP();
+            
+            collision.GetComponent<Player>().OnHeal(0.3f*maxHP);
+            Debug.Log(0.3 * maxHP);
             Invoke(nameof(DES), 0.2f);
         }
     }
