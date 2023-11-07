@@ -27,6 +27,7 @@ public class Player : Character
     void Awake()
     {
         coin = PlayerPrefs.GetInt("coin", 0);
+        hp = 1000;
     }
 
     // Update is called once per frame
@@ -41,7 +42,7 @@ public class Player : Character
     
         isGrounded = CheckGrounded();
 
-        // horizontal = Input.GetAxisRaw("Horizontal");
+        horizontal = Input.GetAxisRaw("Horizontal");
 
         if(isAttack){
             rb.velocity = Vector2.zero;
