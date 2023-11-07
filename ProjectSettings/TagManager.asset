@@ -4,20 +4,22 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - bullet
-  - enermy
-  - Enermy
-  - Bullet
+  - Coin
+  - DeathZone
+  - SavePoint
+  - EnemyWall
+  - Enemy
+  - Carpet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Enermy
+  - Ground
   - Water
   - UI
-  - Bullet
-  - 
-  - 
+  - Enemy
+  - Player
+  - Carpet
   - 
   - 
   - 
