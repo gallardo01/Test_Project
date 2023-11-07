@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 915cd647458bd51449c978f81579e6e8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - anim: {instanceID: 0}
+  - healthBar: {instanceID: 0}
+  - combatTextPrefab: {instanceID: 0}
+  - rb: {instanceID: 0}
+  - attackArea: {instanceID: 0}
+  - Coin: {fileID: 6981201902210817398, guid: 9a9527a0438429740b66b49a44df786f, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
