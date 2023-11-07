@@ -13,7 +13,8 @@ public class Player : Character
     [SerializeField] private float speed = 5f;
     private bool isGrounded = true;
     private bool isJumping = false;
-    private bool isAttack = false;
+    [SerializeField] private bool isAttack = false;
+    [SerializeField] private Animator attackAnim;
     private float immortalTime = 1.3f;
     // private bool isDeath = false;
 
@@ -27,7 +28,7 @@ public class Player : Character
     void Awake()
     {
         coin = PlayerPrefs.GetInt("coin", 0);
-        hp = 1000;
+        // hp = 1000;
     }
 
     // Update is called once per frame
@@ -49,7 +50,15 @@ public class Player : Character
             // isAttack = true;
             return;
         }
+        if(Input.GetKeyDown(KeyCode.X)){
+            // isAttack = true;
+            Attack();
+        }
+        if(Input.GetKeyDown(KeyCode.V)){
+            Throw();
+        }
         if(isGrounded){
+            // isAttack = false;
             if(isJumping){
                 return;
             }
@@ -63,19 +72,24 @@ public class Player : Character
             }
 
             // Attack
-            if(Input.GetKeyDown(KeyCode.X)){
-                // isAttack = true;
-                Attack();
-            }
+            // if(Input.GetKeyDown(KeyCode.X)){
+            //     // isAttack = true;
+            //     Attack();
+            // }
 
             // Throw
-            if(Input.GetKeyDown(KeyCode.V)){
-                Throw();
+            if(hp < 30){
+                speed = 800;
+                attackAnim.speed = 2;
+            }
+            else{
+                speed = 500;
+                attackAnim.speed = 1;
             }
 
         }
         // Change anim fall
-        if(!isGrounded && rb.velocity.y < 0){
+        if(!isGrounded && rb.velocity.y < 0 && !isAttack){
             ChangeAnim("fall");
             isJumping = false;
         }
@@ -160,7 +174,7 @@ public class Player : Character
         if(!isImmortal){
             isImmortal = true;
             Invoke(nameof(ExitImmortalMode), immortalTime);
-            UiManager.instance.DisableShield(immortalTime);
+            UiManager.instance.SetShieldTimer(immortalTime);
         }
     }
 
@@ -197,6 +211,15 @@ public class Player : Character
 
             UiManager.instance.SetCoin(coin);
             Destroy(other.gameObject);
+        }
+        if(other.tag == "Healing"){
+            hp += 30;
+            UpdateHealth();
+            Destroy(other.gameObject);
+        }
+        if(other.tag == "WaterRunning"){
+            Destroy(other.gameObject);
+            UiManager.instance.SetWaterTimer(10);
         }
         if(other.tag == "DeathZone"){
             // isDeath = true;

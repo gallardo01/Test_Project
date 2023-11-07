@@ -17,7 +17,10 @@ public class UiManager : MonoBehaviour
     // }
     [SerializeField] private Text coinText;
     [SerializeField] private float imTime = 0;
+    [SerializeField] private float waterTime = 0;
     [SerializeField] private Image shieldImg;
+    [SerializeField] private Image waterRunningImg;
+    // [SerializeField] private Tilemap waterTilemap;
 
     void Awake()
     {
@@ -32,11 +35,24 @@ public class UiManager : MonoBehaviour
         else{
             imTime = 0;
         }
-        shieldImg.fillAmount = imTime;
+        if(waterTime > 0){
+            waterTime -= Time.deltaTime;
+            // waterTilemap.GetComponent<TilemapCollider2D>().enabled = false;
+        }
+        else{
+            waterTime = 0;
+            // waterTilemap.GetComponent<TilemapCollider2D>().enabled = true;
+        }
+        shieldImg.fillAmount = imTime/1.3f;
+        waterRunningImg.fillAmount = waterTime/10f;
     }
 
-    public void DisableShield(float imm){
+    public void SetShieldTimer(float imm){
         imTime = imm;
+    }
+
+    public void SetWaterTimer(float imm){
+        waterTime = imm;
     }
 
     public void SetCoin(int coin){

@@ -5,6 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Bullet
+  - End
+  - Coin
+  - EnemyWall
+  - DeathZone
+  - Enemy
+  - Healing
+  - WaterRunning
   layers:
   - Default
   - TransparentFX
@@ -13,10 +20,10 @@ TagManager:
   - Water
   - UI
   - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Ground
+  - Enemy
+  - None-Important
   - 
   - 
   - 

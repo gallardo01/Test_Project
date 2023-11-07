@@ -44,6 +44,10 @@ public class Character : MonoBehaviour
         }
     }
 
+    public void UpdateHealth(){
+        healthBar.SetNewHp(hp);
+    }
+
     protected void ChangeAnim(string animName){
         if(currentAnimName != animName){
             anim.ResetTrigger(animName);
@@ -54,7 +58,7 @@ public class Character : MonoBehaviour
 
     protected virtual void OnDeath(){
         ChangeAnim("die");
-
+    
         Invoke(nameof(OnDespawn), 2f);
     }
 

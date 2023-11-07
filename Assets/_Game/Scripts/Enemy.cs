@@ -8,12 +8,14 @@ public class Enemy : Character
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject attackArea;
+    [SerializeField] private GameObject healthUp, waterRunning;
 
     // Start is called before the first frame update
     private IState currentState;
     private bool isRight = true;
     private Character target;
     public Character Target => target;
+    public bool canUpmau;
     // void Start()
     // {
     //     OnInit();
@@ -39,10 +41,17 @@ public class Enemy : Character
         base.OnDespawn();
         Destroy(healthBar.gameObject);
         Destroy(gameObject);
+        // if(Random.Range(0,2) == 1){
+        //     Instantiate(healthUp, transform.position, Quaternion.identity);
+        // }
+        // else if(Random.Range(0,6) == 1){
+            Instantiate(waterRunning, transform.position, Quaternion.identity);
+        // }
     }
 
     protected override void OnDeath(){
         ChangeState(null);
+        rb.velocity = Vector2.zero;
         base.OnDeath();
     }
 
@@ -90,6 +99,7 @@ public class Enemy : Character
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "EnemyWall"){
+            SetTarget(null);
             ChangeDirection(!isRight);
         }
     }
