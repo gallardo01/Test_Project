@@ -8,6 +8,8 @@ public class Enemy : Character
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject attackArea, Blood;
+    [SerializeField] private LayerMask groundLayer;
+    private bool isGrounded = true;
 
     // Start is called before the first frame update
     private IState currentState;
@@ -26,6 +28,25 @@ public class Enemy : Character
             // Debug.Log("Hello");
             currentState.OnExecute(this);
         }
+
+        isGrounded = CheckGrounded();
+
+        //ChangeAnim("fall");
+        if(isGrounded == false)
+        {
+            rb.gravityScale = 100;
+        }
+        else
+        {
+            rb.gravityScale = 1;
+        }
+        
+    }
+
+    private bool CheckGrounded()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, groundLayer);
+        return hit.collider != null;
     }
 
     public override void OnInit(){
@@ -89,36 +110,43 @@ public class Enemy : Character
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "EnemyWall"){
+        if(other.tag == "EnemyWall")
+        {
             ChangeDirection(!isRight);
         }
     }
 
-    public void ChangeDirection(bool isRight){
+    public void ChangeDirection(bool isRight)
+    {
         this.isRight = isRight;
 
         transform.rotation = isRight ? Quaternion.Euler(Vector3.zero) : Quaternion.Euler(Vector3.up * 180);
     }
 
-    private void ActiveAttack(){
+    private void ActiveAttack()
+    {
         attackArea.SetActive(true);
     }
 
-    private void DeActiveAttack(){
+    private void DeActiveAttack()
+    {
         attackArea.SetActive(false);
     }
 
-    internal void SetTarget(Character character){
+    internal void SetTarget(Character character)
+    {
         // throw new NotImplementedException();
         this.target = character;
-        if(IsTargetInRange()){
+        if(IsTargetInRange())
+        {
             ChangeState(new AttackState());
         }
-        else 
-        if(Target != null){
+        else if(Target != null)
+        {
             ChangeState(new PatrolState());
         }
-        else{
+        else
+        {
             ChangeState(new PatrolState());
         }
     }
