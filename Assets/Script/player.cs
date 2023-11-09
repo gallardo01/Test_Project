@@ -7,26 +7,27 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-    [SerializeField] private float speedPlayer = 2f;
-    [SerializeField] private float distance = 0.3f;
-    [SerializeField] private float timeLoop = 0.0f;
+    [SerializeField] private float speedPlayer = 2f;    
     [SerializeField] private Rigidbody2D rb; 
     [SerializeField] private LayerMask endLayer;
     [SerializeField] private float moveTime;
     [SerializeField] private Animator anim;
+    //[SerializeField] private float timeLoop = 0.0f;
+    //[SerializeField] private float distance = 0.3f;
 
-    public GameObject end;
-    public GameObject end1;
-    public GameObject end2;
-    public GameObject start;
-    public float journeyTime = 1.0f;
-     
-    private float speed;
-    private Vector2 currentDirection;
-    private int countPoint = -1;
-    private Vector3 target;
-    private bool IsMoving = true;
-    private float startTime;
+    //public GameObject end;
+    //public GameObject end1;
+    //public GameObject end2;
+    //public GameObject start;
+    //public float journeyTime = 1.0f;
+
+    //private float speed;
+    //private Vector2 currentDirection;
+    //private int countPoint = -1;
+
+    //private bool IsMoving = true;
+    //private float startTime;
+    //private Vector3 target;
     private string currentAnim;
     private bool isMoving = false;
     // Start is called before the first frame update
@@ -42,7 +43,7 @@ public class player : MonoBehaviour
         //7
         //changeDirection();
         //8
-        target = end.transform.position;
+        //target = end.transform.position;
 
         //9
         //target = end.transform.position;
@@ -240,18 +241,18 @@ public class player : MonoBehaviour
 
 
     }
-    IEnumerator wait(Vector3 vec)
-    {
-        yield return new WaitForSeconds(Random.Range(2f,4f));
-        target = vec;
-        Debug.Log("wait");
-    }
-    void changeDirection()
-    {
-        currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-        timeLoop = 0.0f;
-        countPoint++;
-    }
+    //IEnumerator wait(Vector3 vec)
+    //{
+    //    yield return new WaitForSeconds(Random.Range(2f,4f));
+    //    target = vec;
+    //    Debug.Log("wait");
+    //}
+    //void changeDirection()
+    //{
+    //    currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+    //    timeLoop = 0.0f;
+    //    countPoint++;
+    //}
 
     private void ChangeAnim(string nameAnim)
     {

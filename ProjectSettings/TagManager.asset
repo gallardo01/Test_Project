@@ -6,15 +6,22 @@ TagManager:
   tags:
   - bot
   - Bullet
+  - EnemyWall
+  - mushroom
+  - Enemy
+  - Deadzone
+  - coin
+  - Potion
+  - heathPotion
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy
   - Water
   - UI
-  - endLayer
-  - 
+  - Player
+  - Ground
   - 
   - 
   - 
