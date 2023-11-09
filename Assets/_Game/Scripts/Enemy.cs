@@ -9,19 +9,27 @@ public class Enermy : Character
     [SerializeField] private float attackRange;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private GameObject Heal;
+    
     private bool isRight = true;
     private IState currentState;
     private Character target;
+    [SerializeField] private GameObject parentEnermy;
     [SerializeField] private GameObject attackArea;
+    
+    GameObject HealClone;
+    GameObject DrugClone;
+  
+
 
     public Character Target => target;
+   
     public override void OnInit()
     {
         base.OnInit();
         ChangeState(new IdleState());
         DeActiveAttack();
     }
+    
     public override void OnDespawn()
     {
         base.OnDespawn();
@@ -34,14 +42,16 @@ public class Enermy : Character
     }
     private void Des()
     {
-        if(UnityEngine.Random.Range(1,3)==1)
-        Instantiate(Heal,transform.position,Quaternion.identity);
-        Destroy(gameObject);
-        Destroy(healthBar.gameObject);
+        GameController1.Instance.EnermyClone = parentEnermy;
+        GameController1.Instance.EnermyDead();
     }
     private void Update()
     {
-        if(currentState != null && !isDead)
+        if (hp <= 0) 
+        {
+            rb.velocity = Vector3.zero;
+        }
+        if (currentState != null && !isDead)
         {
             currentState.OnExecute(this);
         }
@@ -104,16 +114,22 @@ public class Enermy : Character
         {
             ChangeDirection(!isRight);
         }
+        if(collision.tag =="DeathZone")
+        {
+            OnDeath();
+        }
     }
     public void ChangeDirection(bool isRight)
     {
-        this.isRight = isRight;
+        
         transform.rotation = isRight ? Quaternion.Euler(Vector3.zero) : Quaternion.Euler(Vector3.up * 180);
+        
     }
     private void ActiveAttack()
     {
         attackArea.SetActive(true);
     }
+    
     private void DeActiveAttack()
     {
         attackArea.SetActive(false);

@@ -21,9 +21,11 @@ public class Player : Character
     private float horizontal;
     private int coin=0;
     [SerializeField] private LayerMask groudLayer;
+    [SerializeField] private LayerMask waterLayer;
     [SerializeField] private LayerMask Carpet;
     private Vector3 savePoint;
     bool isCarpet = false;
+    float boost,boostAttack;
     
     
     // Update is called once per frame
@@ -35,9 +37,18 @@ public class Player : Character
     }
     void Update()
     {
-
+        boost = (maxHP - hp) / maxHP + 1;
+        boostAttack = hp / maxHP;
+        if (hp <= 0)
+        {
+            rb.velocity = Vector3.zero;
+        }
         if (isDead || isDeath) return;
         isGrounded = CheckGrounded();
+        if(isGrounded == false)
+        {
+            isGrounded = CheckWater();
+        }
         horizontal = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -56,7 +67,7 @@ public class Player : Character
 
         if (isCarpet)
         {
-            rb.position = Vector3.Lerp(rb.position, flyPos.position, speed * Time.fixedDeltaTime);
+            rb.position = Vector3.Lerp(rb.position, flyPos.position, boost * speed * Time.fixedDeltaTime);
             if (Mathf.Abs(horizontal) > 0.1f)
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, horizontal > 0 ? 0 : 180, 0));
@@ -101,7 +112,7 @@ public class Player : Character
         }
         if (Mathf.Abs(horizontal) > 0.1f)
         {
-            rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed, rb.velocity.y);
+            rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed * boost, rb.velocity.y);
             transform.rotation = Quaternion.Euler(new Vector3(0, horizontal > 0 ? 0 : 180, 0));
         }
         else if (isGrounded)
@@ -146,12 +157,17 @@ public class Player : Character
         RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(0,-1), 1.1f, groudLayer);
         return hit.collider != null;
     }
+    private bool CheckWater()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 1.4f, waterLayer);
+        return hit.collider != null;
+    }
     public void Attack()
     {
         rb.velocity = Vector2.zero;
         ChangeAnim("attack");
         isAttack = true;
-        Invoke(nameof(ResetAttack), 0.5f);
+        Invoke(nameof(ResetAttack), 0.5f * boostAttack);
         ActiveAttack();
         Invoke(nameof(DeActiveAttack), 0.5f);
     }

@@ -15,6 +15,7 @@ public class Character : MonoBehaviour
     {
         OnInit();
     }
+    
     public virtual void OnInit()
     {
         maxHP = 200;
