@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 
 public class UiManager : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private float waterTime = 0;
     [SerializeField] private Image shieldImg;
     [SerializeField] private Image waterRunningImg;
-    // [SerializeField] private Tilemap waterTilemap;
+    [SerializeField] private Tilemap waterTilemap;
 
     void Awake()
     {
@@ -37,11 +38,11 @@ public class UiManager : MonoBehaviour
         }
         if(waterTime > 0){
             waterTime -= Time.deltaTime;
-            // waterTilemap.GetComponent<TilemapCollider2D>().enabled = false;
+            waterTilemap.GetComponent<TilemapCollider2D>().enabled = true;
         }
         else{
             waterTime = 0;
-            // waterTilemap.GetComponent<TilemapCollider2D>().enabled = true;
+            waterTilemap.GetComponent<TilemapCollider2D>().enabled = false;
         }
         shieldImg.fillAmount = imTime/1.3f;
         waterRunningImg.fillAmount = waterTime/10f;

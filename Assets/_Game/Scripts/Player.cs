@@ -86,7 +86,6 @@ public class Player : Character
                 speed = 500;
                 attackAnim.speed = 1;
             }
-
         }
         // Change anim fall
         if(!isGrounded && rb.velocity.y < 0 && !isAttack){

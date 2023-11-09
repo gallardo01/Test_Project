@@ -39,19 +39,24 @@ public class Enemy : Character
 
     public override void  OnDespawn(){
         base.OnDespawn();
-        Destroy(healthBar.gameObject);
-        Destroy(gameObject);
-        // if(Random.Range(0,2) == 1){
-        //     Instantiate(healthUp, transform.position, Quaternion.identity);
-        // }
-        // else if(Random.Range(0,6) == 1){
+        // Destroy(healthBar.gameObject);
+        // Destroy(gameObject);
+        gameObject.SetActive(false);
+        if(Random.Range(0,2) == 1){
+            Instantiate(healthUp, transform.position, Quaternion.identity);
+        }
+        else if(Random.Range(0,6) == 1){
             Instantiate(waterRunning, transform.position, Quaternion.identity);
-        // }
+        }
     }
 
     protected override void OnDeath(){
         ChangeState(null);
         rb.velocity = Vector2.zero;
+        GameManager.Instance.enemyDeath();
+        gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+        gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        
         base.OnDeath();
     }
 
