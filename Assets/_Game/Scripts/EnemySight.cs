@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySight : MonoBehaviour
 {
-    public Enemy enemy;
+    [SerializeField] private Enemy enemy;
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player" && !enemy.IsDead) {
@@ -17,4 +17,5 @@ public class EnemySight : MonoBehaviour
             enemy.SetTarget(null);
         }
     }
+    
 }

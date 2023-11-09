@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Enemy : Character
 {
@@ -11,38 +12,54 @@ public class Enemy : Character
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject attackArea;
     [SerializeField] private GameObject healthPotion;
+    [SerializeField] private WaterPotion waterPotion;
+    [SerializeField] private GameObject enemySight;
+    [SerializeField] private Transform fallCheck;
     
     private IState currentState;
+    private bool colliding;
     private bool isRight = true;
     private Character target;
 
     public Character Target => target;
-    private bool collidePlayer = false;
+    private IObjectPool<Enemy> objectPool;
+    private int occupiedIndex;
+
+    public IObjectPool<Enemy> ObjectPool { set => objectPool = value; }
+    public int OccupiedIndex { set => occupiedIndex = value; get => occupiedIndex; }
+
+    private void Start() {
+        Physics2D.IgnoreCollision(GetComponent<CapsuleCollider2D>(), Game2DController.Instance.PlayerCollider);
+    }
 
     private void Update() {
         if (currentState != null) {
             currentState.OnExecute(this);
         }
-        
-        Debug.Log(collidePlayer);
 
+        if (colliding && CheckFall()) ChangeDirection(!isRight); 
+    }
+
+    public void Deactivate() {
+        objectPool.Release(this);
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.tag == "Player") rb.bodyType = RigidbodyType2D.Static;
-    }
-
-    private void OnCollisionExit2D(Collision2D other) {
-        if (other.gameObject.tag == "Player") rb.bodyType = RigidbodyType2D.Dynamic;
+        colliding = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "EnemyWall") {
             ChangeDirection(!isRight);
-            ChangeState(new IdleState());
-            DeActiveAttack();
-            Invoke(nameof(ActiveAttack), 5f);
+            DeActiveSight();
+            target = null;
+            Invoke(nameof(ActiveSight), 5f);
         }
+    }
+
+    private bool CheckFall() {
+        RaycastHit2D hit = Physics2D.Raycast(fallCheck.position, Vector3.down, 1);
+        return hit.collider == null;
     }
 
     private void DeActiveAttack() {
@@ -53,11 +70,18 @@ public class Enemy : Character
         attackArea.SetActive(true);
     }
 
+    private void DeActiveSight() {
+        enemySight.SetActive(false);
+    }
+
+    private void ActiveSight() {
+        enemySight.SetActive(true);
+    }
+
     protected override void OnDeath()
     {
         ChangeState(null);
         rb.velocity = Vector2.zero;
-        rb.bodyType = RigidbodyType2D.Static;
         base.OnDeath();
     }
 
@@ -86,15 +110,20 @@ public class Enemy : Character
     public override void OnDespawn()
     {
         base.OnDespawn();
-        Destroy(healthBar.gameObject);
+        healthBar.gameObject.SetActive(false);
 
-        Destroy(gameObject);
+        Deactivate();
 
-        if (UnityEngine.Random.Range(0, 2) == 1) Invoke(nameof(CreateHealthBar), 0.5f);
+        if (UnityEngine.Random.Range(0, 2) == 1) Invoke(nameof(CreateHealthPotion), 0.5f);
+        else if (UnityEngine.Random.Range(0, 5) == 3) Invoke(nameof(CreateWaterPotion), 0.5f);
     }
 
-    private void CreateHealthBar() {
-        Instantiate(healthBar, transform);
+    private void CreateWaterPotion() {
+        Instantiate(healthPotion, transform);
+    }
+
+    private void CreateHealthPotion() {
+        Instantiate(healthPotion, transform);
     }
     
     public void ChangeState(IState newState) {
@@ -107,6 +136,14 @@ public class Enemy : Character
         if (currentState != null) {
             currentState.OnEnter(this);
         }
+    }
+
+    private void OnEnable() {
+        hp = 100;
+        healthBar.OnInit(100);
+        healthBar.gameObject.SetActive(true);
+        colliding = false;
+        OnInit();
     }
 
     public void Moving() {

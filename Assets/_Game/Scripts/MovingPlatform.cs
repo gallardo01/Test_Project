@@ -34,7 +34,6 @@ public class MovingPlatform : MonoBehaviour
         if (other.gameObject.tag == "Player" && MathF.Abs((float) (other.transform.position.y - height / 2 - (transform.position.y + collider_height / 2))) < 0.1) {
             other.transform.SetParent(transform);
         }
-
     }
 
     private void OnCollisionExit2D(Collision2D other) {

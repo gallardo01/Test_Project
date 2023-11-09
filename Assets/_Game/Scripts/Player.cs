@@ -16,7 +16,6 @@ public class Player : Character
     [SerializeField] private Kunai kunaiPrefab;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private GameObject attackArea;
-    [SerializeField] private float speedDecreaseRate;
     [SerializeField] private float glideSpeed;
 
     private bool isGrounded = true;
@@ -61,10 +60,10 @@ public class Player : Character
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(rb.velocity.y);
-
         isGrounded = CheckGrounded();
-        
+
+        if (isGrounded) isJumping = false;
+
         if (climbing) climbing = !isGrounded;
         if (IsDead || isDeath) return;
 
@@ -127,7 +126,6 @@ public class Player : Character
             {
                 ChangeAnim("fall");
             }
-            isJumping = false;
         }
 
         // Moving
@@ -154,6 +152,11 @@ public class Player : Character
             rb.velocity = new Vector2(horizontal * speed / 2, vertical * speed / 2);
             if (Mathf.Abs(horizontal) <= 0.1f && Mathf.Abs(vertical) <= 0.1f) PauseAnimator();
             else PlayAnimator();
+        }
+
+        if (rb.velocity == Vector2.zero) {
+            ChangeAnim("idle");
+            isGrounded = true;
         }
     }
 
@@ -221,7 +224,8 @@ public class Player : Character
 
     internal void SavePoint()
     {
-        savePoint = transform.position;
+        if (transform.position.x > savePoint.x)
+            savePoint = transform.position;
     }
 
     public override void OnDespawn()
@@ -233,7 +237,6 @@ public class Player : Character
 
     protected override void OnDeath()
     {
-        rb.velocity = Vector2.zero;
         base.OnDeath();
     }
 
@@ -271,7 +274,6 @@ public class Player : Character
         {
             climbing = true;
             ChangeAnim("climb");
-            Debug.Log(1);
         }
     }
 
@@ -284,4 +286,5 @@ public class Player : Character
             PlayAnimator();
         }
     }
+
 }

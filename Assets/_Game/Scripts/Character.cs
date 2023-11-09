@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
     [SerializeField] protected Animator anim;
     [SerializeField] protected CombatText combatTextPrefab;
 
-    private float hp;
+    protected float hp;
     private String previousAnimName = "idle";
     protected string currentAnimName = "idle";
 
@@ -26,7 +26,7 @@ public class Character : MonoBehaviour
 
     public virtual void OnInit() {
         hp = 100;
-        healthBar.OnInit(100, transform);
+        healthBar.OnInit(100);
     }
 
     public virtual void OnDespawn() {
@@ -79,6 +79,6 @@ public class Character : MonoBehaviour
 
     private void OnHealthChanged() {
         healthBar.SetNewHp(hp);
-        anim.SetFloat("speed", 1f + (100 - hp) / 100);
+        if (gameObject.tag == "Player") anim.SetFloat("speed", 1f + (100 - hp) / 100);
     }
 }

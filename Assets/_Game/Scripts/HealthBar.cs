@@ -7,12 +7,13 @@ using Unity.VisualScripting;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] Image imageFill;
-    [SerializeField] Vector3 offset;
+    [SerializeField] private Image imageFill;
+    [SerializeField] private Vector3 offset;
+    [SerializeField] private Transform target;
+
     private float hp;
     private float maxHp;
     
-    private Transform target;
 
     private void Start() {
     }
@@ -24,8 +25,7 @@ public class HealthBar : MonoBehaviour
         transform.position = target.position + offset;
     }
 
-    public void OnInit(float maxHp, Transform target) {
-        this.target = target;
+    public void OnInit(float maxHp) {
         this.maxHp = maxHp;
         hp = maxHp;
         imageFill.fillAmount = 1;
