@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Healing
   - WaterRunning
+  - Door
   layers:
   - Default
   - TransparentFX

@@ -7,12 +7,13 @@ public class Player : Character
     [SerializeField] private Rigidbody2D rb;
     // [SerializeField] private Animator anim;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask waterLayer;
     [SerializeField] private Kunai kunaiPrefab;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private GameObject attackArea;
     [SerializeField] private float speed = 5f;
-    private bool isGrounded = true;
-    private bool isJumping = false;
+    [SerializeField] private bool isGrounded = true;
+    [SerializeField] private bool isJumping = false;
     [SerializeField] private bool isAttack = false;
     [SerializeField] private Animator attackAnim;
     private float immortalTime = 1.3f;
@@ -44,6 +45,7 @@ public class Player : Character
         isGrounded = CheckGrounded();
 
         horizontal = Input.GetAxisRaw("Horizontal");
+        print(horizontal);
 
         if(isAttack){
             rb.velocity = Vector2.zero;
@@ -59,17 +61,17 @@ public class Player : Character
         }
         if(isGrounded){
             // isAttack = false;
-            if(isJumping){
-                return;
-            }
+            // if(isJumping){
+            //     return;
+            // }
             // Jump
             if(Input.GetKeyDown(KeyCode.Space) && isGrounded){
                 Jump();
             }
-            // Change Anim run
             if(Mathf.Abs(horizontal) > 0.1f){
                 ChangeAnim("run");
             }
+            // Change Anim run
 
             // Attack
             // if(Input.GetKeyDown(KeyCode.X)){
@@ -95,6 +97,7 @@ public class Player : Character
         // Debug.Log(CheckGrounded());
         // Moving
         if(Mathf.Abs(horizontal) > 0.1f){
+            // Debug.Log("")
             // ChangeAnim("run");
             rb.velocity = new Vector2(horizontal * Time.deltaTime * speed, rb.velocity.y);
         
@@ -116,7 +119,6 @@ public class Player : Character
         transform.position = savePoint;
         ChangeAnim("idle");
         DeActiveAttack();
-
         SavePoint();
         UiManager.instance.SetCoin(coin);
     }
@@ -144,12 +146,13 @@ public class Player : Character
         // Debug.DrawLine(transform.position, transform.position + Vector3.down * 1.1f, Color.red);
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, groundLayer);
+        RaycastHit2D hit2 = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, waterLayer);
 
         // if(hit.collider != null){    
         //     return true;
         // }
         // return false;
-        return hit.collider != null;
+        return hit.collider != null || hit2.collider != null;
     }
     
     public void Attack(){
