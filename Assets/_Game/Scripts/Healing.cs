@@ -15,7 +15,6 @@ public class Healing : MonoBehaviour
             float maxHP = collision.GetComponent<Player>().GetMaxHP();
             
             collision.GetComponent<Player>().OnHeal(0.3f*maxHP);
-            Debug.Log(0.3 * maxHP);
             Invoke(nameof(DES), 0.2f);
         }
     }

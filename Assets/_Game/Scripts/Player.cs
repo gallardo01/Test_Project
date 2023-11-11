@@ -75,9 +75,8 @@ public class Player : Character
             ChangeAnim("idle");
             return;
         }
-        if (isAttack && isGrounded)
+        if (isAttack )
         {
-            rb.velocity = Vector2.zero;
             return;
         }
         
@@ -87,9 +86,12 @@ public class Player : Character
             {
                 return;
             }
-            if ((Input.GetKeyDown(KeyCode.Space) || (Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded))
+            if ((Input.GetKeyDown(KeyCode.Space) || (Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)&&(!Input.GetKeyDown(KeyCode.C)))
             {
                 Jump();
+            }
+            else if(Input.GetKeyDown(KeyCode.C)) {
+                Attack();
             }
             if (Mathf.Abs(horizontal) > 0.1f)
             {
@@ -105,10 +107,14 @@ public class Player : Character
                 Throw();
             }
         }
-        if (!isGrounded && rb.velocity.y < 0)
+        if (!isGrounded && rb.velocity.y < 0 && !Input.GetKeyDown(KeyCode.C))
         {
             ChangeAnim("fall");
             isJumping = false;
+        }
+        else if(Input.GetKeyDown(KeyCode.C))
+        {
+            Attack();
         }
         if (Mathf.Abs(horizontal) > 0.1f)
         {
@@ -164,6 +170,7 @@ public class Player : Character
     }
     public void Attack()
     {
+        if(isGrounded)
         rb.velocity = Vector2.zero;
         ChangeAnim("attack");
         isAttack = true;
@@ -173,10 +180,11 @@ public class Player : Character
     }
     public void Throw()
     {
+        if(isGrounded)
         rb.velocity = Vector2.zero;
         ChangeAnim("throw");
         isAttack = true;
-        Invoke(nameof(ResetAttack), 0.5f);
+        Invoke(nameof(ResetAttack), 0.35f);
         Instantiate(kunaiPrefab,throwPoint.position, throwPoint.rotation);
     }
     public void Jump()

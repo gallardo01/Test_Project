@@ -26,6 +26,7 @@ public class GameController1 : Singleton<GameController1>
     [SerializeField] private GameObject Heal;
     [SerializeField] private GameObject DrugPotion;
     public GameObject EnermyClone;
+    public GameObject HitVFX;
     private void Start()
     {
         Water.enabled = false;
@@ -53,6 +54,11 @@ public class GameController1 : Singleton<GameController1>
         }
         EnermyClone.SetActive(false);
     }
+    public void hitVFX()
+    {
+        Destroy(HitVFX,0.35f);  
+    }
+    
     private void Update()
     {
         
