@@ -12,11 +12,12 @@ public class Enemy : Character
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject attackArea;
     [SerializeField] private GameObject healthPotion;
-    [SerializeField] private WaterPotion waterPotion;
+    [SerializeField] private GameObject waterPotion;
     [SerializeField] private GameObject enemySight;
     [SerializeField] private Transform fallCheck;
     
     private IState currentState;
+    private Collider2D collider2D;
     private bool colliding;
     private bool isRight = true;
     private Character target;
@@ -28,8 +29,8 @@ public class Enemy : Character
     public IObjectPool<Enemy> ObjectPool { set => objectPool = value; }
     public int OccupiedIndex { set => occupiedIndex = value; get => occupiedIndex; }
 
-    private void Start() {
-        Physics2D.IgnoreCollision(GetComponent<CapsuleCollider2D>(), Game2DController.Instance.PlayerCollider);
+    private void Awake() {
+        collider2D = GetComponent<CapsuleCollider2D>();
     }
 
     private void Update() {
@@ -110,20 +111,34 @@ public class Enemy : Character
     public override void OnDespawn()
     {
         base.OnDespawn();
+
+        // Drop potion
+        int r1 = UnityEngine.Random.Range(0, 2), r2 = UnityEngine.Random.Range(0, 5);
+        Debug.Log(r1 + " " + r2);
+        if (r1 == 1) Invoke(nameof(CreateHealthPotion), 0.5f);
+        else if (r2 == 3) Invoke(nameof(CreateWaterPotion), 0.5f);
         healthBar.gameObject.SetActive(false);
 
-        Deactivate();
+        // To Stage 2
+        
 
-        if (UnityEngine.Random.Range(0, 2) == 1) Invoke(nameof(CreateHealthPotion), 0.5f);
-        else if (UnityEngine.Random.Range(0, 5) == 3) Invoke(nameof(CreateWaterPotion), 0.5f);
+        // Drop key
+        if (Game2DController.Instance.stage == 2) {
+            Invoke(nameof(DropKey), 0.5f);
+        }
+        Deactivate();
+    }
+
+    private void DropKey() {
+
     }
 
     private void CreateWaterPotion() {
-        Instantiate(healthPotion, transform);
+        Instantiate(waterPotion, transform.position, Quaternion.identity);
     }
 
     private void CreateHealthPotion() {
-        Instantiate(healthPotion, transform);
+        GameObject potion = Instantiate(healthPotion, transform.position, Quaternion.identity);
     }
     
     public void ChangeState(IState newState) {
@@ -139,6 +154,7 @@ public class Enemy : Character
     }
 
     private void OnEnable() {
+        Physics2D.IgnoreCollision(collider2D, Game2DController.Instance.PlayerCollider);
         hp = 100;
         healthBar.OnInit(100);
         healthBar.gameObject.SetActive(true);

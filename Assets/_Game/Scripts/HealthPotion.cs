@@ -8,6 +8,7 @@ public class HealthPotion : MonoBehaviour
     void Start()
     {
         Invoke(nameof(DestroySelf), 10);
+        Debug.Log(transform.position);
     }
 
     // Update is called once per frame

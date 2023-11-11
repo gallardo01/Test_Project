@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 // Game2DController : Singleton<Game2DController>
 // Game2DController.Instance
@@ -21,10 +22,14 @@ public class Game2DController : MonoBehaviour
     private static Game2DController _instance;
 
     public static Game2DController Instance { get { return _instance; } }
-
+    public int stage;
 
     private void Awake()
     {
+        if (!PlayerPrefs.HasKey("stage")) PlayerPrefs.SetInt("stage", 1);
+
+        stage = PlayerPrefs.GetInt("stage");
+
         if (_instance != null && _instance != this)
         {
             Destroy(gameObject);

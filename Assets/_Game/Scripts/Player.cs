@@ -11,14 +11,15 @@ public class Player : Character
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private Kunai kunaiPrefab;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private GameObject attackArea;
     [SerializeField] private float glideSpeed;
+    [SerializeField] private Transform foot;
 
     private bool isGrounded = true;
+    private RaycastHit2D upHit, hit;
     private bool climbing = false;
     private bool isJumping = false;
     private bool isAttack = false;
@@ -54,15 +55,15 @@ public class Player : Character
             rb.velocity = Vector2.up * rb.velocity.y;
         }
 
-        if (isAttack) rb.velocity = Vector2.zero;
+        if (isAttack) rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
     // Update is called once per frame
     void Update()
     {
-        isGrounded = CheckGrounded();
+        upHit = Physics2D.Raycast(foot.position, Vector2.up, 2, groundLayer);
 
-        if (isGrounded) isJumping = false;
+        isGrounded = CheckGrounded();
 
         if (climbing) climbing = !isGrounded;
         if (IsDead || isDeath) return;
@@ -91,7 +92,7 @@ public class Player : Character
             }
 
             // change anim run
-            if (Mathf.Abs(horizontal) > 0.1f)
+            if (Mathf.Abs(horizontal) > 0.1f && !isJumping)
             {
                 ChangeAnim("run");
             }
@@ -154,10 +155,11 @@ public class Player : Character
             else PlayAnimator();
         }
 
-        if (rb.velocity == Vector2.zero) {
-            ChangeAnim("idle");
-            isGrounded = true;
-        }
+        // if (Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.y * rb.velocity.y) < 0.00001) {
+        //     ChangeAnim("idle");
+        // }
+
+        if (rb.velocity.y > 0 && !isGrounded) ChangeAnim("jumping");
     }
 
     public override void OnInit()
@@ -176,13 +178,17 @@ public class Player : Character
         UIManager.instance.SetCoin(coin);
     }
 
+    private void OnCollisionExit2D(Collision2D other) {
+        isGrounded = false;
+    }
+
     private bool CheckGrounded()
     {
         Debug.DrawLine(transform.position, transform.position + Vector3.down * 1.1f, Color.red);
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, groundLayer);
+        hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, groundLayer);
 
-        return hit.collider != null;
+        return hit.collider != null && upHit.collider == null;
     }
 
     public void Attack()
@@ -243,6 +249,10 @@ public class Player : Character
     public void SetMove(float horizontal)
     {
         this.horizontal = horizontal;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        isJumping = false;
     }
 
     private void ActiveAttack()

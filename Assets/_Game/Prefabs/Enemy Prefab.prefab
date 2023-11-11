@@ -772,7 +772,7 @@ MonoBehaviour:
   rb: {fileID: 8624490778592003666}
   attackArea: {fileID: 1547533561977529619}
   healthPotion: {fileID: 1575716707156031310, guid: e8916065881a5fa4a9f8debb242aa3b3, type: 3}
-  waterPotion: {fileID: 3674420198349962064, guid: dffd4454066c04e4bbffc3fa335fd1ee, type: 3}
+  waterPotion: {fileID: 4208039124513833405, guid: dffd4454066c04e4bbffc3fa335fd1ee, type: 3}
   enemySight: {fileID: 1547533561772908867}
   fallCheck: {fileID: 7994467705002444578}
 --- !u!212 &4177004225133026025

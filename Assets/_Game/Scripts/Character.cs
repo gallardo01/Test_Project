@@ -8,15 +8,18 @@ public class Character : MonoBehaviour
 {
     [SerializeField] protected HealthBar healthBar;
     [SerializeField] protected Animator anim;
+    [SerializeField] protected float speed;
     [SerializeField] protected CombatText combatTextPrefab;
 
     protected float hp;
     private String previousAnimName = "idle";
+    private float originalSpeed;
     protected string currentAnimName = "idle";
 
     public bool IsDead => hp <= 0;
 
     private void Start() {
+        originalSpeed = speed;
         OnInit();
     }
 
@@ -26,6 +29,8 @@ public class Character : MonoBehaviour
 
     public virtual void OnInit() {
         hp = 100;
+        speed = originalSpeed;
+        if (gameObject.tag == "Player") anim.SetFloat("speed", 1f + (100 - hp) / 100);
         healthBar.OnInit(100);
     }
 
@@ -74,11 +79,13 @@ public class Character : MonoBehaviour
 
     public void Heal(int amount) {
         hp += amount;
+        hp = hp > 100 ? 100 : hp;
         OnHealthChanged();
     }
 
     private void OnHealthChanged() {
         healthBar.SetNewHp(hp);
         if (gameObject.tag == "Player") anim.SetFloat("speed", 1f + (100 - hp) / 100);
+        speed *= 1 + (100 - hp) / 200;
     }
 }
