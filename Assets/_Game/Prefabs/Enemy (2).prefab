@@ -720,6 +720,7 @@ MonoBehaviour:
   attackArea: {fileID: 2596430108851970196}
   heathPotion: {fileID: 7926122156891058947, guid: 88e3c83910978e84abc5265319292e6c, type: 3}
   Potion: {fileID: 4048722294825952582, guid: 81ecacd4ff112294fb99a150fb9b6b3a, type: 3}
+  Key: {fileID: 6283719330271163576, guid: 7762ee6027136064680176713ccde869, type: 3}
 --- !u!1 &8706590168745586575
 GameObject:
   m_ObjectHideFlags: 0

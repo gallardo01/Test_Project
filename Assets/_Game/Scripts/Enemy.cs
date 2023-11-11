@@ -13,11 +13,13 @@ public class Enemy : Character
     [SerializeField] private GameObject attackArea;
     [SerializeField] private GameObject heathPotion;
     [SerializeField] private GameObject Potion;
+    [SerializeField] private GameObject Key;
 
 
     private IState currentState;
     private bool IsRight = true;
-    private Character targer; 
+    private Character targer;
+    private Vector3 item = new Vector3(2,0,0);
     public Character Target => targer;
 
 
@@ -48,22 +50,22 @@ public class Enemy : Character
 
         int changePotion = UnityEngine.Random.Range(1,11);
         if(changePotion <= 5)
-        {
-            if(changePotion == 1)
             {
-                if(UnityEngine.Random.Range(0,2) == 0)
-                {
-                    Instantiate(Potion,transform.position, Quaternion.identity);
-                }
-                else
                     Instantiate(heathPotion,transform.position, Quaternion.identity);
             }
-            else
+        if( changePotion ==1)
             {
-                Instantiate(heathPotion, transform.position, Quaternion.identity);
+                Instantiate(Potion, transform.position + item, Quaternion.identity);           
+            }
+        if(PlayerPrefs.GetInt("Stage") == 2)
+        {
+            if (changePotion == 1)
+            {
+                Instantiate(Key, transform.position - item, Quaternion.identity);
             }
         }
-        spawn.Instance.EnemyDead();
+        GameController.Instance.EnemyDead();
+        GameController.Instance.addKill();
         Destroy(heathBar.gameObject);
         Destroy(gameObject);
     }
