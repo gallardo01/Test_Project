@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Player : Character
 {
     [SerializeField] private Rigidbody2D rb;
     // [SerializeField] private Animator anim;
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask groundLayer, waterLayer;
     [SerializeField] private Kunai kunaiPrefab;
     [SerializeField] private Transform throwPoint;
-    [SerializeField] private GameObject attackArea;
+    [SerializeField] private GameObject attackArea, water;
     [SerializeField] private float speed = 5f;
     private bool isGrounded = true;
     private bool isJumping = false;
@@ -27,7 +28,7 @@ public class Player : Character
     void Awake()
     {
         coin = PlayerPrefs.GetInt("coin", 0);
-        speed = 1200f;
+        speed = 1500f;
     }
 
     // Update is called once per frame
@@ -139,12 +140,13 @@ public class Player : Character
         // Debug.DrawLine(transform.position, transform.position + Vector3.down * 1.1f, Color.red);
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, groundLayer);
+        RaycastHit2D hit2 = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, waterLayer);
 
         // if(hit.collider != null){    
         //     return true;
         // }
         // return false;
-        return hit.collider != null;
+        return hit.collider != null || hit2.collider != null;
     }
     
     public void Attack(){
@@ -199,20 +201,23 @@ public class Player : Character
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Coin"){
+        if(other.tag == "Coin")
+        {
             coin++;
             PlayerPrefs.GetInt("coin", coin);
 
             UiManager.instance.SetCoin(coin);
             Destroy(other.gameObject);
         }
-        if(other.tag == "DeathZone"){
+        if(other.tag == "DeathZone")
+        {
             // isDeath = true;
             ChangeAnim("die");
 
             Invoke(nameof(OnInit), 1f);
         }
-        if(other.tag == "Blood"){
+        if(other.tag == "Blood")
+        {
             if(hp < 70){
                 hp += 30;
             }
@@ -221,6 +226,13 @@ public class Player : Character
             }
             Destroy(other.gameObject);
             updateHealth();
+        }
+        // Active Water Collider
+        if(other.tag == "AbilityWater")
+        {
+            Destroy(other.gameObject);
+            water.GetComponent<TilemapCollider2D>().enabled = true;
+            GameManager.Instance.callStartTimer();
         }
     }
 

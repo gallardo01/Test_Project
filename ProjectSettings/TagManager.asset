@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - Coin
   - Blood
+  - AbilityWater
   layers:
   - Default
   - TransparentFX

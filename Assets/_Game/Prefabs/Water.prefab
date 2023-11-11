@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 6981201902210817399}
   - component: {fileID: -1837413986441452925}
   m_Layer: 0
-  m_Name: Blood
-  m_TagString: Blood
+  m_Name: Water
+  m_TagString: Undefined
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d97c17f218330254795f0727d5cec8c4, type: 3}
-  m_Color: {r: 0.9811321, g: 0.2082592, b: 0.2082592, a: 1}
+  m_Color: {r: 0, g: 0.6348047, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

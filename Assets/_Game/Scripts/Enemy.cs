@@ -7,7 +7,7 @@ public class Enemy : Character
     [SerializeField] private float attackRange;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private GameObject attackArea, Blood;
+    [SerializeField] private GameObject attackArea, Blood, AbilityWater;
     [SerializeField] private LayerMask groundLayer;
     private bool isGrounded = true;
 
@@ -35,10 +35,12 @@ public class Enemy : Character
         if(isGrounded == false)
         {
             rb.gravityScale = 100;
+            moveSpeed = 10;
         }
         else
         {
             rb.gravityScale = 1;
+            moveSpeed = 2;
         }
         
     }
@@ -60,7 +62,7 @@ public class Enemy : Character
         base.OnDespawn();
         Destroy(healthBar.gameObject);
         Destroy(gameObject);
-        Instantiate(Blood, transform.position, Quaternion.identity);
+        Instantiate(GameManager.Instance.returnAbilities(), transform.position, Quaternion.identity); // Drop a pill // Nhớ ném qua GameManager
     }
 
     protected override void OnDeath(){
