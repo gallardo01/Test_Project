@@ -48,6 +48,11 @@ public class GameController1 : Singleton<GameController1>
         {
             PlayerPrefs.SetInt("Stage", 1);
         }
+        StartCoroutine(UpdateStage());
+    }
+    IEnumerator UpdateStage()
+    {
+        yield return new WaitForSeconds(1f);
         stage = PlayerPrefs.GetInt("Stage");
     }
     public void EnermyDead()
