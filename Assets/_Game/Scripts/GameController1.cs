@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.Text;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -27,6 +29,10 @@ public class GameController1 : Singleton<GameController1>
     [SerializeField] private GameObject DrugPotion;
     public GameObject EnermyClone;
     public GameObject HitVFX;
+    public int Score = 0;
+    public GameObject Key;
+    public int stage;
+    public bool isOpen = false;
     private void Start()
     {
         Water.enabled = false;
@@ -38,6 +44,11 @@ public class GameController1 : Singleton<GameController1>
             Enermy[i].transform.SetParent(EnermyParent.transform);
         }
         Invoke(nameof(Spawn), 1f);
+        if(!PlayerPrefs.HasKey("Stage"))
+        {
+            PlayerPrefs.SetInt("Stage", 1);
+        }
+        stage = PlayerPrefs.GetInt("Stage");
     }
     public void EnermyDead()
     {
@@ -52,6 +63,18 @@ public class GameController1 : Singleton<GameController1>
             DrugClone = Instantiate(DrugPotion, EnermyClone.transform.position + new Vector3(1f, 0, 0), Quaternion.identity);
             DrugClone.SetActive(true);
         }
+        if (UnityEngine.Random.Range(1, 11) == 1 && stage == 2)
+        {
+            Instantiate(Key, EnermyClone.transform.position + new Vector3(1f, -1f, 0), Quaternion.identity).SetActive(true);
+        }
+        if (EnermyClone.GetComponent<Enermy>().GetHP() <= 0f) {
+            Score++;
+        }
+        if(Score == 10&& stage == 1)
+        {
+            PlayerPrefs.SetInt("Stage", 2);
+            SceneManager.LoadScene("Loading");
+        }
         EnermyClone.SetActive(false);
     }
     public void hitVFX()
@@ -61,7 +84,6 @@ public class GameController1 : Singleton<GameController1>
     
     private void Update()
     {
-        
         if(timeWater > 0f)
         {
             timeWater -= Time.deltaTime;
@@ -86,6 +108,8 @@ public class GameController1 : Singleton<GameController1>
         for(int i = 0;i<Enermy.Length;i++){
             if (Enermy[i].activeInHierarchy == false)
             {
+                x = SavePoint[UnityEngine.Random.Range(0, SavePoint.Length)].transform.position;
+                Enermy[i].transform.position = x;
                 Enermy[i].SetActive(true);
                 break;
             }

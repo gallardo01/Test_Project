@@ -170,18 +170,16 @@ public class Player : Character
     }
     public void Attack()
     {
-        if(isGrounded)
-        rb.velocity = Vector2.zero;
+        if (Mathf.Abs(horizontal) > 0.1f && isGrounded) return;
         ChangeAnim("attack");
         isAttack = true;
-        Invoke(nameof(ResetAttack), 0.5f * boostAttack);
+        Invoke(nameof(ResetAttack), 0.75f * boostAttack);
         ActiveAttack();
         Invoke(nameof(DeActiveAttack), 0.5f);
     }
     public void Throw()
     {
-        if(isGrounded)
-        rb.velocity = Vector2.zero;
+        if (Mathf.Abs(horizontal) > 0.1f && isGrounded) return;
         ChangeAnim("throw");
         isAttack = true;
         Invoke(nameof(ResetAttack), 0.35f);

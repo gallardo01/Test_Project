@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UIElements;
 
 public class Enermy : Character
@@ -9,7 +10,6 @@ public class Enermy : Character
     [SerializeField] private float attackRange;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
-    
     private bool isRight = true;
     private IState currentState;
     private Character target;
@@ -22,7 +22,10 @@ public class Enermy : Character
 
 
     public Character Target => target;
-   
+    private void OnDisable()
+    {
+        OnInit();
+    }
     public override void OnInit()
     {
         base.OnInit();
@@ -44,6 +47,10 @@ public class Enermy : Character
     {
         GameController1.Instance.EnermyClone = parentEnermy;
         GameController1.Instance.EnermyDead();
+    }
+    public float GetHP()
+    {
+        return hp;
     }
     private void Update()
     {
