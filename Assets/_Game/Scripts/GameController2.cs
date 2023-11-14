@@ -8,6 +8,7 @@ public class GameController2 : Singleton<GameController2>
     public List<GameObject> enemySpawning;
     public int sceneNumber = 0;
     private int countEnemy = 1;
+    public bool canLevelUp3 = false;
     // Start is called before the first frame update
     void Start()
     {
