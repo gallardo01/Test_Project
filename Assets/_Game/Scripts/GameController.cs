@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -10,30 +11,30 @@ public class GameController : Singleton<GameController>
 {
     [SerializeField] Transform[] pointEnemy;
     [SerializeField] GameObject Enemy;
-
-    public int[] spawnPoint = { 0, 0, 0, 0 };
-    private int count = 0;
     [SerializeField] private int kill = 0;
+    private int coin;
+    //public int[] spawnPoint = { 0, 0, 0, 0 };
+    private int count = 0;
+    
     private void Start()
     {
-        PlayerPrefs.DeleteAll();
-        StartCoroutine(respawnEnemy());
-        
-        if (!PlayerPrefs.HasKey("Stage"))
+        UIManager.instance.setCoin(coin);
+        UIManager.instance.setKill(kill);
+        if(getStage() != 3)
         {
-            PlayerPrefs.SetInt("Stage", 1);
+            StartCoroutine(respawnEnemy());
         }
         
-        
+     
     }
     private void Update()
     {
          if(PlayerPrefs.GetInt("Stage") == 1 )
         {
-            if(kill == 2)
-            { 
-                PlayerPrefs.SetInt("Stage", 2);
-                LoadNewScene();
+            if (kill == 2)
+            {
+                saveData(2);
+                LoadNewScene(2);
             }
         }
     }
@@ -55,17 +56,18 @@ public class GameController : Singleton<GameController>
 
     }
 
-    public void LoadNewScene()
+    public void LoadNewScene(int level)
     {
-        if(PlayerPrefs.GetInt("Stage") == 1)
+        if(level == 1)
         {
             SceneManager.LoadScene("Level1");
+            
         }
-        if (PlayerPrefs.GetInt("Stage") == 2)
+        if (level == 2)
         {
             SceneManager.LoadScene("Level2");
         }
-        if (PlayerPrefs.GetInt("Stage") == 3)
+        if (level == 3)
         {
             SceneManager.LoadScene("Level3");
         }
@@ -73,17 +75,24 @@ public class GameController : Singleton<GameController>
     public void EnemyDead()
     {
         count--;
+        kill++;
+        UIManager.instance.setKill(kill); 
+    }
+    public void climbCoin()
+    {
+        coin++;
+        UIManager.instance.setCoin(coin);
     }
     public int returnNumPoint(int num)
     {
         return num;
     }
-    public void addKill()
+    public void saveData(int stage)
     {
-        kill++;
+        PlayerPrefs.SetInt("Stage", stage);
     }
-    //public void getStage()
-    //{
-    //    PlayerPrefs.GetInt("Stage");
-    //}
+    public int getStage()
+    {
+        return PlayerPrefs.GetInt("Stage");
+    }
 }

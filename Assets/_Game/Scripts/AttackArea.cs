@@ -6,7 +6,7 @@ public class AttackArea : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if( collision.tag == "Player")
         {
             collision.GetComponent<Character>().OnHit(30f);
             collision.GetComponent<Player>().upSpeed();

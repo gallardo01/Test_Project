@@ -26,13 +26,17 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Text coinText;
     [SerializeField] Text timerText;
+    [SerializeField] Text killText;
+    [SerializeField] Text kunaiText;
     [SerializeField] GameObject TimeText;
     [SerializeField] private Tilemap tile_water;
     private float timeLeft = 0f;
 
+
     private void Start()
     {
         DeActiveTime_text();
+        
     }
     private void Update()
     {
@@ -64,6 +68,14 @@ public class UIManager : MonoBehaviour
         timeLeft = 10f;
     }
 
+    public void setKill(int kill)
+    {
+        killText.text = "Kill : " + kill.ToString();
+    }
+    public void setKunai(int kunai)
+    {
+        kunaiText.text = "Kunai : " + kunai.ToString();
+    }
     public void DeActiveTime_text()
     {
         TimeText.SetActive(false);

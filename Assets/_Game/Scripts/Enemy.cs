@@ -57,17 +57,23 @@ public class Enemy : Character
             {
                 Instantiate(Potion, transform.position + item, Quaternion.identity);           
             }
-        if(PlayerPrefs.GetInt("Stage") == 2)
+        if(GameController.Instance.getStage() == 2)
         {
             if (changePotion == 1)
             {
                 Instantiate(Key, transform.position - item, Quaternion.identity);
             }
         }
-        GameController.Instance.EnemyDead();
-        GameController.Instance.addKill();
-        Destroy(heathBar.gameObject);
-        Destroy(gameObject);
+        if (GameController.Instance.getStage() == 3)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            GameController.Instance.EnemyDead();
+            Destroy(heathBar.gameObject);
+            Destroy(gameObject);
+        }
     }
 
 

@@ -18,24 +18,22 @@ public class Player : Character
     [SerializeField] private Kunai kunaiPrefab;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private GameObject attackArea;
-    [SerializeField] private GameObject timeText;
     [SerializeField] private Tilemap tile_water;
-    //[SerializeField] private spawnBot spawnBot;
 
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private bool isAttack = false;
     [SerializeField] private bool isJumping = false;
     [SerializeField] private bool isPotion = false;
-
+    [SerializeField] private bool isHaveKey = false;
     private float horizontal;
-    public int coin = 0;
     private float speedDefault = 5f;
     private float speedAttackDefault = 0.5f;
     private Vector3 savePoint;
-
+    [SerializeField] private int kunai;
     private void Awake()
     {
         //coin = PlayerPrefs.GetInt("coin", 0);
+        kunai = 5;
     }
     // Update is called once per frame
     void Update()
@@ -99,7 +97,20 @@ public class Player : Character
             // throw
             if (Input.GetKey(KeyCode.F))
             {
-                Throw();
+                if(GameController.Instance.getStage() == 3)
+                {
+                    if (kunai > 0)
+                    {
+                        Throw();
+                        kunai--;
+                        UIManager.instance.setKunai(kunai);
+                    }
+                    else return;
+                }
+                else
+                {
+                    Throw();
+                }
             }
 
         }
@@ -141,7 +152,7 @@ public class Player : Character
         ChangeAnim("idle");
         DeActiveAttack();
         SavePoint();
-        UIManager.instance.setCoin(coin);
+        
     }
 
     public override void OnDespawn()
@@ -218,13 +229,13 @@ public class Player : Character
     {
         this.horizontal = horizontal;
     }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "coin")
         {
-            coin++;
-            PlayerPrefs.SetInt("coin", coin);
-            UIManager.instance.setCoin(coin);
+            GameController.Instance.climbCoin();
             Destroy(collision.gameObject);
         }
         if (collision.tag == "Deadzone")
@@ -247,7 +258,22 @@ public class Player : Character
             UIManager.instance.SetWaterColliderHard();
 
         }
-        
+        if (collision.tag == "Key")
+        {
+            isHaveKey = true;
+            Destroy(collision.gameObject);
+        }
+        if(collision.tag == "Door")
+        {
+            if (isHaveKey)
+            {
+                Debug.Log("key");
+                isHaveKey = false;
+                GameController.Instance.saveData(3);
+                GameController.Instance.LoadNewScene(3);
+            }
+        }
+
 
     }
     private void OnCollisionEnter2D(Collision2D collision)
@@ -268,12 +294,7 @@ public class Player : Character
 
         }
     }
-    IEnumerator RespawnMushroom(mushroom spawner)
-    {
-        
-        yield return new WaitForSeconds(4f);
-        spawner.Spawn(); 
-    }
+    
     public void setGround(bool x)
     {
         isGrounded = x;
@@ -297,6 +318,12 @@ public class Player : Character
         yield return new WaitForSeconds(10f);
         isPotion = false;
     }
-    
+    IEnumerator RespawnMushroom(mushroom spawner)
+    {
+
+        yield return new WaitForSeconds(4f);
+        spawner.Spawn();
+    }
+
 
 }

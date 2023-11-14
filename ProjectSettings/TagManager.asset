@@ -14,6 +14,7 @@ TagManager:
   - Potion
   - heathPotion
   - Key
+  - Door
   layers:
   - Default
   - TransparentFX
