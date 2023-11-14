@@ -15,8 +15,10 @@ public class Enemy : Character
     [SerializeField] private GameObject waterPotion;
     [SerializeField] private GameObject enemySight;
     [SerializeField] private Transform fallCheck;
+    [SerializeField] private GameObject key;
     
     private IState currentState;
+    private bool dropKey;
     private Collider2D collider2D;
     private bool colliding;
     private bool isRight = true;
@@ -30,6 +32,7 @@ public class Enemy : Character
     public int OccupiedIndex { set => occupiedIndex = value; get => occupiedIndex; }
 
     private void Awake() {
+        dropKey = false;
         collider2D = GetComponent<CapsuleCollider2D>();
     }
 
@@ -39,6 +42,11 @@ public class Enemy : Character
         }
 
         if (colliding && CheckFall()) ChangeDirection(!isRight); 
+        
+        if (Input.GetKeyDown(KeyCode.Return)) {
+            dropKey = true;
+            Debug.Log(2);
+        }
     }
 
     public void Deactivate() {
@@ -114,23 +122,19 @@ public class Enemy : Character
 
         // Drop potion
         int r1 = UnityEngine.Random.Range(0, 2), r2 = UnityEngine.Random.Range(0, 5);
-        Debug.Log(r1 + " " + r2);
-        if (r1 == 1) Invoke(nameof(CreateHealthPotion), 0.5f);
-        else if (r2 == 3) Invoke(nameof(CreateWaterPotion), 0.5f);
+        if (dropKey) Invoke(nameof(DropKey), 0.5f);
+        else if (r1 == 1) Invoke(nameof(CreateHealthPotion), 0.5f);
+        else {
+            if (r2 == 3) Invoke(nameof(CreateWaterPotion), 0.5f);
+            if (r2 == 2 && PlayerPrefs.GetInt("stage") == 2) Invoke(nameof(DropKey), 0.5f);
+        }
         healthBar.gameObject.SetActive(false);
 
-        // To Stage 2
-        
-
-        // Drop key
-        if (Game2DController.Instance.stage == 2) {
-            Invoke(nameof(DropKey), 0.5f);
-        }
         Deactivate();
     }
 
     private void DropKey() {
-
+        Instantiate(key, transform.position, Quaternion.identity);
     }
 
     private void CreateWaterPotion() {
@@ -138,7 +142,7 @@ public class Enemy : Character
     }
 
     private void CreateHealthPotion() {
-        GameObject potion = Instantiate(healthPotion, transform.position, Quaternion.identity);
+        Instantiate(healthPotion, transform.position, Quaternion.identity);
     }
     
     public void ChangeState(IState newState) {

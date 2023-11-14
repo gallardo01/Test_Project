@@ -4,12 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - one
-  - two
-  - three
-  - four
   - Start
-  - Bullet
   - Death Zone
   - EnemyWall
   - Enemy

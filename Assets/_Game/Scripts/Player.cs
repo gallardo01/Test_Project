@@ -17,8 +17,10 @@ public class Player : Character
     [SerializeField] private GameObject attackArea;
     [SerializeField] private float glideSpeed;
     [SerializeField] private Transform foot;
+    [SerializeField] private Door door;
 
     private bool isGrounded = true;
+    private bool hasKey;
     private RaycastHit2D upHit, hit;
     private bool climbing = false;
     private bool isJumping = false;
@@ -28,12 +30,33 @@ public class Player : Character
     private int coin = 0;
     private Vector3 savePoint;
     private float horizontal;
+    private Collider2D doorCollider;
+    private SpriteRenderer doorRenderer;
     private float vertical;
 
     private void Awake()
     {
         coin = PlayerPrefs.GetInt("coin", 0);
+        if (door != null) {
+            doorCollider = door.GetComponent<Collider2D>();
+            doorRenderer = door.GetComponent<SpriteRenderer>();
+            doorCollider.enabled = false;
+            doorRenderer.enabled = false;
+        }
         savePoint = transform.position;
+        hasKey = false;
+    }
+
+    public bool HasKey() {
+        return hasKey;
+    }
+
+    public void setKey(bool b) {
+        hasKey = b;
+        if (b) {
+            doorCollider.enabled = true;
+            doorRenderer.enabled = true;
+        }
     }
 
     private void FixedUpdate()
@@ -175,7 +198,7 @@ public class Player : Character
         ChangeAnim("idle");
         DeActiveAttack();
 
-        UIManager.instance.SetCoin(coin);
+        if (PlayerPrefs.GetInt("stage") != 3) UIManager.instance.SetCoin(coin);
     }
 
     private void OnCollisionExit2D(Collision2D other) {

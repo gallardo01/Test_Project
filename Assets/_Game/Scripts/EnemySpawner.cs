@@ -35,6 +35,7 @@ public class EnemySpawner : MonoBehaviour
         enemy.gameObject.SetActive(false);
         occupiedPositions[enemy.OccupiedIndex] = false;
         usedEnemy--;
+        if (PlayerPrefs.GetInt("stage") == 1) Game2DController.Instance.UpdateProgress();
     }
 
     // invoked when retrieving the next item from the object pool
