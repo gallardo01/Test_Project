@@ -68,14 +68,14 @@ public class GameController1 : Singleton<GameController1>
             DrugClone = Instantiate(DrugPotion, EnermyClone.transform.position + new Vector3(1f, 0, 0), Quaternion.identity);
             DrugClone.SetActive(true);
         }
-        if (UnityEngine.Random.Range(1, 11) == 1 && stage == 2)
+        if (UnityEngine.Random.Range(1, 2) == 1 && stage == 2)
         {
             Instantiate(Key, EnermyClone.transform.position + new Vector3(1f, -1f, 0), Quaternion.identity).SetActive(true);
         }
         if (EnermyClone.GetComponent<Enermy>().GetHP() <= 0f) {
             Score++;
         }
-        if(Score == 10&& stage == 1)
+        if(Score == 1&& stage == 1)
         {
             PlayerPrefs.SetInt("Stage", 2);
             SceneManager.LoadScene("Loading");
@@ -109,17 +109,20 @@ public class GameController1 : Singleton<GameController1>
         Destroy(drug);
     }
     void Spawn()
-    {
-        for(int i = 0;i<Enermy.Length;i++){
-            if (Enermy[i].activeInHierarchy == false)
+    {   if(stage != 3)
+        {
+            for (int i = 0; i < Enermy.Length; i++)
             {
-                x = SavePoint[UnityEngine.Random.Range(0, SavePoint.Length)].transform.position;
-                Enermy[i].transform.position = x;
-                Enermy[i].SetActive(true);
-                break;
+                if (Enermy[i].activeInHierarchy == false)
+                {
+                    x = SavePoint[UnityEngine.Random.Range(0, SavePoint.Length)].transform.position;
+                    Enermy[i].transform.position = x;
+                    Enermy[i].SetActive(true);
+                    break;
+                }
             }
+            Invoke(nameof(Spawn), 15f);
         }
-        Invoke(nameof(Spawn), 15f);
     }
     void HoiSinh()
     {

@@ -18,5 +18,9 @@ public class LoadingController : MonoBehaviour
         {
             SceneManager.LoadScene("Level2");
         }
+        if (PlayerPrefs.GetInt("Stage") == 3)
+        {
+            SceneManager.LoadScene("Level3");
+        }
     }
 }
