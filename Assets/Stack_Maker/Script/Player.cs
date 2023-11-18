@@ -8,16 +8,28 @@ public enum Direct { Forward, Back, Left,Right, None}
 public class Player : MonoBehaviour
 {
     [SerializeField] LayerMask layerBrick;
-    private Vector3 mouseDown, mouseUp;
-    public bool isMove;
-    public Vector3 movePoint;
+    [SerializeField] Transform playerBrichPrefab;
     [SerializeField] private float speed;
+    [SerializeField] private Transform playerSkin;
+
+    private Vector3 mouseDown, mouseUp;
+    List<Transform> playerBricks = new List<Transform>();
+    private Vector3 movePoint;
+
+    public bool isMove;
+    public Transform boxBrick;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        OnInit();
+    }
+
+    void OnInit()
+    {
         isMove = false;
+        clearBrick();
     }
 
     // Update is called once per frame
@@ -33,6 +45,7 @@ public class Player : MonoBehaviour
             {
                 mouseUp = Input.mousePosition;
                 Direct direct = GetDirect(mouseDown, mouseUp);
+                UnityEngine.Debug.Log(direct);
                 if(direct != Direct.None)
                 {
                     movePoint = GetnextPoint(direct);
@@ -91,7 +104,7 @@ public class Player : MonoBehaviour
     {
 
         RaycastHit hit;
-        Vector3 nextPoint = Vector3.zero;
+        Vector3 nextPoint = transform.position;
         Vector3 dir = Vector3.zero;
 
         switch (direct)
@@ -110,13 +123,46 @@ public class Player : MonoBehaviour
                 break;
         }
 
-        for (int i = 0; i < 100; i++){
-            if (Physics.Raycast(transform.position + dir*i,Vector3.down, out hit,10f, layerBrick)) {
+        for (int i = 1; i < 100; i++){
+            if (Physics.Raycast(transform.position + dir*i+Vector3.up*2,Vector3.down, out hit,10f, layerBrick)) {
                 nextPoint =  hit.collider.transform.position;
+            }
+            else
+            {
+                break;
             }
         }
 
         return nextPoint;
+    }
+    public void addBrick()
+    {
+        int index = playerBricks.Count;
+        Transform playerBrick = Instantiate(playerBrichPrefab, boxBrick);
+        playerBrick.localPosition = (index+1)*0.3f * Vector3.up;
+        playerBricks.Add(playerBrick);
+        playerSkin.localPosition = playerSkin.localPosition + Vector3.up*0.3f;
+    }
+
+    public void removeBrick()
+    {
+        int index = playerBricks.Count - 1;
+        if(index >= 0)
+        {
+            Transform playerBrick = playerBricks[index];
+            playerBricks.RemoveAt(index);
+            Destroy(playerBrick.gameObject);
+            playerSkin.localPosition = playerSkin.localPosition - Vector3.up * 0.3f;
+        }
+    }
+
+    public void clearBrick()
+    {
+        for(int i = 0;i<playerBricks.Count; i++)
+        {
+            Destroy(playerBricks[i].gameObject);
+        }
+        playerBricks.Clear();
     }
         
 }
