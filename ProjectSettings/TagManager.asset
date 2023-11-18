@@ -8,12 +8,12 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wall
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Brick
+  - Unbrick
+  - Push
   - 
   - 
   - 
