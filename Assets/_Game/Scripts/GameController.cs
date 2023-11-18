@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private GameObject People, startPoint;
+    [SerializeField] private GameObject People;
+    [SerializeField] private Transform startPoint;
 
     // Start is called before the first frame update
     void Start()
