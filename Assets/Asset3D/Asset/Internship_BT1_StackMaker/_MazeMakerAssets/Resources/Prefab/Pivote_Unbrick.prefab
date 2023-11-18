@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4779639640141953}
   - component: {fileID: 33691262923384939}
   - component: {fileID: 23547103106710872}
+  - component: {fileID: 1337991078501120292}
   m_Layer: 0
   m_Name: Pivote_Unbrick
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1337991078501120292
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186571016788469}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.99999905, y: 1.0000012, z: 1.0000029}
+  m_Center: {x: 0.0000010728836, y: 0.00000059604645, z: 0}
