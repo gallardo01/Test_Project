@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33691262923384939}
   - component: {fileID: 23547103106710872}
   m_Layer: 0
-  m_Name: Pivote_Unbrick
+  m_Name: Old_Pivote_Unbrick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
