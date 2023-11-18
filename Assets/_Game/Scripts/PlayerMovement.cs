@@ -40,8 +40,9 @@ public class PlayerMovement : MonoBehaviour
             startPos = Vector3.zero;
             endPos = Vector3.zero;
         }
+        CheckCanMove();
         transform.Translate(direction * speed * Time.deltaTime );
-        
+        // CheckCanMove();
     }
 
     private void ChangeDirection(){
@@ -67,10 +68,25 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private bool CheckCanMove(){
-        RaycastHit2D hit = Physics2D.Raycast(DirectionPoint.position, Vector3.forward, 1.1f, wallLayer);
+    private void CheckCanMove(){
+        // int wallLayer = 1 << 11;
+        Debug.Log("Hello");
+        // This would cast rays only against colliders in layer 8.
+        // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
+        // wallLayer = ~wallLayer;
+        Debug.DrawLine(DirectionPoint.position, DirectionPoint.position - Vector3.forward * 1f, Color.red);
+        // RaycastHit hit;
+        if(Physics.Raycast(DirectionPoint.position, -Vector3.forward, 1f, wallLayer)){
+            Debug.Log("hit");
+            // direction = Vector3.zero;
+        }
+        // Ray ray = new Ray();
+        // RaycastHit hit;
+        // Debug.Log(Physics.Raycast(ray, out hit));
+        // if(Physics.Raycast(ray, out hit)){
+        //     Debug.Log("Hitting");
+        // }
 
-        return hit.collider != null;
     }
 
     // private bool CheckForwardDirection(){
