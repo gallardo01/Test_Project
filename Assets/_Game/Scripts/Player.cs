@@ -4,9 +4,8 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Transform up, down, left, right, body, brickHolder;
-    [SerializeField] private LayerMask brickLayer;
-    [SerializeField] private LayerMask roadLayer;
+    [SerializeField] private Transform up, down, left, right, center, body, brickHolder;
+    [SerializeField] private LayerMask brickLayer,roadLayer, pushLayer, lineLayer;
     [SerializeField] private GameObject Brick;
     private int brickCount;
     private bool isRunning = true;
@@ -28,6 +27,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // changeDirection();
+
         Debug.Log(Physics.Raycast(up.transform.position, Vector3.down, 5f, roadLayer));
 
         if (Input.GetKeyDown(KeyCode.W) && isRunning)
@@ -63,39 +64,69 @@ public class Player : MonoBehaviour
             }
         }
 
-        Debug.DrawLine(transform.position, transform.position + Vector3.down * 0.1f, Color.red);
+        Debug.DrawLine(transform.position, transform.position + Vector3.down * 0.5f, Color.red);
 
         checkAddBrick();
+
+        checkMoveBrick();
+
     }
 
     private void moveToState(RunningState state)
     {
         if (state == RunningState.Up)
         {
-            transform.position += new Vector3(0.5f, 0f, 0f);
+            transform.position += new Vector3(1f, 0f, 0f);
         }
         else if (state == RunningState.Down)
         {
-            transform.position += new Vector3(-0.5f, 0f, 0f);
+            transform.position += new Vector3(-1f, 0f, 0f);
         }
         else if (state == RunningState.Left)
         {
-            transform.position += new Vector3(0f, 0f, 0.5f);
+            transform.position += new Vector3(0f, 0f, 1f);
         }
         else if (state == RunningState.Right)
         {
-            transform.position += new Vector3(0f, 0f, -0.5f);
+            transform.position += new Vector3(0f, 0f, -1f);
         }
+    }
+    private bool checkRunningState(RunningState state)
+    {
+        if (state == RunningState.Up)
+        {
+            return Physics.Raycast(up.transform.position, Vector3.down, 5f, roadLayer) || Physics.Raycast(up.transform.position, Vector3.down, 5f, lineLayer);
+        }
+        else if (state == RunningState.Down)
+        {
+            return Physics.Raycast(down.transform.position, Vector3.down, 5f, roadLayer) || Physics.Raycast(down.transform.position, Vector3.down, 5f, lineLayer);
+        }
+        else if (state == RunningState.Left)
+        {
+            return Physics.Raycast(left.transform.position, Vector3.down, 5f, roadLayer) || Physics.Raycast(left.transform.position, Vector3.down, 5f, lineLayer);
+        }
+        else if (state == RunningState.Right)
+        {
+            return Physics.Raycast(right.transform.position, Vector3.down, 5f, roadLayer) || Physics.Raycast(right.transform.position, Vector3.down, 5f, lineLayer);
+        }
+        return false;
     }
 
     IEnumerator PlayerRunning(RunningState state)
     {
-            if (checkRunningState(state))
+        if (checkRunningState(state))
+        {
+            //transform.position += new Vector3(0f,0f, 1f);
+            moveToState(state);
+            yield return new WaitForSeconds(0.1f);
+            StartCoroutine(PlayerRunning(state));
+        }
+        else
+        {
+            if (checkOnPush())
             {
-                //transform.position += new Vector3(0f,0f, 1f);
-                moveToState(state);
-                yield return new WaitForSeconds(0.1f);
-                StartCoroutine(PlayerRunning(state));
+                Debug.Log("Stop1");
+                StartCoroutine(PlayerRunning(returnPushState(state)));
             }
             else
             {
@@ -103,29 +134,34 @@ public class Player : MonoBehaviour
                 //StopAllCoroutines();
                 Debug.Log("Stop");
             }
+        }
     }
 
-    private bool checkRunningState(RunningState state)
+
+    //
+    private RunningState returnPushState(RunningState currentState)
     {
-        if (state == RunningState.Up)
+        if (checkRunningState(RunningState.Up) && currentState != RunningState.Down)
         {
-            return Physics.Raycast(up.transform.position, Vector3.down, 5f, roadLayer);
+            return RunningState.Up;
         }
-        else if (state == RunningState.Down)
+        else if (checkRunningState(RunningState.Down) && currentState != RunningState.Up)
         {
-            return Physics.Raycast(down.transform.position, Vector3.down, 5f, roadLayer);
+            return RunningState.Down;
         }
-        else if (state == RunningState.Left)
+        else if (checkRunningState(RunningState.Left) && currentState != RunningState.Right)
         {
-            return Physics.Raycast(left.transform.position, Vector3.down, 5f, roadLayer);
+            return RunningState.Left;
         }
-        else if (state == RunningState.Right)
+        else if (checkRunningState(RunningState.Right) && currentState != RunningState.Left)
         {
-            return Physics.Raycast(right.transform.position, Vector3.down, 5f, roadLayer);
+            return RunningState.Right;
         }
-        return false;
+        return RunningState.None;
     }
 
+
+    // add brick  -------------------------------------------------------------------
     private RaycastHit hit;
     private bool checkOnBrickState()
     {
@@ -146,6 +182,58 @@ public class Player : MonoBehaviour
         if (checkOnBrickState())
         {  
             addBrick();
+        }
+    }
+
+
+    // decrease brick  -------------------------------------------------------------------
+    private RaycastHit hit2;
+    private bool checkOnLineState()
+    {
+        return Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hit2, Mathf.Infinity, lineLayer);
+    }
+
+    private RaycastHit hitBrick;
+    void removeBrick() // them layer gach2 vao gach trong brickholder
+    {
+        Transform currentTransform = hit2.collider.gameObject.transform;
+        body.position = currentTransform.position + brickCount * new Vector3(0f, 0.25f);
+        Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hitBrick, 0.25f, brickLayer);
+        if (Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hitBrick, 0.25f, brickLayer)) // Highest brick
+        {
+            Destroy(hitBrick.collider.gameObject);
+        }
+        Instantiate(Brick, currentTransform.position, Quaternion.identity);
+        brickCount--;
+    }
+
+    private void checkMoveBrick()
+    {
+        if (checkOnLineState() && checkOnBrickState() == false)
+        {  
+            Debug.Log("removeBrick");
+            removeBrick();
+        }
+    }
+
+
+    // change direction  -------------------------------------------------------------------
+    //private Vector3 currentEulerAngles;
+    private RaycastHit hit3;
+    private bool checkOnPush()
+    {
+        //Debug.DrawLine(transform.position + new Vector3(0f, 1f), transform.position + Vector3.down * 1f, Color.red);
+        return Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hit3, Mathf.Infinity, pushLayer);
+    }
+
+    void changeDirection()
+    {
+        if (checkOnPush()) // && isRunning == true
+        {
+            body.eulerAngles = new Vector3(0f,-90f, 0f);
+            //body.rotation = Quaternion.Euler(new Vector3(0f,-90f, 0f));
+            hit3.collider.enabled = false;
+            Debug.Log("Change Direction");
         }
     }
 }
