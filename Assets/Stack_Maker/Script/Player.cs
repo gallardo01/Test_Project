@@ -1,40 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 
 public enum Direct { Forward, Back, Left,Right, None}
-public class Player : MonoBehaviour
+public class Player : Character
 {
-    [SerializeField] LayerMask layerBrick;
-    [SerializeField] Transform playerBrichPrefab;
+    [SerializeField] private LayerMask layerBrick;    
     [SerializeField] private float speed;
     [SerializeField] private Transform playerSkin;
+    [SerializeField] private LayerMask pushLayer;
 
-    private Vector3 mouseDown, mouseUp;
-    List<Transform> playerBricks = new List<Transform>();
+    private Vector3 mouseDown, mouseUp;    
     private Vector3 movePoint;
 
-    public bool isMove;
-    public Transform boxBrick;
+    private bool isMove;
+    private Direct currentDirect;
 
 
     // Start is called before the first frame update
-    void Start()
+
+
+    public override void OnInit()
     {
-        OnInit();
+        base.OnInit();
+        isMove = false;       
+
     }
 
-    void OnInit()
+    public override void OnDespawn()
     {
-        isMove = false;
-        clearBrick();
+        base.OnDespawn();
     }
 
     // Update is called once per frame
     void Update()
     {
+        UnityEngine.Debug.DrawRay(transform.position + Vector3.forward + Vector3.up, Vector3.down, Color.blue, 10f);
         if (!isMove)
         {
             if (Input.GetMouseButtonDown(0))
@@ -44,12 +48,12 @@ public class Player : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
             {
                 mouseUp = Input.mousePosition;
-                Direct direct = GetDirect(mouseDown, mouseUp);
-                UnityEngine.Debug.Log(direct);
-                if(direct != Direct.None)
+                currentDirect = GetDirect(mouseDown, mouseUp);
+                //UnityEngine.Debug.Log(direct);
+                if(currentDirect != Direct.None)
                 {
-                    movePoint = GetnextPoint(direct);
-                    UnityEngine.Debug.Log(movePoint);
+                    movePoint = GetnextPoint(currentDirect);
+                    //UnityEngine.Debug.Log(movePoint); 
                     isMove = true;
                 }
             }
@@ -58,7 +62,19 @@ public class Player : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, movePoint)<0.1f)
             {
-                isMove = false;
+                             
+                if (Physics.Raycast(transform.position + Vector3.up * 2, Vector3.down, 10f, pushLayer))
+                {
+                    UnityEngine.Debug.Log("push");
+                     currentDirect =  getPushDirect(currentDirect);
+                    movePoint = GetnextPoint(currentDirect);
+                    
+                }
+                else
+                {
+                    
+                    isMove=false;
+                }
             }
             transform.position = Vector3.MoveTowards(transform.position, movePoint, Time.deltaTime*speed);
         }
@@ -137,11 +153,13 @@ public class Player : MonoBehaviour
     }
     public void addBrick()
     {
+        changAnim(1);
         int index = playerBricks.Count;
         Transform playerBrick = Instantiate(playerBrichPrefab, boxBrick);
         playerBrick.localPosition = (index+1)*0.3f * Vector3.up;
         playerBricks.Add(playerBrick);
         playerSkin.localPosition = playerSkin.localPosition + Vector3.up*0.3f;
+        Invoke(nameof(resetAnim), 0.3f);
     }
 
     public void removeBrick()
@@ -156,13 +174,42 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void clearBrick()
+
+
+
+    private Direct getPushDirect(Direct Direct)
     {
-        for(int i = 0;i<playerBricks.Count; i++)
-        {
-            Destroy(playerBricks[i].gameObject);
-        }
-        playerBricks.Clear();
-    }
         
+        isMove = true;
+        if (Physics.Raycast(transform.position + Vector3.forward + Vector3.up * 2, Vector3.down, 10f, layerBrick) && Direct != Direct.Back)
+        {
+            return Direct.Forward;
+        }
+        if (Physics.Raycast(transform.position + Vector3.left + Vector3.up * 2, Vector3.down, 10f, layerBrick) && Direct != Direct.Right)
+        {
+            return Direct.Left;
+        }
+        if (Physics.Raycast(transform.position + Vector3.right + Vector3.up * 2, Vector3.down, 10f, layerBrick) && Direct != Direct.Left)
+        {
+            return Direct.Right;
+        }
+        if (Physics.Raycast(transform.position + Vector3.back+ Vector3.up * 2, Vector3.down, 10f, layerBrick)&& Direct != Direct.Forward)
+        {
+            return Direct.Back;
+        }
+        return Direct.None;
+
+    }
+
+    public void resetAnim()
+    {
+        changAnim(0);
+    }
+
+
 }
+
+
+
+
+
