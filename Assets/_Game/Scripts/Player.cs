@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
     [SerializeField] private Transform up;
     [SerializeField] private Transform down;
     [SerializeField] private Transform left;
     [SerializeField] private Transform right;
-    [SerializeField] private Transform pushRaycast;
+    [SerializeField] private Transform center;
     [SerializeField] private LayerMask roadLayer;
     [SerializeField] private LayerMask brickLayer;
     [SerializeField] private LayerMask pushLayer;
+    [SerializeField] private LayerMask endLayer;
+    [SerializeField] private LayerMask winLayer;
     [SerializeField] private GameObject brickHolder, brickPrefab, PlayerObject;
+    public List<GameObject> brickHoldingList;
+    [SerializeField] private RunningState currentState;
     private bool isRunning = true;
+    private bool isEnding = false;
+    private int winCount = 0;
 
     private int brickCount = 0;
 
@@ -34,104 +40,168 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug.DrawLine(up.position, up.position + Vector3.down * 5f);
-        // Debug.Log(Physics.Raycast(up.position, Vector3.down, 5f, roadLayer));
-        if(Input.GetKeyDown(KeyCode.W) && isRunning){
+        Debug.Log(Physics.Raycast(center.position, Vector3.down, Mathf.Infinity, pushLayer));
+        if(Input.GetKeyDown(KeyCode.W)){
             if(CheckRunningState(RunningState.Up)){
-                // move
-                // Debug.Log("Run");
-                isRunning = false;
-                StartCoroutine(PlayerRunning(RunningState.Up));
+                MoveWithState(RunningState.Up);
             }
         }
-        else if(Input.GetKeyDown(KeyCode.S) && isRunning){
+        else if(Input.GetKeyDown(KeyCode.S)){
             if(CheckRunningState(RunningState.Down)){
-                // move
-                // Debug.Log("Run");
-                isRunning = false;
-                StartCoroutine(PlayerRunning(RunningState.Down));
+                MoveWithState(RunningState.Down);
             }
         }
-        else if(Input.GetKeyDown(KeyCode.A) && isRunning){
+        else if(Input.GetKeyDown(KeyCode.A)){
             if(CheckRunningState(RunningState.Left)){
-                // move
-                // Debug.Log("Run");
-                isRunning = false;
-                StartCoroutine(PlayerRunning(RunningState.Left));
+                MoveWithState(RunningState.Left);
             }
         }
-        else if(Input.GetKeyDown(KeyCode.D) && isRunning){
+        else if(Input.GetKeyDown(KeyCode.D)){
             if(CheckRunningState(RunningState.Right)){
-                // move
-                // Debug.Log("Run");
-                isRunning = false;
-                StartCoroutine(PlayerRunning(RunningState.Right));
+                MoveWithState(RunningState.Right);
             }
         }
-        RaycastHit hit;
-        if(Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, brickLayer)){
-            hit.collider.gameObject.SetActive(false);
-            Transform currentTransform = hit.collider.gameObject.transform;
-            Instantiate(brickPrefab, currentTransform.position + brickCount * new Vector3(0f,0.25f,0f), Quaternion.identity, brickHolder.transform);
-            PlayerObject.transform.position = currentTransform.position + brickCount * new Vector3(0f,0.25f,0f) + new Vector3(0f,0f,0f);
-            brickCount++;
-        }
-        if(Physics.Raycast(pushRaycast.position, Vector3.down, out hit, Mathf.Infinity, pushLayer)){
-            Debug.Log("Push");
-            moveWithState(hit.collider.gameObject.GetComponent<Push>().stateMove);
+        CheckGetBrick();
+        if(!isEnding){
+            CheckOnEnding();
         }
     }
 
-    // private RunningState PushState(RunningState state){
-        // if(state == RunningState.Up){
-        //     return 
-        // }
-        // else if(state == RunningState.Down){
-        //     return 
-        // }
-        // else if(state == RunningState.Left){
-        //     return 
-        // }
-        // else if(state == RunningState.Right){
-        //     return 
-        // }
-    // }
+    private void CheckGetBrick(){
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, brickLayer)){
+            Transform currentTransform = hit.collider.gameObject.transform;
+            // hit.collider.gameObject.SetActive(false);
+            Destroy(hit.collider.gameObject);
+            brickHoldingList.Add(Instantiate(brickPrefab, currentTransform.position + brickCount * new Vector3(0f,0.25f,0f), Quaternion.identity, brickHolder.transform));
+            PlayerObject.transform.position = currentTransform.position + brickCount * new Vector3(0f,0.25f,0f);
+            brickCount++;
+        }
+    }
 
-    private void moveWithState(int direct){
+    private void MoveWithState(RunningState state){
         isRunning = false;
-        RunningState state = RunningState.None;
-        if(direct == 0){
-            state = RunningState.Up;
-        }
-        if(direct == 1){
-            state = RunningState.Down;
-        }
-        if(direct == 2){
-            state = RunningState.Left;
-        }
-        if(direct == 3){
-            state = RunningState.Right;
-        }
-        if(direct == 4){
-            state = RunningState.None;
-        }
         StartCoroutine(PlayerRunning(state));
+    }
+
+    private void MoveWithStateEnding(RunningState state){
+        isRunning = false;
+        StartCoroutine(PlayerEnding(state));
+    }
+
+    private void CheckOnEnding(){
+        if(CheckEndingState(RunningState.Up)){
+            isEnding = true;
+            MoveWithStateEnding(RunningState.Up);
+        }
+        else if(CheckEndingState(RunningState.Down)){
+            isEnding = true;
+            MoveWithStateEnding(RunningState.Down);
+        }
+        else if(CheckEndingState(RunningState.Left)){
+            isEnding = true;
+            MoveWithStateEnding(RunningState.Left);
+        }
+        else if(CheckEndingState(RunningState.Right)){
+            isEnding = true;
+            MoveWithStateEnding(RunningState.Right);
+        }
+    }
+
+    IEnumerator PlayerEnding(RunningState state){
+        if(CheckEndingState(state)){
+            MoveToState(state);
+            if(brickHoldingList.Count > 0){
+                Destroy(brickHoldingList[brickHoldingList.Count-1]);
+                brickHoldingList.RemoveAt(brickHoldingList.Count-1);
+                brickCount--;
+                PlayerObject.transform.position -= new Vector3(0f,0.25f,0f);
+                yield return new WaitForSeconds(0.1f);
+                StartCoroutine(PlayerEnding(state));
+            }
+            else{
+                Debug.Log("Lose");
+            }
+        }
+        else{
+            if(brickCount >= 1){
+                MoveWithState(state);
+                Destroy(brickHoldingList[brickHoldingList.Count-1]);
+                brickHoldingList.RemoveAt(brickHoldingList.Count-1);
+                brickCount--;
+                PlayerObject.transform.position -= new Vector3(0f,0.25f,0f);
+            }
+            currentState = state;
+            isRunning = true;
+        }
     }
 
     IEnumerator PlayerRunning(RunningState state){
         if(CheckRunningState(state)){
-            // transform.position += new Vector3(0f, 0f, -1f);
-            moveToState(state);
+            MoveToState(state);
             yield return new WaitForSeconds(0.1f);
-            StartCoroutine(PlayerRunning(state));
+            if(!CheckWining()){
+                if(winCount > 0){
+                    // if(brickHoldingList.Count > 0){
+                    //     for(int i = 0; i < brickHoldingList.Count; i++){
+                    //         Destroy(brickHoldingList[i]);
+                    //         brickHoldingList.RemoveAt(i);
+                    //         brickCount--;
+                    //         // PlayerObject.transform.position -= new Vector3(0f,0.25f,0f);
+                    //     }
+                    // }
+                    brickHolder.SetActive(false);
+                    PlayerObject.transform.position = new Vector3(PlayerObject.transform.position.x,-0.5f+2.8f,PlayerObject.transform.position.z);
+                    Debug.Log("Win");
+                }
+                else{
+                    StartCoroutine(PlayerRunning(state));
+                }
+            }
+            else{
+                winCount++;
+                if(winCount < 5){
+                    StartCoroutine(PlayerRunning(state));
+                }
+            }
         }
         else{
-            isRunning = true;
-            Debug.Log("Stop");
+            currentState = state;
+            if(Physics.Raycast(center.position, Vector3.down, Mathf.Infinity, pushLayer)){
+                StartCoroutine(PlayerRunning(returnPurpleState(state)));
+            }
+            else{
+                isRunning = true;
+            }
+            // CheckPushing();
+            CheckOnEnding();
         }
     }
 
-    private void moveToState(RunningState state){
+    private RunningState returnPurpleState(RunningState state){
+        if(CheckRunningState(RunningState.Up) && currentState != RunningState.Down){
+            return RunningState.Up;
+        }
+        else if(CheckRunningState(RunningState.Down) && currentState != RunningState.Up){
+            return RunningState.Down;
+        }
+        else if(CheckRunningState(RunningState.Left) && currentState != RunningState.Right){
+            return RunningState.Left;
+        }
+        else if(CheckRunningState(RunningState.Right) && currentState != RunningState.Left){
+            return RunningState.Right;
+        }
+        return RunningState.None;
+    }
+
+    private void CheckPushing(){
+        // RaycastHit hit;
+        // if(Physics.Raycast(center.position, Vector3.down, out hit, Mathf.Infinity, pushLayer)){
+        //     MoveWithState((RunningState)hit.collider.gameObject.GetComponent<PushPivot>().stateMove);
+        // }
+    }
+
+    private void MoveToState(RunningState state){
         if(state == RunningState.Up){
             transform.position += new Vector3(0f, 0f, -1f);
         }
@@ -146,8 +216,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    private bool CheckWining(){
+        return Physics.Raycast(up.position, Vector3.down, Mathf.Infinity, winLayer)
+        || Physics.Raycast(down.position, Vector3.down, Mathf.Infinity, winLayer)
+        || Physics.Raycast(left.position, Vector3.down, Mathf.Infinity, winLayer)
+        || Physics.Raycast(right.position, Vector3.down, Mathf.Infinity, winLayer);
+    }
+
     private bool CheckRunningState(RunningState state){
-        // Direction = 1: Up
         if(state == RunningState.Up){
             return Physics.Raycast(up.position, Vector3.down, Mathf.Infinity, roadLayer);
         }
@@ -162,4 +238,25 @@ public class Player : MonoBehaviour
         }
         return false;
     }
+
+    private bool CheckEndingState(RunningState state){
+        // if(Physics.Raycast(center.position, Vector3.down, Mathf.Infinity, pushLayer)){
+        //     return false;
+        // }
+        // else 
+        if(state == RunningState.Up){
+            return Physics.Raycast(up.position, Vector3.down, Mathf.Infinity, endLayer);
+        }
+        else if(state == RunningState.Down){
+            return Physics.Raycast(down.position, Vector3.down, Mathf.Infinity, endLayer);
+        }
+        else if(state == RunningState.Left){
+            return Physics.Raycast(left.position, Vector3.down, Mathf.Infinity, endLayer);
+        }
+        else if(state == RunningState.Right){
+            return Physics.Raycast(right.position, Vector3.down, Mathf.Infinity, endLayer);
+        }
+        return false;
+    }
+
 }
