@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: GameObject Brush
   m_EditorClassIdentifier: 
   m_Cells:
-  - m_GameObject: {fileID: 1833346567320450, guid: ffe76fcc801f5c140b17312e673abed7, type: 3}
+  - m_GameObject: {fileID: 1531101969777205, guid: 8aad5fca35890fd4389dabb982d52236, type: 3}
     m_Offset: {x: 0, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
-    m_Orientation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
+    m_Orientation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
   m_Size: {x: 1, y: 1, z: 1}
   m_Pivot: {x: 0, y: 0, z: 0}
   m_CanChangeZPosition: 0
