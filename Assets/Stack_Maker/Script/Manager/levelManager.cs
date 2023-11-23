@@ -2,17 +2,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class levelManager : MonoBehaviour
+public class levelManager : Singleton<levelManager>
 {
+
+    public List<Level> levels = new List<Level>();
+    public GameObject player;
+    public Level currentLevel;
+    public int level = 1;
     // Start is called before the first frame update
-    void Start()
+
+    public void LoadLevel()
     {
+        GameController.Instance.totalBrick = 0;
+        LoadLevel(level);
+        OnInit();
+    }
+    void OnInit()
+    {
+        //Debug.Log("oninit");
+        player.transform.position = currentLevel.startPoint.position;
+        player.gameObject.GetComponent<Player>().OnInit();
+        
+        
+    }
+    private void OnDespawn()
+    { 
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LoadLevel(int index)
     {
-        
+        if (currentLevel != null)
+        {
+            Destroy(currentLevel.gameObject);
+        }
+        currentLevel = Instantiate(levels[index - 1]);
+    }
+
+    public void OnStart()
+    {
+        GameController.Instance.changeState(GameState.GamePlay);
+    }
+
+    public void NextLevel()
+    {
+        level++;
+        LoadLevel();
+        UIManager.Instance.OpenPlay();
+    }
+
+    public void OnFinish()
+    {
+        currentLevel.setWin();
+        currentLevel.PlayParticleSystem();
+    }
+
+    public void ResetLevel()
+    {
+        Debug.Log("reset");
+        level = 1;
+        LoadLevel();
     }
 }

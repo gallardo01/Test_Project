@@ -11,6 +11,6 @@ public class Camerafollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        TF.position = Vector3.Lerp(TF.position, playerTF.position + offset, Time.deltaTime * 5f);
+        TF.position = Vector3.Lerp(TF.position, playerTF.position + offset, Time.deltaTime * 8f);
     }
 }

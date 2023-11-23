@@ -10,6 +10,7 @@ public class Character : MonoBehaviour
     [SerializeField] private Animator Anim;
 
 
+
     private int currentAnim;
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,6 @@ public class Character : MonoBehaviour
     }
     public void changAnim(int newAnim)
     {
-        Anim.SetInteger("renwu", newAnim);
+        Anim.SetInteger("swap", newAnim);
     }
 }

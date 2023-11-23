@@ -16,8 +16,13 @@ public class Player : Character
     private Vector3 mouseDown, mouseUp;    
     private Vector3 movePoint;
 
+    private bool isWin;
     private bool isMove;
+    private bool isControl;
     private Direct currentDirect;
+    //public GameObject winpos;
+    //public GameObject level;
+
 
 
     // Start is called before the first frame update
@@ -26,7 +31,11 @@ public class Player : Character
     public override void OnInit()
     {
         base.OnInit();
-        isMove = false;       
+        isMove = false;
+        isWin = false;
+        isControl= false;
+        movePoint = transform.position;
+        resetAnim();
 
     }
 
@@ -38,45 +47,51 @@ public class Player : Character
     // Update is called once per frame
     void Update()
     {
-        UnityEngine.Debug.DrawRay(transform.position + Vector3.forward + Vector3.up, Vector3.down, Color.blue, 10f);
-        if (!isMove)
+        
+        //UnityEngine.Debug.DrawRay(transform.position + Vector3.forward + Vector3.up, Vector3.down, Color.blue, 10f);
+        if (GameController.Instance.isState(GameState.GamePlay))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (!isMove)
             {
-                mouseDown = Input.mousePosition;
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                mouseUp = Input.mousePosition;
-                currentDirect = GetDirect(mouseDown, mouseUp);
-                //UnityEngine.Debug.Log(direct);
-                if(currentDirect != Direct.None)
+                if (Input.GetMouseButtonDown(0) && !isControl)
                 {
-                    movePoint = GetnextPoint(currentDirect);
-                    //UnityEngine.Debug.Log(movePoint); 
-                    isMove = true;
+                    isControl = true;
+                    mouseDown = Input.mousePosition;
+                }
+                if (Input.GetMouseButtonUp(0) && isControl)
+                {
+                    isWin = false;
+                    mouseUp = Input.mousePosition;
+                    currentDirect = GetDirect(mouseDown, mouseUp);
+                    //UnityEngine.Debug.Log(direct);
+                    if (currentDirect != Direct.None)
+                    {
+                        movePoint = GetnextPoint(currentDirect);
+                        //UnityEngine.Debug.Log(movePoint); 
+                        isMove = true;
+                    }
                 }
             }
-        }
-        else
-        {
-            if (Vector3.Distance(transform.position, movePoint)<0.1f)
+            else
             {
-                             
-                if (Physics.Raycast(transform.position + Vector3.up * 2, Vector3.down, 10f, pushLayer))
+                if (Vector3.Distance(transform.position, movePoint) < 0.1f)
                 {
-                    UnityEngine.Debug.Log("push");
-                     currentDirect =  getPushDirect(currentDirect);
-                    movePoint = GetnextPoint(currentDirect);
-                    
+
+                    if (Physics.Raycast(transform.position + Vector3.up * 2, Vector3.down, 10f, pushLayer))
+                    {
+
+                        //UnityEngine.Debug.Log("push");
+                        currentDirect = getPushDirect(currentDirect);
+                        movePoint = GetnextPoint(currentDirect);
+
+                    }
+                    else
+                    {
+                        isMove = false;
+                    }
                 }
-                else
-                {
-                    
-                    isMove=false;
-                }
+                transform.position = Vector3.MoveTowards(transform.position, movePoint, Time.deltaTime * speed);
             }
-            transform.position = Vector3.MoveTowards(transform.position, movePoint, Time.deltaTime*speed);
         }
 
     }
@@ -154,6 +169,7 @@ public class Player : Character
     public void addBrick()
     {
         changAnim(1);
+        GameController.Instance.totalBrick++;
         int index = playerBricks.Count;
         Transform playerBrick = Instantiate(playerBrichPrefab, boxBrick);
         playerBrick.localPosition = (index+1)*0.3f * Vector3.up;
@@ -164,6 +180,7 @@ public class Player : Character
 
     public void removeBrick()
     {
+        GameController.Instance.totalBrick--;
         int index = playerBricks.Count - 1;
         if(index >= 0)
         {
@@ -172,10 +189,16 @@ public class Player : Character
             Destroy(playerBrick.gameObject);
             playerSkin.localPosition = playerSkin.localPosition - Vector3.up * 0.3f;
         }
+        
+        
     }
 
 
-
+    public void stop()
+    {
+        movePoint = transform.position;
+        UIManager.Instance.LoseMenu();
+    }
 
     private Direct getPushDirect(Direct Direct)
     {
@@ -201,12 +224,42 @@ public class Player : Character
 
     }
 
-    public void resetAnim()
+    public void resetAnim() 
     {
         changAnim(0);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Finish"))
+        {
+            levelManager.Instance.currentLevel.PlayParticleSystem();
+            isWin = true;
+            levelManager.Instance.OnFinish();
+            changAnim(2);
+            playerSkin.localPosition = playerSkin.localPosition - Vector3.up * (playerBricks.Count)*0.3f;
+            transform.position = movePoint;
+            
+            clearBrick();
+            GameController.Instance.changeState(GameState.Finish);
+            UIManager.Instance.OpenNextLevel();
 
+        }
+        if (other.CompareTag("Diamond"))
+        {
+            //Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
+            GameController.Instance.collect();
+            
+        }
+    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Diamond"))
+    //    {
+    //        UnityEngine.Debug.Log("exit");
+    //    }
+    //}
 }
 
 
