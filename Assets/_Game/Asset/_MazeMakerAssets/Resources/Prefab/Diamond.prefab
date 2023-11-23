@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4304119070646378}
   - component: {fileID: 198831720986580820}
   - component: {fileID: 199990218929003771}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: P1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2579,7 +2579,7 @@ GameObject:
   - component: {fileID: 4079312914944694}
   - component: {fileID: 198409194419766659}
   - component: {fileID: 199223485131428672}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: P2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5172,7 +5172,7 @@ GameObject:
   - component: {fileID: 4551659947965153}
   - component: {fileID: 198714047394096078}
   - component: {fileID: 199981669104041536}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: P3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7763,7 +7763,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224497980358545946}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: zuanshixing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7802,7 +7802,7 @@ GameObject:
   - component: {fileID: 4601497704145792}
   - component: {fileID: 33969984017398061}
   - component: {fileID: 23554150464023228}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7884,7 +7884,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4204581141324716}
   - component: {fileID: 111197235321722274}
-  m_Layer: 0
+  - component: {fileID: -6734980365027241874}
+  m_Layer: 12
   m_Name: Diamond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7924,3 +7925,16 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &-6734980365027241874
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957927936394622}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
