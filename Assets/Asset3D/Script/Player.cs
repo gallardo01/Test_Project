@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject player;
     bool isRunning = true;
     bool a, b, c, d;
+    int cnt = 0;
     //[SerializeField] private LayerMask brickLayer;
     public enum RunningState
     {
@@ -33,38 +35,71 @@ public class Player : MonoBehaviour
         if (Check(state) || Check1(state) || Check3(state))
         {
             movetoState(state);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
             StartCoroutine(Move(state));
         }
         else if (Check(state) || Check1(state) || Check3(state))
         {
             movetoState(state);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
             StartCoroutine(Move(state));
         }
         else if (Check(state) || Check1(state) || Check3(state))
         {
             movetoState(state);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
             StartCoroutine(Move(state));
         }
         else if (Check(state) || Check1(state) || Check3(state))
         {
             movetoState(state);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
             StartCoroutine(Move(state));
         }
         else
         {
             isRunning = true;
-            Debug.Log("stop");
         }
+    }
+    IEnumerator loadscene(int stage)
+    {
+        yield return new WaitForSeconds(2f);
+        GameController.Instance.ChangeScene(stage);
     }
     private void movetoState(RunningState state)
     {
         BrickStack.Instance.check();
-        player.transform.position = new Vector3(transform.position.x, transform.position.y  + 0.25f * BrickStack.Instance.brick,transform.position.z);
+        player.transform.position = new Vector3(transform.position.x, 2.75f + 0.25f * BrickStack.Instance.brick,transform.position.z);
         BrickStack.Instance.check1();
+        if (BrickStack.Instance.isLose)
+        {
+            Debug.Log("Lose!");
+            
+            return;
+        }
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position, Vector3.down,out hit, 0.5f, roadLayer))
+        {
+            if (hit.collider.name == "winpos")
+            {
+                if (cnt < 4)
+                {
+                    cnt++;
+                }
+                else if(cnt == 4)
+                {
+                    Debug.Log("WIN!");
+                    BrickStack.Instance.Win();
+                    cnt++;
+                    
+                }
+                else if(cnt >= 5) 
+                {
+                    StartCoroutine(loadscene(PlayerPrefs.GetInt("level") + 1));
+                    return;
+                }
+            }
+        }
         if (state == RunningState.Up) transform.position += new Vector3(0, 0, 1);
         else if (state == RunningState.Down) transform.position += new Vector3(0, 0, -1);
         else if (state == RunningState.Left) transform.position += new Vector3(-1, 0, 0);
@@ -83,7 +118,6 @@ public class Player : MonoBehaviour
             if(Check(RunningState.Up) || Check1(RunningState.Up) ||Check3(RunningState.Up))
             {
                 isRunning = false;
-                Debug.Log("1");
                 StartCoroutine(Move(RunningState.Up));
             } 
         }
@@ -92,7 +126,6 @@ public class Player : MonoBehaviour
             if(Check(RunningState.Down) || Check1(RunningState.Down) || Check3(RunningState.Down))
             {
                 isRunning = false;
-                Debug.Log("2");
                 StartCoroutine(Move(RunningState.Down));
             }
         }
@@ -101,7 +134,6 @@ public class Player : MonoBehaviour
             if (Check(RunningState.Left) || Check1(RunningState.Left) || Check3(RunningState.Left))
             {
                 isRunning = false;
-                Debug.Log("3");
                 StartCoroutine(Move(RunningState.Left));
             }
         }
@@ -110,7 +142,6 @@ public class Player : MonoBehaviour
             if (Check(RunningState.Right) || Check(RunningState.Right) || Check3(RunningState.Right))
             {
                 isRunning = false;
-                Debug.Log("4");
                 StartCoroutine(Move(RunningState.Right));
             }
         }
@@ -134,7 +165,6 @@ public class Player : MonoBehaviour
     void Check2()
     {
         RaycastHit hit;
-        Debug.DrawRay(transform.position, 0.5f*Vector3.down,Color.red);
         if (Physics.Raycast(transform.position, Vector3.down,out hit, 0.3f, pushLayer))
         {
             if (hit.collider.transform.localRotation == Quaternion.Euler(0f, -90f, 0f))
@@ -147,7 +177,6 @@ public class Player : MonoBehaviour
             }
             else if (hit.collider.transform.localRotation == Quaternion.Euler(0f, 0f, 0f))
             {
-                Debug.Log(true);
                 c = true;
             }
         } 

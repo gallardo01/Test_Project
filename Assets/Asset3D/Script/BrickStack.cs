@@ -13,6 +13,7 @@ public class BrickStack : Singleton<BrickStack>
     [SerializeField] private LayerMask whiteLayer;
     public List<GameObject> Sbrick = new List<GameObject>();
     public int brick = 0;
+    public bool isLose = false;
     void Start()
     {
         transform.position = Player.transform.position;
@@ -40,21 +41,23 @@ public class BrickStack : Singleton<BrickStack>
         {
             if (brick > 0)
             {
-                int k = 0;
-                foreach(GameObject i in Sbrick)
-                {
-                    if(k==brick-1)
-                    {
-                        Destroy(i);
-                       
-                    }
-                    else
-                    {
-                        k++;
-                    }
-                }
                 brick--;
+                Destroy(Sbrick[brick]);
+                Sbrick.RemoveAt(brick);
             }
+            else
+            {
+                isLose = true;
+            }
+        }
+    }
+    public void Win()
+    {
+        while (brick > 0)
+        {
+            brick--;
+            Destroy(Sbrick[brick]);
+            Sbrick.RemoveAt(brick);
         }
     }
 }
