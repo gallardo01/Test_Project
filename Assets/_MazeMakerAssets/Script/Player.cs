@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : Character
@@ -16,6 +17,7 @@ public class Player : Character
     [SerializeField] private LayerMask brickLayer;
 
     private bool isRunning = true;
+    private List<GameObject> playerBricks = new List<GameObject>();
 
     public enum RunningState
     {
@@ -84,6 +86,7 @@ public class Player : Character
                 brick.transform.SetParent(brickParent);
                 brick.transform.localPosition = new Vector3(0f,(totalStack-1)*0.25f ,0f);
                 playerBody.transform.localPosition = new Vector3(0f, (totalStack - 1) * 0.25f, 0f);
+                playerBricks.Add(brick);
             }
             // Move
             moveToState(state);
@@ -105,6 +108,20 @@ public class Player : Character
         }
     }
 
+    private void removeBrick()
+    {
+        //Destroy(playerBricks[playerBricks.Count - 1]);
+        // ..
+        GameObject white;
+
+        GameObject brick = playerBricks[playerBricks.Count - 1];
+
+        brick.transform.SetParent(white.transform);
+        brick.transform.localPosition = new Vector3(0f, (totalStack - 1) * 0.25f, 0f);
+
+        playerBricks.RemoveAt(playerBricks.Count - 1);
+
+    }
     private RunningState returnPurpleState(RunningState currentState)
     {
         if (checkRunningState(RunningState.Up) && currentState != RunningState.Down)

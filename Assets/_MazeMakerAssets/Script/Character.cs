@@ -8,7 +8,6 @@ public class Character : MonoBehaviour
     [SerializeField] public Transform brickParent;
 
     public int totalStack = 0;
-    public List<GameObject> playerBricks = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
