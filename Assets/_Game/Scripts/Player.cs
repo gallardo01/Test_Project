@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : Character
 {
@@ -8,18 +9,25 @@ public class Player : Character
     [SerializeField] private Transform down;
     [SerializeField] private Transform left;
     [SerializeField] private Transform right;
-    [SerializeField] private Transform center;
+    [SerializeField] private Transform center, center2;
     [SerializeField] private LayerMask roadLayer;
     [SerializeField] private LayerMask brickLayer;
     [SerializeField] private LayerMask pushLayer;
     [SerializeField] private LayerMask endLayer;
     [SerializeField] private LayerMask winLayer;
+    [SerializeField] private LayerMask chestLayer;
+    [SerializeField] private LayerMask diamondLayer;
     [SerializeField] private GameObject brickHolder, brickPrefab, PlayerObject;
-    public List<GameObject> brickHoldingList;
     [SerializeField] private RunningState currentState;
+    [SerializeField] private Animator playerAnim;
+    [SerializeField] private Transform chestTrans;
+    [SerializeField] private GameObject openChestPrefab;
+    public List<GameObject> brickHoldingList;
     private bool isRunning = true;
     private bool isEnding = false;
     private int winCount = 0;
+    private bool isWinning = false;
+    private bool isCelerbrate = false;
 
     private int brickCount = 0;
 
@@ -65,6 +73,31 @@ public class Player : Character
         if(!isEnding){
             CheckOnEnding();
         }
+        if(isWinning && chestTrans != null){
+            transform.position = Vector3.MoveTowards(transform.position, chestTrans.position - new Vector3(0f,-0.25f,-1f), 0.05f);
+        }
+        RaycastHit hitChest;
+        // Debug.Log("Chest:" + Physics.Raycast(center.position, Vector3.back, out hitChest, 1f, chestLayer));
+        if(Physics.Raycast(center2.position, Vector3.back, out hitChest, 1f, chestLayer) && !isCelerbrate){
+            if(transform.position == chestTrans.position - new Vector3(0f,-0.25f,-1f)){
+                Debug.Log("Chest");
+                playerAnim.SetInteger("renwu", 2);
+                isCelerbrate = true;
+                Instantiate(openChestPrefab, hitChest.collider.gameObject.transform.position, Quaternion.Euler(new Vector3(-90f,0f,0f)));
+                // Destroy()
+                hitChest.collider.gameObject.SetActive(false);
+                // hitChest.collider.gameObject.GetComponent<Chest>().OpenChest();
+            }
+        }
+        CheckDiamond();
+    }
+
+    private void CheckDiamond(){
+        RaycastHit hitDiamond;
+        if(Physics.Raycast(center.position, Vector3.down, out hitDiamond, Mathf.Infinity, diamondLayer)){
+            GameController.Instance.UpdateDiamondScore();
+            Destroy(hitDiamond.collider.gameObject);
+        }
     }
 
     private void CheckGetBrick(){
@@ -82,11 +115,17 @@ public class Player : Character
     private void MoveWithState(RunningState state){
         isRunning = false;
         StartCoroutine(PlayerRunning(state));
+        // CheckDiamond();
+    }
+
+    private void UpScene(){
+        SceneManager.LoadScene(GameController.Instance.levelNumber++);
     }
 
     private void MoveWithStateEnding(RunningState state){
         isRunning = false;
         StartCoroutine(PlayerEnding(state));
+        // CheckDiamond();
     }
 
     private void CheckOnEnding(){
@@ -142,16 +181,11 @@ public class Player : Character
             yield return new WaitForSeconds(0.1f);
             if(!CheckWining()){
                 if(winCount > 0){
-                    // if(brickHoldingList.Count > 0){
-                    //     for(int i = 0; i < brickHoldingList.Count; i++){
-                    //         Destroy(brickHoldingList[i]);
-                    //         brickHoldingList.RemoveAt(i);
-                    //         brickCount--;
-                    //         // PlayerObject.transform.position -= new Vector3(0f,0.25f,0f);
-                    //     }
-                    // }
+                    // playerAnim.SetInteger("renwu", 1);
                     brickHolder.SetActive(false);
-                    PlayerObject.transform.position = new Vector3(PlayerObject.transform.position.x,-0.5f+2.8f,PlayerObject.transform.position.z);
+                    Vector3 winPoint = new Vector3(PlayerObject.transform.position.x,-0.5f+2.8f,PlayerObject.transform.position.z);
+                    PlayerObject.transform.position = winPoint;
+                    isWinning = true;
                     Debug.Log("Win");
                 }
                 else{
