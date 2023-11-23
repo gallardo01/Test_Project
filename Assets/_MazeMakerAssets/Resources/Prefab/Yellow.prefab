@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33377712384311623}
   - component: {fileID: 23359260050137393}
   - component: {fileID: 5289642010001389301}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Yellow
   m_TagString: Brick
   m_Icon: {fileID: 0}

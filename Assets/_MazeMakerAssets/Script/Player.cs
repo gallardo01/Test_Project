@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
     [SerializeField] private Transform up;
     [SerializeField] private Transform down;
@@ -13,8 +13,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform body;
     [SerializeField] private LayerMask roadLayer;
     [SerializeField] private LayerMask purpleLayer;
+    [SerializeField] private LayerMask brickLayer;
 
-    private RunningState currentState;
     private bool isRunning = true;
 
     public enum RunningState
@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Physics.Raycast(up.transform.position, Vector3.down, 5f, roadLayer);
+
         if (Input.GetKeyDown(KeyCode.W) && isRunning)
         {
             if (checkRunningState(RunningState.Up))
@@ -74,63 +74,54 @@ public class Player : MonoBehaviour
     {
         if (checkRunningState(state))
         {
+            // Pick brick
+            RaycastHit hit;
+            if (Physics.Raycast(center.transform.position, Vector3.down, out hit,  5f, brickLayer))
+            {
+                totalStack++;
+                GameObject brick = hit.collider.gameObject;
+                brick.layer = LayerMask.NameToLayer("Default");
+                brick.transform.SetParent(brickParent);
+                brick.transform.localPosition = new Vector3(0f,(totalStack-1)*0.25f ,0f);
+                playerBody.transform.localPosition = new Vector3(0f, (totalStack - 1) * 0.25f, 0f);
+            }
             // Move
-
-            // Nhat?
-            // Tao ra gach, thay doi toa do nhan vat
             moveToState(state);
-            currentState = state;
             yield return new WaitForSeconds(0.1f);
             StartCoroutine(PlayerRunning(state));
         }
         else
         {
-            // stop
             // check tim
             if (Physics.Raycast(center.transform.position, Vector3.down, 5f, purpleLayer))
             {
-                // tim huong?
-               Debug.Log("Gap tim");
-                //Debug.Log(returnPurpleState());
-
-                StartCoroutine(PlayerRunning(returnPurpleState()));
-            }
-            else
+                StartCoroutine(PlayerRunning(returnPurpleState(state))); 
+            } else
             {
+                // stop
                 isRunning = true;
+                Debug.Log("Stop");
             }
-            Debug.Log("Stop");
         }
     }
 
-    private RunningState returnPurpleState()
+    private RunningState returnPurpleState(RunningState currentState)
     {
-        if (currentState != RunningState.Down)
+        if (checkRunningState(RunningState.Up) && currentState != RunningState.Down)
         {
-            if (checkRunningState(RunningState.Up)){
-                return RunningState.Up;
-            }
+            return RunningState.Up;
+        } 
+        else if (checkRunningState(RunningState.Down) && currentState != RunningState.Up)
+        {
+            return RunningState.Down;
         }
-        if (currentState != RunningState.Up)
+        else if (checkRunningState(RunningState.Left) && currentState != RunningState.Right)
         {
-            if (checkRunningState(RunningState.Down))
-            {
-                return RunningState.Down;
-            }
+            return RunningState.Left;
         }
-        if (currentState != RunningState.Left)
+        else if (checkRunningState(RunningState.Right) && currentState != RunningState.Left)
         {
-            if (checkRunningState(RunningState.Left))
-            {
-                return RunningState.Left;
-            }
-        }
-        if (currentState != RunningState.Right)
-        {
-            if (checkRunningState(RunningState.Right))
-            {
-                return RunningState.Right;
-            }
+            return RunningState.Right;
         }
         return RunningState.None;
     }

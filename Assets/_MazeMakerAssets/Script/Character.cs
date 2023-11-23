@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private Transform playerBody;
+    [SerializeField] public Transform playerBody;
+    [SerializeField] public Transform brickParent;
 
-    private List<GameObject> playerBricks = new List<GameObject>();
-    [SerializeField] private GameObject playerBrickPrefab;
+    public int totalStack = 0;
+    public List<GameObject> playerBricks = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -15,9 +16,11 @@ public class Character : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void OnInit()
     {
-        
+    }
+
+    public virtual void OnDespawn()
+    {
     }
 }
