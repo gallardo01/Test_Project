@@ -11,6 +11,7 @@ public class GameController : Singleton<GameController>
     [SerializeField] public TextMeshProUGUI Diamond;
     private void Start()
     {
+       PlayerPrefs.SetInt("level", 1);
         if(PlayerPrefs.HasKey("level")==false)
         {
             PlayerPrefs.SetInt("level", 1);
@@ -23,6 +24,7 @@ public class GameController : Singleton<GameController>
     }
     
     // Update is called once per frame
+
     void Update()
     {
         Diamond.text = Score.ToString();

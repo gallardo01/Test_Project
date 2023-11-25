@@ -364,6 +364,7 @@
 "Assets/Asset3D/Script/CameraFollower.cs"
 "Assets/Asset3D/Script/Diamond.cs"
 "Assets/Asset3D/Script/GameController.cs"
+"Assets/Asset3D/Script/MenuController.cs"
 "Assets/Asset3D/Script/Player.cs"
 "Assets/Asset3D/Script/Singleton.cs"
 "Assets/Asset3D/Script/SwipeDetector.cs"

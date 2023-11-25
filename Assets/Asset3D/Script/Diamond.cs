@@ -10,7 +10,7 @@ public class Diamond : MonoBehaviour
         if(Physics.Raycast(transform.position,Vector3.up,playerLayer))
         {
             //Debug.Log(true);
-            GameController.Instance.Score++;
+            GameController.Instance.Score+=UnityEngine.Random.Range(100,500);
             Destroy(gameObject);
         }
     }
