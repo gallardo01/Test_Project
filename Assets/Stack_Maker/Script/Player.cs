@@ -238,18 +238,29 @@ public class Player : Character
             levelManager.Instance.OnFinish();
             changAnim(2);
             playerSkin.localPosition = playerSkin.localPosition - Vector3.up * (playerBricks.Count)*0.3f;
-            transform.position = movePoint;
-            
+            transform.position = movePoint;           
             clearBrick();
             GameController.Instance.changeState(GameState.Finish);
-            UIManager.Instance.OpenNextLevel();
+            if (PlayerPrefs.GetInt("Unlocked") < GameController.Instance.buttonLevel.Length)
+            {
+                GameController.Instance.UnlockLevel();
+                UIManager.Instance.OpenTreasure();
+            }
+            else
+            {
+                UIManager.Instance.OpenTreasure();
+
+            }
+            //GameController.Instance.UnlockLevel();
+            //UIManager.Instance.OpenTreasure();
+            
 
         }
         if (other.CompareTag("Diamond"))
         {
             //Destroy(other.gameObject);
             other.gameObject.SetActive(false);
-            GameController.Instance.collect();
+            GameController.Instance.Increase();
             
         }
     }

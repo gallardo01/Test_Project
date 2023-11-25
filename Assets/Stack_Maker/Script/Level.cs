@@ -36,5 +36,6 @@ public class Level : MonoBehaviour
         //Debug.Log("setwin");
         box_close.SetActive(false);
         box_open.SetActive(true);
+        GameController.Instance.changeState(GameState.Finish);
     }
 }
