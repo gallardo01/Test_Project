@@ -11,6 +11,7 @@ public class GameController : Singleton<GameController>
     // public int passedLevel = 0;
     public int levelNumber;
     public TMP_Text diamondText;
+    [SerializeField] private List<Button> buttonLevels = new List<Button>();   
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,16 @@ public class GameController : Singleton<GameController>
         else{
             if(PlayerPrefs.GetInt("DiamondScene") < levelNumber){
                 PlayerPrefs.SetInt("DiamondScene", levelNumber);
+            }
+        }
+        if(SceneManager.GetActiveScene().name == "MainMenu"){
+            for(int i = 0; i < buttonLevels.Count; i++){
+                if(i < PlayerPrefs.GetInt("DiamondScene")){
+                    buttonLevels[i].gameObject.SetActive(true);
+                }
+                else{
+                    buttonLevels[i].gameObject.SetActive(false);
+                }
             }
         }
 
@@ -39,6 +50,11 @@ public class GameController : Singleton<GameController>
         }
     }
 
+    public void ResetGame(){
+        PlayerPrefs.SetInt("DiamondScene", 1);
+        SceneManager.LoadScene(0);
+    }
+
     public void UpdateDiamondScore(){
         diamondScore++;
     }
@@ -48,9 +64,9 @@ public class GameController : Singleton<GameController>
     }
 
     public void GetLevel(int sceneNumber){
-        if(PlayerPrefs.GetInt("DiamondScene") > sceneNumber){
+        // if(PlayerPrefs.GetInt("DiamondScene") > sceneNumber){    
             SceneManager.LoadScene(sceneNumber);
-        }
+        // }    
     }
 
 }

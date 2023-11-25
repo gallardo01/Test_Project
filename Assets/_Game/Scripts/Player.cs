@@ -28,6 +28,7 @@ public class Player : Character
     private int winCount = 0;
     private bool isWinning = false;
     private bool isCelerbrate = false;
+    private RaycastHit hitLine;
 
     private int brickCount = 0;
 
@@ -49,23 +50,27 @@ public class Player : Character
     void Update()
     {
         Debug.Log(Physics.Raycast(center.position, Vector3.down, Mathf.Infinity, pushLayer));
-        if(Input.GetKeyDown(KeyCode.W)){
+        if(Input.GetKeyDown(KeyCode.W) && isRunning){
             if(CheckRunningState(RunningState.Up)){
+                // isRunning = true;
                 MoveWithState(RunningState.Up);
             }
         }
-        else if(Input.GetKeyDown(KeyCode.S)){
+        else if(Input.GetKeyDown(KeyCode.S) && isRunning){
             if(CheckRunningState(RunningState.Down)){
+                // isRunning = true;
                 MoveWithState(RunningState.Down);
             }
         }
-        else if(Input.GetKeyDown(KeyCode.A)){
+        else if(Input.GetKeyDown(KeyCode.A) && isRunning){
             if(CheckRunningState(RunningState.Left)){
+                // isRunning = true;
                 MoveWithState(RunningState.Left);
             }
         }
-        else if(Input.GetKeyDown(KeyCode.D)){
+        else if(Input.GetKeyDown(KeyCode.D) && isRunning){
             if(CheckRunningState(RunningState.Right)){
+                // isRunning = true;
                 MoveWithState(RunningState.Right);
             }
         }
@@ -86,6 +91,7 @@ public class Player : Character
                 Instantiate(openChestPrefab, hitChest.collider.gameObject.transform.position, Quaternion.Euler(new Vector3(-90f,0f,0f)));
                 // Destroy()
                 hitChest.collider.gameObject.SetActive(false);
+                Invoke("UpScene", 1f);
                 // hitChest.collider.gameObject.GetComponent<Chest>().OpenChest();
             }
         }
@@ -119,12 +125,18 @@ public class Player : Character
     }
 
     private void UpScene(){
-        SceneManager.LoadScene(GameController.Instance.levelNumber++);
+        if(GameController.Instance.levelNumber<5){
+            SceneManager.LoadScene(++GameController.Instance.levelNumber);
+        }
+        else{
+            GameController.Instance.ResetGame();
+        }
     }
 
     private void MoveWithStateEnding(RunningState state){
         isRunning = false;
         StartCoroutine(PlayerEnding(state));
+        hitLine.collider.gameObject.GetComponent<BoxCollider>().enabled = false;
         // CheckDiamond();
     }
 
@@ -150,7 +162,8 @@ public class Player : Character
     IEnumerator PlayerEnding(RunningState state){
         if(CheckEndingState(state)){
             MoveToState(state);
-            if(brickHoldingList.Count > 0){
+            if(brickHoldingList.Count >= 0){
+                Instantiate(brickPrefab, brickHoldingList[0].transform.position, Quaternion.identity);
                 Destroy(brickHoldingList[brickHoldingList.Count-1]);
                 brickHoldingList.RemoveAt(brickHoldingList.Count-1);
                 brickCount--;
@@ -163,15 +176,17 @@ public class Player : Character
             }
         }
         else{
-            if(brickCount >= 1){
-                MoveWithState(state);
-                Destroy(brickHoldingList[brickHoldingList.Count-1]);
-                brickHoldingList.RemoveAt(brickHoldingList.Count-1);
-                brickCount--;
-                PlayerObject.transform.position -= new Vector3(0f,0.25f,0f);
-            }
+            // if(brickCount >= 1){
+            //     MoveWithState(state);
+            //     Instantiate(brickPrefab, brickHoldingList[0].transform.position, Quaternion.identity);
+            //     Destroy(brickHoldingList[brickHoldingList.Count-1]);
+            //     brickHoldingList.RemoveAt(brickHoldingList.Count-1);
+            //     brickCount--;
+            //     PlayerObject.transform.position -= new Vector3(0f,0.25f,0f);
+            // }
             currentState = state;
             isRunning = true;
+            StartCoroutine(PlayerRunning(state));
         }
     }
 
@@ -279,16 +294,16 @@ public class Player : Character
         // }
         // else 
         if(state == RunningState.Up){
-            return Physics.Raycast(up.position, Vector3.down, Mathf.Infinity, endLayer);
+            return Physics.Raycast(up.position, Vector3.down, out hitLine, Mathf.Infinity, endLayer);
         }
         else if(state == RunningState.Down){
-            return Physics.Raycast(down.position, Vector3.down, Mathf.Infinity, endLayer);
+            return Physics.Raycast(down.position, Vector3.down, out hitLine, Mathf.Infinity, endLayer);
         }
         else if(state == RunningState.Left){
-            return Physics.Raycast(left.position, Vector3.down, Mathf.Infinity, endLayer);
+            return Physics.Raycast(left.position, Vector3.down, out hitLine, Mathf.Infinity, endLayer);
         }
         else if(state == RunningState.Right){
-            return Physics.Raycast(right.position, Vector3.down, Mathf.Infinity, endLayer);
+            return Physics.Raycast(right.position, Vector3.down, out hitLine, Mathf.Infinity, endLayer);
         }
         return false;
     }
