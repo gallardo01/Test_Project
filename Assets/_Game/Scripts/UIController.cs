@@ -6,12 +6,13 @@ using UnityEngine;
 public class UIController : Singleton<UIController>
 {
     int Score = 0;
-    [SerializeField] private TMP_Text ScoreUI;
+    Player mainplayer;
+    [SerializeField] private TMP_Text ScoreUI, signText;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        ScoreUI.text = Score + "";
     }
 
     // Update is called once per frame
@@ -23,10 +24,18 @@ public class UIController : Singleton<UIController>
     public void UpDateScore()
     {
         Score++;
+        ScoreUI.text = Score + "";
+        
     }
 
-    public void UpDateUI()
+    //win
+    public void winSign()
     {
-        ScoreUI.text = Score + "";
+        signText.text = "Congratulations";
+    }
+    //lose
+    public void lostSign()
+    {
+        signText.text = "What a loser";
     }
 }

@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using TreeEditor;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Transform up, down, left, right, center, body, brickHolder;
-    [SerializeField] private LayerMask brickLayer,roadLayer, pushLayer, lineLayer, BrickInBrickHolderLayer, finishedLineLayer, diamondLayer;
-    [SerializeField] private GameObject Brick, BrickInBrickHolder, BrickOnLine, ClosedChest, OpenedChest;
+    [SerializeField] private Transform up, down, left, right, center, body, brickHolder, endPoint;
+    [SerializeField] private LayerMask brickLayer,roadLayer, pushLayer, lineLayer, BrickInBrickHolderLayer, finishedLineLayer, diamondLayer, brickOnLineLayer;
+    [SerializeField] private GameObject Brick, BrickInBrickHolder, BrickOnLine, ClosedChest, OpenedChest, People;
     private int brickCount;
     private bool isRunning = true;
     private List<GameObject> listBrick = new List<GameObject>();
@@ -121,7 +122,9 @@ public class Player : MonoBehaviour
     {
         if (checkRunningState(state))
         {
-            checkGoal();
+            Goal();
+            checkAllBrick();
+            popUpSign();
             CollectDiamond();
             checkAddBrick();
             //transform.position += new Vector3(0f,0f, 1f);
@@ -245,23 +248,65 @@ public class Player : MonoBehaviour
         return Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hit3, Mathf.Infinity, pushLayer);
     }
 
-    private void checkGoal()
+    //collect diamond
+    private RaycastHit hitDiamond;
+    private void CollectDiamond()
     {
-        if(Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hit3, Mathf.Infinity, finishedLineLayer))
+        if (Physics.Raycast(center.position, Vector3.down, out hitDiamond, Mathf.Infinity, diamondLayer))
         {
-            Instantiate(OpenedChest, ClosedChest.transform.position, ClosedChest.transform.rotation);
-            Destroy(ClosedChest);
-            body.position = new Vector3(body.position.x, transform.position.y - 0.3f, body.position.z);
-            Destroy(brickHolder.gameObject);
+            Debug.Log("Hit a diamond");
+            Destroy(hitDiamond.collider.gameObject);
+            UIController.Instance.UpDateScore();
         }
     }
 
-    private void CollectDiamond()
+    // check Goal
+    private bool checkGoal()
     {
-        if (Physics.Raycast(center.position, Vector3.down, Mathf.Infinity, diamondLayer))
+        return Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, Mathf.Infinity, finishedLineLayer);
+    }
+
+    private void Goal()
+    {
+        if(checkGoal())
         {
-            UIController.Instance.UpDateScore();
-            UIController.Instance.UpDateUI();
+            Instantiate(OpenedChest, ClosedChest.transform.position, ClosedChest.transform.rotation);
+            Destroy(ClosedChest);
+            //body.position = new Vector3(body.position.x, transform.position.y - 0.3f, body.position.z);
+            Destroy(brickHolder.gameObject);
+            brickCount = 0;
+            People.transform.position = endPoint.position;
+        }
+    }
+    //check
+    private bool checkOnBrickHolder()
+    {
+        return Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hit, Mathf.Infinity, BrickInBrickHolderLayer);
+    }
+
+    private bool checkOnBrickOnLine()
+    {
+        return Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hit, Mathf.Infinity, brickOnLineLayer);
+    }
+
+    //popup sign
+    private bool check = false;
+    void checkAllBrick()
+    {
+        if (checkOnBrickState() == false && checkOnBrickHolder() == false && checkOnBrickOnLine() == false)
+        {
+            check = true;
+        }   
+    }
+    void popUpSign()
+    {
+        if (check == true)
+        {
+            UIController.Instance.lostSign();
+        }
+        if (checkGoal())
+        {
+            UIController.Instance.winSign();
         }
     }
 
