@@ -2517,7 +2517,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8d256d4575ff09e459ef408906d34237, type: 2}
-  - {fileID: 2100000, guid: 8d256d4575ff09e459ef408906d34237, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5109,7 +5108,6 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8d256d4575ff09e459ef408906d34237, type: 2}
   - {fileID: 2100000, guid: 8d256d4575ff09e459ef408906d34237, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -7703,7 +7701,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8d256d4575ff09e459ef408906d34237, type: 2}
-  - {fileID: 2100000, guid: 8d256d4575ff09e459ef408906d34237, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7884,7 +7881,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4204581141324716}
   - component: {fileID: 111197235321722274}
-  m_Layer: 0
+  - component: {fileID: 5584567375384209261}
+  - component: {fileID: 1696749653499622435}
+  m_Layer: 9
   m_Name: Diamond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7924,3 +7923,32 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &5584567375384209261
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957927936394622}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 6, z: 6}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1696749653499622435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957927936394622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f626182ed5a9f81428e908852badb967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one: {fileID: 198831720986580820}
+  two: {fileID: 198409194419766659}
+  three: {fileID: 198714047394096078}
+  animation: {fileID: 111197235321722274}

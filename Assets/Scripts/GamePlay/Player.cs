@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,19 +22,34 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private LayerMask pushLayer;
     [SerializeField] private Transform push;
+    [SerializeField] private LayerMask finishLine;
+    [SerializeField] private Animator animator;
 
     private Vector3 direction;
     private Vector3 oldDirection;
+    private String currentAnimName;
     private int currentIndex;
+    private bool animCalled;
 
     public Vector3 Direction { get => direction; }
+
+    private void ChangeAnim(String animName) {
+        animator.ResetTrigger(currentAnimName);
+
+        currentAnimName = animName;
+
+        animator.SetTrigger(currentAnimName);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        currentAnimName = "";
+        animCalled = false;
         currentIndex = 0;
         oldDirection = Vector3.zero;
         direction = Vector3.zero;
+        Sub();
     }
 
     private bool checkWall(Transform start)
@@ -58,8 +74,30 @@ public class Player : MonoBehaviour
             {
                 Turn();
             }
+            if (direction == Vector3.zero && !animCalled) {
+                ChangeAnim("Stop");
+                animCalled = true;
+            }
         }
+
+        if (Physics.Raycast(transform.position, Vector3.down, 1f, finishLine)) {
+            direction = Vector3.zero;
+            transform.position = new Vector3(roundToHalf(transform.position.x), transform.position.y, roundToHalf(transform.position.z));
+            ParticleSystemController.Instance.Celebrate();
+            transform.position += Vector3.forward * 2;
+            transform.position -= Vector3.down * 0.5f;
+            StackController.Instance.Finish();
+            ChangeAnim("Celebrate");
+        }
+
+        if (direction != Vector3.zero) animCalled = false;
+
+
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
+    }
+
+    public void Stop() {
+        direction = Vector3.zero;
     }
 
     public void Turn()
@@ -97,5 +135,14 @@ public class Player : MonoBehaviour
     {
         currentIndex = (int)eDirection.right;
         direction = Vector3.right;
+    }
+
+    private void Sub() {
+        GameObject[] bricks = GameObject.FindGameObjectsWithTag("Brick");
+
+        foreach (var brick in bricks)
+        {
+            brick.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", CurrentTile.Instance.currentTexture);
+        }
     }
 }

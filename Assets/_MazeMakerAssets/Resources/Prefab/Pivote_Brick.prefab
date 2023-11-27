@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 7201935540261528189}
   m_Layer: 6
   m_Name: dimian
-  m_TagString: Untagged
+  m_TagString: Brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
