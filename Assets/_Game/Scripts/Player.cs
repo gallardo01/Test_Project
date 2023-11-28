@@ -8,7 +8,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private Transform up, down, left, right, center, body, brickHolder, endPoint;
-    [SerializeField] private LayerMask brickLayer,roadLayer, pushLayer, lineLayer, BrickInBrickHolderLayer, finishedLineLayer, diamondLayer, brickOnLineLayer;
+    [SerializeField] private LayerMask brickLayer, roadLayer, pushLayer, lineLayer, BrickInBrickHolderLayer, finishedLineLayer, diamondLayer, brickOnLineLayer;
     [SerializeField] private GameObject Brick, BrickInBrickHolder, BrickOnLine, ClosedChest, OpenedChest, People;
     private int brickCount;
     private bool isRunning = true;
@@ -78,6 +78,7 @@ public class Player : MonoBehaviour
 
     }
 
+
     private void moveToState(RunningState state)
     {
         if (state == RunningState.Up)
@@ -123,7 +124,6 @@ public class Player : MonoBehaviour
         if (checkRunningState(state))
         {
             Goal();
-            checkAllBrick();
             popUpSign();
             CollectDiamond();
             checkAddBrick();
@@ -207,20 +207,13 @@ public class Player : MonoBehaviour
     }
 
     private RaycastHit hitBrick, hitLine;
-    void removeBrick() // them layer gach2 vao gach trong brickholder
+    void removeBrick()
     {
         brickCount--;
         Transform currentTransform = hit2.collider.gameObject.transform;
         body.position = new Vector3(body.position.x, 0.35f + (brickCount -1) * 0.25f, body.position.z);
         Destroy(listBrick[listBrick.Count -1].gameObject);
         listBrick.RemoveAt(listBrick.Count - 1);
-        //Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hitBrick, 0.25f, brickLayer);
-        //Debug.DrawLine(transform.position + new Vector3(0f, 1f), transform.position + Vector3.down * 1f, Color.red);
-        // if (Physics.Raycast(center.position, Vector3.down, out hitBrick, 1.1f, BrickInBrickHolderLayer)) // Highest brick
-        // {
-        //     Debug.Log("Destroy Brick");
-        //     Destroy(hitBrick.collider.gameObject);
-        // }
         Instantiate(BrickOnLine, currentTransform.position, BrickOnLine.transform.rotation);
         // if (Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hitLine, Mathf.Infinity, lineLayer)) // 
         // {
@@ -248,7 +241,8 @@ public class Player : MonoBehaviour
         return Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hit3, Mathf.Infinity, pushLayer);
     }
 
-    //collect diamond
+
+    //collect diamond -------------------------------------------------------------------
     private RaycastHit hitDiamond;
     private void CollectDiamond()
     {
@@ -260,7 +254,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    // check Goal
+
+    // check Goal -------------------------------------------------------------------
     private bool checkGoal()
     {
         return Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, Mathf.Infinity, finishedLineLayer);
@@ -278,7 +273,9 @@ public class Player : MonoBehaviour
             People.transform.position = endPoint.position;
         }
     }
-    //check
+
+
+    //check check -------------------------------------------------------------------
     private bool checkOnBrickHolder()
     {
         return Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hit, Mathf.Infinity, BrickInBrickHolderLayer);
@@ -289,18 +286,15 @@ public class Player : MonoBehaviour
         return Physics.Raycast(transform.position + new Vector3(0f, 1f), Vector3.down, out hit, Mathf.Infinity, brickOnLineLayer);
     }
 
-    //popup sign
-    private bool check = false;
-    void checkAllBrick()
+
+    //popup sign -------------------------------------------------------------------
+    private bool checkAllBrick()
     {
-        if (checkOnBrickState() == false && checkOnBrickHolder() == false && checkOnBrickOnLine() == false)
-        {
-            check = true;
-        }   
+        return (checkOnBrickState() == false) && (checkOnBrickHolder() == false) && (checkOnBrickOnLine() == false);
     }
     void popUpSign()
     {
-        if (check == true)
+        if (checkAllBrick())
         {
             UIController.Instance.lostSign();
         }

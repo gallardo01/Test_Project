@@ -25,7 +25,6 @@ public class UIController : Singleton<UIController>
     {
         Score++;
         ScoreUI.text = Score + "";
-        
     }
 
     //win
