@@ -5,19 +5,18 @@ TagManager:
   serializedVersion: 2
   tags:
   - Brick
-  - Push
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Road
+  - Player
   - Water
   - UI
-  - Push
-  - Brick
-  - Line
-  - White
-  - Player
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

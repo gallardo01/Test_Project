@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GameObject Brush
   m_EditorClassIdentifier: 
   m_Cells:
-  - m_GameObject: {fileID: 1957927936394622, guid: 08903edef1bc6f44d80f73e76f9e0811, type: 3}
+  - m_GameObject: {fileID: 2427395265669694818, guid: 716cfa9ca9a819741bae78f21ecf0ae1, type: 3}
     m_Offset: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 0.06, y: 0.06, z: 0.06}
+    m_Scale: {x: 1, y: 1, z: 1}
     m_Orientation: {x: 0, y: 0, z: 0, w: 1}
   m_Size: {x: 1, y: 1, z: 1}
   m_Pivot: {x: 0, y: 0, z: 0}
