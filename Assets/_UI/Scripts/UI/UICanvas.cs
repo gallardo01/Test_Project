@@ -9,7 +9,7 @@ public class UICanvas : MonoBehaviour
 
     protected RectTransform m_RectTransform;
     private Animator m_Animator;
-    private float m_OffsetY = 0;
+    private float m_OffsetY;
 
     private void Start()
     {
