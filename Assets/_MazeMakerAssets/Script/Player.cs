@@ -112,15 +112,13 @@ public class Player : Character
     {
         //Destroy(playerBricks[playerBricks.Count - 1]);
         // ..
-        GameObject white;
+        //GameObject white;
 
-        GameObject brick = playerBricks[playerBricks.Count - 1];
+        //GameObject brick = playerBricks[playerBricks.Count - 1];
+        //brick.transform.SetParent(white.transform);
+        //brick.transform.localPosition = new Vector3(0f, 0f, -0.3f);
 
-        brick.transform.SetParent(white.transform);
-        brick.transform.localPosition = new Vector3(0f, (totalStack - 1) * 0.25f, 0f);
-
-        playerBricks.RemoveAt(playerBricks.Count - 1);
-
+        //playerBricks.RemoveAt(playerBricks.Count - 1);
     }
     private RunningState returnPurpleState(RunningState currentState)
     {
