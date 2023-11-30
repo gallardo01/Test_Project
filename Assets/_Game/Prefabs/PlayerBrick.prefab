@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9002692058974672998}
-  - component: {fileID: 3147803453677862332}
-  - component: {fileID: 8640725911968081767}
+  - component: {fileID: 6622462402237873372}
   m_Layer: 0
-  m_Name: Brick
+  m_Name: PlayerBrick
   m_TagString: Brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,20 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3147803453677862332
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572227222202580788}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8640725911968081767
+--- !u!114 &6622462402237873372
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 572227222202580788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60acc4052031f984d88362a50135da30, type: 3}
+  m_Script: {fileID: 11500000, guid: 73f44f5f1c21aae42943595a8e08ca97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ColorType: 0
