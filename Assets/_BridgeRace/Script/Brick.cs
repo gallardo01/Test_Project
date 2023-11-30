@@ -4,9 +4,4 @@ using UnityEngine;
 
 public class Brick : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
-    {
-        Destroy(gameObject);
-    }
-
 }
