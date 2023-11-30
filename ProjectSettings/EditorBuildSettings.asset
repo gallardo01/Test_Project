@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scene/Scene.unity
+    path: Assets/_MazeMakerAssets/Scene/Scene.unity
     guid: 349dda9359e158c46af68f283c7d4b06
   - enabled: 1
-    path: Assets/Scene/MainMenu.unity
+    path: Assets/_MazeMakerAssets/Scene/MainMenu.unity
     guid: b507408cebacda045aa42adb7fd67b46
   m_configObjects: {}
