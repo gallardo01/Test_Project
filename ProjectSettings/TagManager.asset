@@ -7,6 +7,7 @@ TagManager:
   - Coin
   - EnemyWall
   - DeathZone
+  - Brick
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - FinishedLine
   - Diamond
   - BrickOnLine
-  - 
+  - Step
   - 
   - 
   - 
