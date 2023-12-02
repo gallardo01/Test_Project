@@ -1536,9 +1536,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8adb4fa77a28f654e9b63e26d6e695a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderer: {fileID: 372369067}
+  colorType: 0
   speed: 10
   parent: {fileID: 2053480210}
-  brickPrefab: {fileID: 1773511017248866057, guid: f5ce26374d308bb46a2b2ac82557469a, type: 3}
   walkable:
     serializedVersion: 2
     m_Bits: 8
@@ -1548,11 +1549,6 @@ MonoBehaviour:
   animator: {fileID: 1998110774}
   body: {fileID: 1700375587}
   skin: {fileID: 372369067}
-  colors:
-  - {r: 1, g: 0, b: 0, a: 0}
-  - {r: 0, g: 1, b: 0.1582799, a: 0}
-  - {r: 1, g: 0, b: 0.86208487, a: 0}
-  - {r: 1, g: 0.89776754, b: 0, a: 0}
 --- !u!4 &800573776
 Transform:
   m_ObjectHideFlags: 0
@@ -1814,6 +1810,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 923881606}
+  - component: {fileID: 923881607}
   m_Layer: 0
   m_Name: Stage1
   m_TagString: Untagged
@@ -1838,6 +1835,18 @@ Transform:
   m_Father: {fileID: 303309245}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &923881607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923881605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea497e1bf6eaa264c9954e0375c6665a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &938945750
 GameObject:
   m_ObjectHideFlags: 0
@@ -2610,8 +2619,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383099853}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0000004768372, y: 0, z: 5.684342e-14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3003,6 +3012,57 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7990993281906972452, guid: 9c21ef5c6ea803a4894e29c7702338a9, type: 3}
   m_PrefabInstance: {fileID: 1481079390}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1507014587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1507014589}
+  - component: {fileID: 1507014588}
+  m_Layer: 0
+  m_Name: ColorController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1507014588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507014587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9949afe4cac2b3645b06c2a8e638821c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorMats:
+  - {fileID: 2100000, guid: 43ff743b5b5ac524fab7872d9b791630, type: 2}
+  - {fileID: 2100000, guid: 5be75598367326b41940e15da1f51026, type: 2}
+  - {fileID: 2100000, guid: b8ab9cd89cc2a3d419d9a0063edf7ead, type: 2}
+  - {fileID: 2100000, guid: d481ddfbc6c60764facbb092c6b6a7b3, type: 2}
+  - {fileID: 2100000, guid: 151edb8cd5300a2409027a86a215e2ad, type: 2}
+  - {fileID: 2100000, guid: 04fbbe58c1d112648a6bcc48fdca147b, type: 2}
+--- !u!4 &1507014589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507014587}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.28449506, y: 0.6114297, z: 7.4606223}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1514954953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3348,6 +3408,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93b6444b4be9ecc44a98a83cef570ca8, type: 3}
+--- !u!1 &1755799045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1755799046}
+  - component: {fileID: 1755799047}
+  m_Layer: 0
+  m_Name: ObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1755799046
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755799045}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.28449506, y: 0.6114297, z: 7.4606223}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1755799047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755799045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43dd750f87ceff045abc243f1a5313bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectionCheck: 1
+  defaultCapacity: 50
+  maxSize: 100
+  brick: {fileID: 6513894204399941947, guid: 9c21ef5c6ea803a4894e29c7702338a9, type: 3}
 --- !u!4 &1822200671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1157122309232168318, guid: c73c83395c63ad8408bb3da75a101df7, type: 3}
@@ -3561,6 +3669,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c21ef5c6ea803a4894e29c7702338a9, type: 3}
+--- !u!1 &1874136273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1874136275}
+  - component: {fileID: 1874136274}
+  m_Layer: 0
+  m_Name: BrickSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1874136274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874136273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b7ef6346045b364ea762c678e09f77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 0}
+--- !u!4 &1874136275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874136273}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.28449506, y: 0.6114297, z: 7.4606223}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1884436401
 PrefabInstance:
   m_ObjectHideFlags: 0

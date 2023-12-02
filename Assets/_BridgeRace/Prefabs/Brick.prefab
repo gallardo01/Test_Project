@@ -110,3 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2baf2a264443341b0b912fb1657399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderer: {fileID: 3653222519899999171}
+  colorType: 0
+  timeoutDelay: 3

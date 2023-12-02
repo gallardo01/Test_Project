@@ -1,23 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class Brick : MonoBehaviour
+public class Brick : ColorObject
 {
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private IObjectPool<Brick> objectPool;
 
-    // Update is called once per frame
-    void Update()
+    public IObjectPool<Brick> ObjectPool { set => objectPool = value; }
+
+    public void Deactivate()
     {
-        
+        objectPool.Release(this);
     }
 
     private void OnTriggerEnter(Collider other) {
-        gameObject.SetActive(false);
+        Deactivate();
     }
 }

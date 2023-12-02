@@ -1,33 +1,30 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : ColorObject
 {
 
     [SerializeField] private float speed;
     [SerializeField] private Transform parent;
-    [SerializeField] private GameObject brickPrefab;
     [SerializeField] private LayerMask walkable, brick;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform body;
     [SerializeField] private Renderer skin;
-    [SerializeField] private List<Color> colors;
-        
+
+    private IObjectPool<Brick> objectPool;
     private RaycastHit hit;
-    private String currentAnimation;
+    private string currentAnimation;
     private Stair stair;
-    private Color color;
 
     // Start is called before the first frame update
     void Start()
     {
         currentAnimation = "Idle";
-        int c = UnityEngine.Random.Range(0, colors.Count);
-        color = colors[c];
-        colors.RemoveAt(c);
-        skin.material.color = color;
+        objectPool = ObjectPool.Instance.Pool;
     }
 
     private void ChangeAnim(String newAnimation) {
@@ -43,8 +40,9 @@ public class PlayerController : MonoBehaviour
 
     private void BrickTrigger()
     {
-        GameObject brick = Instantiate(brickPrefab, parent);
-        brick.transform.localPosition = Vector3.zero;
+        Brick brick = objectPool.Get();
+        brick.transform.parent = parent;
+        brick.transform.SetPositionAndRotation(parent.position, parent.rotation);
         brick.transform.position += Vector3.up * 0.25f * parent.childCount;
     }
 
@@ -65,8 +63,7 @@ public class PlayerController : MonoBehaviour
             {
                 stair = hit.collider.gameObject.GetComponent<Stair>();
                 if (parent.childCount > 0 && !stair.Filled()) {
-                    stair.Fill(color);
-                    Destroy(parent.GetChild(parent.childCount - 1).gameObject);
+                    parent.GetChild(parent.childCount - 1).gameObject.GetComponent<Brick>().Deactivate();
                 }
             }
             Physics.Raycast(transform.position + JoystickControl.direct * speed * Time.deltaTime + Vector3.up, Vector3.down, out hit, 2f, walkable);
