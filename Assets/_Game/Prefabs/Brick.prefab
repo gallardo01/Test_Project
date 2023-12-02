@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColorType: 0
   rendere: {fileID: 7850866375323281595}
-  colorData: {fileID: 11400000, guid: 09c534471501f06438b00a7ffa8d92fd, type: 2}
+  colordata: {fileID: 11400000, guid: 09c534471501f06438b00a7ffa8d92fd, type: 2}
 --- !u!1 &3870815974391478211
 GameObject:
   m_ObjectHideFlags: 0

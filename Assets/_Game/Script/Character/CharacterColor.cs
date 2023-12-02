@@ -8,7 +8,6 @@ public class CharacterColor : MonoBehaviour
     public SkinnedMeshRenderer rendere;
     [SerializeField] private ColorData colorData;
 
-
     public void changColor(ColorType colorType)
     {
         this.colorType = colorType;

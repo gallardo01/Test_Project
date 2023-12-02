@@ -14,7 +14,7 @@ public class Character : CharacterColor
 
     public float lenghtRaycast;
     private bool isCanMove;
-    private string currentAnim;
+    private string currentAnim; 
 
     List<PlayerBrick> ListBrick = new List<PlayerBrick>();
     private void Start()
@@ -96,8 +96,6 @@ public class Character : CharacterColor
         }
     }
 
-
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Brick"))
@@ -105,6 +103,7 @@ public class Character : CharacterColor
             Brick brick = other.GetComponent<Brick>();
             if (brick.ColorType == colorType)
             {
+                Stage.Instance.emtyPoints.Add(other.transform.position);
                 addBrick();
                 Destroy(other.gameObject);
             }

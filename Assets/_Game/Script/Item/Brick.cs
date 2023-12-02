@@ -7,6 +7,6 @@ public class Brick : ColorControl
 {
     private void Start()
     {
-        changColor((ColorType)Random.Range(0,6));
+        changColor((ColorType)Random.Range(1,6));
     }
 }
