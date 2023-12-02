@@ -27,13 +27,15 @@ public class BrickSpawner : MonoBehaviour
             for (float z = -4.75f; z <= 5.25f; z += 1.25f) {
                 Brick brick = objectPool.Get();
                 brick.transform.parent = parent;
-                brick.transform.SetPositionAndRotation(new Vector3(x, 0, z), parent.rotation);
+                brick.transform.localPosition = new Vector3(x, 0, z);
+                brick.transform.rotation = parent.rotation;
                 for (int i = 0; i < colorCount.Count; i++)
                 {
                     if (Random.Range(0, 100) > 50 || i == colorCount.Count - 1) {
                         ColorType color = colorCount.ElementAt(i).Key;
                         brick.ChangeColor(color);
                         if (--colorCount[color] == 0) colorCount.Remove(color);
+                        break;
                     }
                 }
             }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Stair : MonoBehaviour
 {
 
-    [SerializeField] GameObject brick;
+    [SerializeField] private Brick brick;
 
     private bool active;
 
@@ -13,7 +13,7 @@ public class Stair : MonoBehaviour
     void Start()
     {
         active = false;
-        brick.SetActive(active);
+        brick.gameObject.SetActive(active);
     }
 
     // Update is called once per frame
@@ -22,10 +22,10 @@ public class Stair : MonoBehaviour
         
     }
 
-    public void Fill(Color color) {
+    public void Fill(ColorType colorType) {
         active = true;
-        brick.SetActive(active);
-        brick.GetComponent<MeshRenderer>().material.color = color;
+        brick.gameObject.SetActive(active);
+        brick.ChangeColor(colorType);
     }
 
     public bool Filled() {

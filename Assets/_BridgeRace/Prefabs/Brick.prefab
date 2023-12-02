@@ -112,4 +112,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 3653222519899999171}
   colorType: 0
-  timeoutDelay: 3
+  collider: {fileID: -6237847004428375617}

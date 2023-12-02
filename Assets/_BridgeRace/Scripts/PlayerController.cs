@@ -5,12 +5,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class PlayerController : ColorObject
+public class PlayerController : Player
 {
 
     [SerializeField] private float speed;
     [SerializeField] private Transform parent;
-    [SerializeField] private LayerMask walkable, brick;
+    [SerializeField] private LayerMask walkable, stairLayer;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform body;
     [SerializeField] private Renderer skin;
@@ -23,6 +23,7 @@ public class PlayerController : ColorObject
     // Start is called before the first frame update
     void Start()
     {
+        Init();
         currentAnimation = "Idle";
         objectPool = ObjectPool.Instance.Pool;
     }
@@ -41,9 +42,11 @@ public class PlayerController : ColorObject
     private void BrickTrigger()
     {
         Brick brick = objectPool.Get();
+        brick.ChangeColor(colorType);
         brick.transform.parent = parent;
         brick.transform.SetPositionAndRotation(parent.position, parent.rotation);
         brick.transform.position += Vector3.up * 0.25f * parent.childCount;
+        brick.Collider.enabled = false;
     }
 
     private void Update() {
@@ -58,12 +61,13 @@ public class PlayerController : ColorObject
 
         if (JoystickControl.direct != Vector3.zero) {
             body.forward = JoystickControl.direct;
-            Physics.Raycast(transform.position + JoystickControl.direct * speed * Time.deltaTime + Vector3.up, Vector3.down, out hit, 2f, brick);
-            if (hit.collider != null) 
+            Physics.Raycast(transform.position + JoystickControl.direct * speed * Time.deltaTime + Vector3.up, Vector3.down, out hit, 2f, stairLayer);
+            if (hit.collider != null)
             {
                 stair = hit.collider.gameObject.GetComponent<Stair>();
                 if (parent.childCount > 0 && !stair.Filled()) {
-                    parent.GetChild(parent.childCount - 1).gameObject.GetComponent<Brick>().Deactivate();
+                    stair.Fill(colorType);
+                    parent.GetChild(parent.childCount - 1).gameObject.SetActive(false);
                 }
             }
             Physics.Raycast(transform.position + JoystickControl.direct * speed * Time.deltaTime + Vector3.up, Vector3.down, out hit, 2f, walkable);
@@ -72,5 +76,4 @@ public class PlayerController : ColorObject
             transform.position = hit.point;
         }
     }
-
 }

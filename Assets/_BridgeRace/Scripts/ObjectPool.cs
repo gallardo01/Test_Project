@@ -36,6 +36,7 @@ public class ObjectPool : MonoBehaviour
     private void OnGetFromPool(Brick brick)
     {
         brick.gameObject.SetActive(true);
+        brick.Collider.enabled = true;
     }
 
     private void OnReleaseToPool(Brick brick)

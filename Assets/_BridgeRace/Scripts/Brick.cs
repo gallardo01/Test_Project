@@ -6,9 +6,12 @@ using UnityEngine.Pool;
 public class Brick : ColorObject
 {
 
+    [SerializeField] private Collider collider;
+
     private IObjectPool<Brick> objectPool;
 
     public IObjectPool<Brick> ObjectPool { set => objectPool = value; }
+    public Collider Collider { get => collider; }
 
     public void Deactivate()
     {
