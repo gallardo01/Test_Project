@@ -96,18 +96,6 @@ public class Character : CharacterColor
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Brick"))
-        {
-            Brick brick = other.GetComponent<Brick>();
-            if (brick.ColorType == colorType)
-            {
-                Stage.Instance.emtyPoints.Add(other.transform.position);
-                addBrick();
-                Destroy(other.gameObject);
-            }
-        }
-    }
+
 
 }
