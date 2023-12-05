@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Assets\_BridgeRace\Script\Player.cs" />
     <Compile Include="Assets\_UI\Scripts\GamePlay.cs" />
+    <Compile Include="Assets\_BridgeRace\Script\Singleton1.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\_Pool\Pool\ParticlePool.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\_UI\Scripts\UI\CanvasBlockRaycast.cs" />
     <Compile Include="Assets\_UI\Scripts\UI\GameManager.cs" />
+    <Compile Include="Assets\_BridgeRace\Script\ColorController.cs" />
     <Compile Include="Assets\StateMachine\PatrolState.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
@@ -97,7 +99,9 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
     <Compile Include="Assets\GUI PRO Kit - Casual Game\Scripts\PanelControlCasualGame.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+    <Compile Include="Assets\_BridgeRace\Script\Stage.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
+    <Compile Include="Assets\_BridgeRace\Script\ColorObject.cs" />
     <Compile Include="Assets\_BridgeRace\Script\Brick.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\_UI\Scripts\UI\UIManager.cs" />
