@@ -2034,6 +2034,7 @@ MonoBehaviour:
     m_Bits: 32768
   playerAnim: {fileID: 1455724915}
   newMaterial: {fileID: 0}
+  listBrick: []
 --- !u!136 &783553761
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2138,6 +2139,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9089a7145c5b6e1449ac3ef2f5067b47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &803372903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 803372904}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &803372904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803372903}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.8298044, y: -2.0520658, z: -0.007985115}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &805793512
 PrefabInstance:
   m_ObjectHideFlags: 0
