@@ -11,8 +11,4 @@ public class ColorObject : MonoBehaviour
         this.colorType = colorType;
         renderer.material = ColorController.Instance.getColorMaterial(colorType);
     }
-    public Renderer getRenderer()
-    {
-        return renderer;
-    }
 }

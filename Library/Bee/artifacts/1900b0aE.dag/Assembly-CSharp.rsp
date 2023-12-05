@@ -408,6 +408,7 @@
 "Assets/_BridgeRace/Script/Player.cs"
 "Assets/_BridgeRace/Script/Singleton1.cs"
 "Assets/_BridgeRace/Script/Stage.cs"
+"Assets/_BridgeRace/Script/Stair.cs"
 "Assets/_Pool/Bullet.cs"
 "Assets/_Pool/Guner.cs"
 "Assets/_Pool/Pool/GameUnit.cs"

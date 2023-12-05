@@ -47,7 +47,6 @@ public class Stage : Singleton1<Stage>
         if(emptyPoints.Count>0)
         {
             int randomNumber = Random.Range(0, emptyPoints.Count);
-           // Debug.Log(emptyPoints[randomNumber]);
             Brick brick = Instantiate(brickPrefab, emptyPoints[randomNumber],Quaternion.identity);
             brick.ChangeColor(colorType);
             emptyPoints.RemoveAt(randomNumber);
@@ -57,8 +56,6 @@ public class Stage : Singleton1<Stage>
     public void RemoveBrick(Brick brick)
     {
         int i = bricks.IndexOf(brick);
-        Debug.Log(bricks[i].transform.position);
-        Debug.Log(brick.gameObject.transform.position);
         emptyPoints.Add(brick.gameObject.transform.position);
         bricks.RemoveAt(i);
     }
