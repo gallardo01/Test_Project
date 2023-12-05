@@ -6,10 +6,10 @@ using UnityEngine.Analytics;
 
 public class Brick : ColorControl
 {
-    private void Start()
-    {
-        changColor((ColorType)Random.Range(1,6));
-    }
+    //private void Start()
+    //{
+    //    changColor((ColorType)Random.Range(1,6));
+    //}
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,14 +18,11 @@ public class Brick : ColorControl
             Player player = other.GetComponent<Player>();
             if (player.colorType == ColorType)
             {
-                Stage stage = transform.parent.GetComponent<Stage>();
-                stage.emtyPoints.Add(transform.position);
+                Pool pool = transform.parent.GetComponent<Pool>();
+                pool.emtyPoints.Add(transform.position);
                 player.addBrick();                
                 ObjectPooling.Ins.ReturnBrickToPool(gameObject);
                 ObjectPooling.Ins.respawn(transform.parent.name);
-
-
-
             }
         }
     }

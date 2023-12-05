@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Brick
   - FxTemporaire
+  - Door
   layers:
   - Default
   - TransparentFX

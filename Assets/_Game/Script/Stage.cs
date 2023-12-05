@@ -19,7 +19,10 @@ public class Stage : MonoBehaviour
     void Start()
     {
         OnInit();
-        ActiveAllBrick();
+        if(transform.name == ObjectPooling.Ins.Pools[0].name)
+        {
+            ActiveAllBrick();
+        }
     }
     internal void OnInit()
     {
@@ -78,5 +81,7 @@ public class Stage : MonoBehaviour
             ObjectPooling.Ins.GetBrickFromPool(transform.name).transform.position = ReturnEmtyPoint();
         }
     }
+
+
 
 }
