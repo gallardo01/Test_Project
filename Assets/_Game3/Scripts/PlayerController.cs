@@ -10,13 +10,20 @@ public class PlayerController : ColorObject
     [SerializeField] private Transform center;
     [SerializeField] private Transform body;
     [SerializeField] private Animator playerAnim;
+    [SerializeField] private PlayerFoot foot;
+    public List<Brick> listBrickHold = new List<Brick>();
+    // private ColorType colorType;
+
+    // [SerializeField] private GameObject leftStair;
     
     private string currentAnim;
     // Start is called before the first frame update
     void Start()
     {
         changeAnim("idle");
-        ChangeColor(ColorType.Black);
+        // colorType = ColorType.Default;
+        ChangeColor((ColorType)Stage.Ins.intColorTypeList[0]);
+        // leftStair.GetComponent<Renderer>().material = ColorController.Ins.getColorMaterial(ColorType.Yellow);
     }
 
     // Update is called once per frame
@@ -41,12 +48,17 @@ public class PlayerController : ColorObject
 
     private void BrickDownStair(Vector3 point){
         RaycastHit hit;
-        if(Physics.Raycast(point, Vector3.down, out hit, 2f, stairLayer)){
+        if(Physics.Raycast(point, Vector3.down, out hit, 2f, stairLayer) && hit.collider.gameObject.GetComponent<ColorObject>().colorType != colorType && listBrickHold.Count > 0){
             // return hit.point + Vector3.up * 0.05f;
             hit.collider.gameObject.GetComponent<ColorObject>().ChangeColor(colorType);
+            Destroy(listBrickHold[listBrickHold.Count - 1].gameObject);
+            listBrickHold.RemoveAt(listBrickHold.Count - 1);
+            foot.ReduceNextPosition();
         }
         // return 
     }
+
+
 
     private Vector3 checkGround(Vector3 point){
         RaycastHit hit;
@@ -62,7 +74,17 @@ public class PlayerController : ColorObject
     private bool CanMove(Vector3 point){
         bool canMove = false;
         if(Physics.Raycast(point, Vector3.down, 2f, groundLayer)){
-            canMove = true;
+            RaycastHit hit;
+            Debug.Log(Physics.Raycast(point, Vector3.down, 2f, stairLayer));
+            if(Physics.Raycast(point, Vector3.down, out hit, 2f, stairLayer)){
+                if(hit.collider.gameObject.GetComponent<ColorObject>().colorType == colorType || (listBrickHold.Count > 0)){
+                    canMove = true;
+                }
+            }
+            else{
+                canMove = true;
+            }
+            
         }
         return canMove;
     }
