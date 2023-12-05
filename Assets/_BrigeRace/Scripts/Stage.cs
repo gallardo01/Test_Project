@@ -14,23 +14,23 @@ public enum ColorType
     Brown,
     Violet
 }
-public class Stage : MonoBehaviour
+public class Stage : Singleton<Stage>
 {
     public Transform[] brickPoints;
     private List<Vector3> emptyPoints = new List<Vector3>();
     private List<Brick> bricks = new List<Brick>();
 
     [SerializeField] Brick brickPrefab;
-
+    
     // Start is called before the first frame update
     void Start()
     {
         OnInit();
-        NewBrick(ColorType.Red);
-        NewBrick(ColorType.Red);
-        NewBrick(ColorType.Red);
-        NewBrick(ColorType.Red);
-        NewBrick(ColorType.Red);
+        for (int i = 0; i < 5; i++)
+        {
+            NewBrick(ColorType.Red);
+            NewBrick(ColorType.Green);
+        }
     }
 
     internal void OnInit()
@@ -63,5 +63,13 @@ public class Stage : MonoBehaviour
         emptyPoints.Add(brick.transform.position);
         bricks.Remove(brick);
         Destroy(brick.gameObject);
+        // need function later  
+        StartCoroutine(respawnBrick(ColorType.Red));
+    }
+
+    IEnumerator respawnBrick(ColorType colorType)
+    {
+        yield return new WaitForSeconds(3f);
+        NewBrick(colorType);
     }
 }
