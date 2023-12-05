@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : ColorObject
 {
     public float speed = 5f;
     public Animator animator;
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ChangeColor(ColorType.Red);
         changeAnim("idle");
     }
 
@@ -28,8 +30,10 @@ public class PlayerController : MonoBehaviour
             //transform.position += JoystickControl.direct * speed * Time.deltaTime;
 
             Vector3 nextPoints = transform.position + JoystickControl.direct * speed * Time.deltaTime;
-            transform.position = checkGround(nextPoints);
-
+            if (CanMove(nextPoints))
+            {
+                transform.position = checkGround(nextPoints);
+            }
             // Change anim
             changeAnim("run");
             if (JoystickControl.direct != Vector3.zero)
@@ -43,15 +47,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool CanMove(Vector3 point)
+    {
+        bool canMove = false;
+        if (Physics.Raycast(point, Vector3.down, 2f, groundLayer))
+        {
+            canMove = true;
+        }
+        return canMove;
+    }
+
     private Vector3 checkGround(Vector3 point)
     {
         RaycastHit hit;
-        // Cau thang
-        if (Physics.Raycast(point, Vector3.down, out hit, 2f, stairLayer))
+        if (Physics.Raycast(point, Vector3.down, out hit, 2f, groundLayer))
         {
-            return hit.point + Vector3.up * 1.1f;
+            return hit.point + Vector3.up * 0.3f;
         }
-        // mat dat bthg
         return point;
     }
 
