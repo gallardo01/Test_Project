@@ -19,6 +19,13 @@ public class Brick : ColorObject
     }
 
     private void OnTriggerEnter(Collider other) {
-        Deactivate();
+        if (colorType == other.GetComponent<ColorObject>().colorType) {
+            BrickSpawner.Instance.Consume(this);
+            Deactivate();
+        }
+    }
+
+    private void ReSpawn() {
+        objectPool.Get();
     }
 }

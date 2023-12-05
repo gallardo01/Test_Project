@@ -10,6 +10,10 @@ public class GameManager : Singleton<GameManager>
     //[SerializeField] CSVData csv;
     //private static GameState gameState = GameState.MainMenu;
 
+    private List<ColorType> usedColors;
+
+    public List<ColorType> UsedColors { get => usedColors; }
+
     // Start is called before the first frame update
     protected void Awake()
     {
@@ -30,7 +34,17 @@ public class GameManager : Singleton<GameManager>
 
         //ChangeState(GameState.MainMenu);
 
-        UIManager.Ins.OpenUI<MianMenu>();
+        // UIManager.Ins.OpenUI<MianMenu>();
+
+        if (usedColors == null)
+        {
+            usedColors = new List<ColorType> {
+            ColorType.Default,
+            ColorType.Red,
+            (ColorType)Random.Range(2, 4),
+            (ColorType)Random.Range(4, 6),};
+        }
+
     }
 
     //public static void ChangeState(GameState state)
@@ -42,5 +56,5 @@ public class GameManager : Singleton<GameManager>
     //{
     //    return gameState == state;
     //}
-  
+
 }
