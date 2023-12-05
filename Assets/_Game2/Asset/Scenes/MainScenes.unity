@@ -1966,7 +1966,7 @@ MonoBehaviour:
   - {fileID: 1854530573}
   emptyPoints: []
   bricks: []
-  brickPrefab: {fileID: 0}
+  brickPrefab: {fileID: 7540734820093163701, guid: 0dc683a2ea68ff5429dc2cf8f45f3d2c, type: 3}
 --- !u!1 &783553758
 GameObject:
   m_ObjectHideFlags: 0
@@ -2033,7 +2033,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   playerAnim: {fileID: 1455724915}
-  greenMaterials: {fileID: 0}
+  newMaterial: {fileID: 0}
 --- !u!136 &783553761
 CapsuleCollider:
   m_ObjectHideFlags: 0

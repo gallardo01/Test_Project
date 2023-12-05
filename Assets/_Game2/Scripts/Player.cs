@@ -10,15 +10,17 @@ public class Player : ColorObject
     [SerializeField] private LayerMask brickLayer, stepLayer, groundLayer;
     [SerializeField] private Animator playerAnim;
     private RaycastHit hit, hitMat;
-    [SerializeField] private Material greenMaterials;
+    [SerializeField] private Material newMaterial;
 
     private string currentAnim;
-    private int brick = 0;
+    private int brickCount = 0;
     private Vector3 nextPosition, aBrick = new Vector3(0f,0.25f, 0f);
+    public List<GameObject> listBrick = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
         changeAnim("idle");
+        ChangeColor(ColorType.Cyan);
     }
 
     // Update is called once per frame
@@ -44,15 +46,22 @@ public class Player : ColorObject
         //moveUp();
     }
 
-    // add Brick -------------------------------------------------------------------
+    // check & add Brick -------------------------------------------------------------------
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hi");
-        if(other.tag == "Brick")
+        Material matPlayer = ColorController.Ins.getColorMaterial(colorType);
+        if(other.tag == "Brick" && other.gameObject.transform.parent.gameObject.GetComponent<ColorObject>().colorType == colorType)
         {
+            Debug.Log("Check Add Brick");
+
+            Stage.Ins.RemoveBrick(other.gameObject.transform.parent.gameObject.GetComponent<Brick>());
+            // change brick's position
             other.gameObject.transform.parent.transform.SetParent(brickHolder, false);
             other.gameObject.transform.parent.transform.localPosition = nextPosition;
             nextPosition += aBrick;
+            // add brick to list
+            listBrick.Add(other.gameObject.transform.parent.gameObject);
+            brickCount++;
         }
     }
 
@@ -87,10 +96,10 @@ public class Player : ColorObject
     // check Material -------------------------------------------------------------------
     bool checkMaterial()
     {
-        Material mat3 = Resources.Load<Material>("Mat_3");
+        Material matPlayer = ColorController.Ins.getColorMaterial(colorType);
 
         Physics.Raycast(lowerHalf.position, Vector3.down, out hitMat, 2f, stepLayer);
-        if (hitMat.collider.material == mat3)
+        if (hitMat.collider.gameObject.GetComponent<ColorObject>().colorType == colorType)
         {
             return true;
         }
@@ -104,9 +113,16 @@ public class Player : ColorObject
 
         if (checkStep() && checkMaterial() == false)
         {
-            Debug.Log("Lay a brick down");
-            //hit.collider.gameObject.GetComponent<Renderer>().material = mat3;
-            ChangeColor(ColorType.Black);
+            if (brickCount > 0)
+            {
+                Debug.Log("Lay a brick down");
+                hit.collider.gameObject.GetComponent<Renderer>().material = ColorController.Ins.getColorMaterial(colorType);
+                hit.collider.gameObject.GetComponent<ColorObject>().colorType = colorType;
+                Destroy(listBrick[listBrick.Count -1].gameObject);
+                listBrick.RemoveAt(listBrick.Count - 1);
+                nextPosition -= aBrick;
+                brickCount--;
+            }
         }
     }
     
@@ -198,6 +214,7 @@ public class Player : ColorObject
             changeAnim("idle");
         }
     }
+    
     private Vector3 goingUpStair(Vector3 point)
     {
         RaycastHit hit;

@@ -9,7 +9,7 @@ public enum ColorType{
     Green,
     Pink
 }
-public class Stage : MonoBehaviour
+public class Stage : Singleton<Stage>
 {
     public Transform[] brickPoints;
     public List<Vector3> emptyPoints = new List<Vector3>();
@@ -19,11 +19,11 @@ public class Stage : MonoBehaviour
     void Start()
     {
         OnInit();
+        for (int i = 0; i < 5; i++)
+        {
+        SpawnNewBrick(ColorType.Pink);
         SpawnNewBrick(ColorType.Cyan);
-        SpawnNewBrick(ColorType.Cyan);
-        SpawnNewBrick(ColorType.Cyan);
-        SpawnNewBrick(ColorType.Cyan);
-        SpawnNewBrick(ColorType.Cyan);
+        }
     }
 
     internal void OnInit()
@@ -43,7 +43,7 @@ public class Stage : MonoBehaviour
         if (emptyPoints.Count > 0)
         {
             int randomNumber = Random. Range(0, emptyPoints.Count);
-            Brick brick = Instantiate (brickPrefab, emptyPoints [randomNumber], Quaternion.identity);
+            Brick brick = Instantiate (brickPrefab, emptyPoints[randomNumber], Quaternion.identity);
             brick.ChangeColor(colorType);
             emptyPoints.RemoveAt(randomNumber);
             bricks.Add(brick);
@@ -55,6 +55,24 @@ public class Stage : MonoBehaviour
     {
         emptyPoints.Add(brick.transform.position);
         bricks.Remove(brick);
-        Destroy(brick.gameObject);
+        
+        // need function later
+        Debug.Log("Remove");
+        //StartCoroutine(respawnBrick(ColorType.Pink));
+        if (Random.Range(0, 2) == 0)
+        {
+            StartCoroutine(respawnBrick(ColorType.Pink));
+        }
+        else
+        {
+            StartCoroutine(respawnBrick(ColorType.Cyan));
+        }
+    }
+
+    IEnumerator respawnBrick(ColorType colorType)
+    {
+        Debug.Log("respawn");
+        yield return new WaitForSeconds(3f);
+        SpawnNewBrick(colorType);
     }
 }
