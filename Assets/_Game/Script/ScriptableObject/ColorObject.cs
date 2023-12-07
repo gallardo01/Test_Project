@@ -4,17 +4,17 @@ using UnityEngine;
 using UnityEngine.Analytics;
 
 
-public class ColorControl : MonoBehaviour
+public class ColorObject : MonoBehaviour
 {
 
-    public ColorType ColorType;
-    [SerializeField] private MeshRenderer rendere;
+    public ColorType colorType;
+    [SerializeField] private Renderer rendere;
     [SerializeField] private ColorData colordata;
 
 
     public void changColor(ColorType colorType)
     {
-        this.ColorType = colorType;
+        this.colorType = colorType;
         rendere.material = colordata.getMaterial(colorType);
     }
 }

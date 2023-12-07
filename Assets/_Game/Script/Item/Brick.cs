@@ -4,26 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Analytics;
 
-public class Brick : ColorControl
+public class Brick : ColorObject
 {
-    //private void Start()
-    //{
-    //    changColor((ColorType)Random.Range(1,6));
-    //}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Player player = other.GetComponent<Player>();
-            if (player.colorType == ColorType)
-            {
-                Pool pool = transform.parent.GetComponent<Pool>();
-                pool.emtyPoints.Add(transform.position);
-                player.addBrick();                
-                ObjectPooling.Ins.ReturnBrickToPool(gameObject);
-                ObjectPooling.Ins.respawn(transform.parent.name);
-            }
-        }
-    }
+
 }
