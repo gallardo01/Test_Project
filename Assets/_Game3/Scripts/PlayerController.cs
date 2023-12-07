@@ -11,7 +11,9 @@ public class PlayerController : ColorObject
     [SerializeField] private Transform body;
     [SerializeField] private Animator playerAnim;
     [SerializeField] private PlayerFoot foot;
-    public List<Brick> listBrickHold = new List<Brick>();
+    public List<PlayerBrick> listBrickHold = new List<PlayerBrick>();
+    [SerializeField] private PlayerBrick playerBrickPrefab;
+    public Stage stage;
     // private ColorType colorType;
 
     // [SerializeField] private GameObject leftStair;
@@ -22,7 +24,6 @@ public class PlayerController : ColorObject
     {
         changeAnim("idle");
         // colorType = ColorType.Default;
-        ChangeColor((ColorType)Stage.Ins.intColorTypeList[0]);
         // leftStair.GetComponent<Renderer>().material = ColorController.Ins.getColorMaterial(ColorType.Yellow);
     }
 
@@ -87,6 +88,13 @@ public class PlayerController : ColorObject
             
         }
         return canMove;
+    }
+
+    public void ProcessBrick(Vector3 nextPosition, Transform brickHolder){
+        PlayerBrick brickSpawned = Instantiate(playerBrickPrefab, brickHolder.position + nextPosition, brickHolder.rotation, brickHolder);
+        // brickSpawned.gameObject.transform.rotation = ;
+        listBrickHold.Add(brickSpawned);
+        brickSpawned.ChangeColor(colorType);
     }
 
     public void changeAnim(string animName){
