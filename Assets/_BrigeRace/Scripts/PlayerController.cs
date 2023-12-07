@@ -12,6 +12,7 @@ public class PlayerController : ColorObject
     public Transform body;
     public LayerMask groundLayer;
     public LayerMask stairLayer;
+    public Stage stage;
 
     [SerializeField] PlayerBrick playerBrickPrefabs;
     [SerializeField] Transform brickHolder;
@@ -20,7 +21,6 @@ public class PlayerController : ColorObject
     // Start is called before the first frame update
     void Start()
     {
-        ChangeColor(ColorType.Red);
         changeAnim("idle");
     }
 
@@ -52,10 +52,10 @@ public class PlayerController : ColorObject
     private bool CanMove(Vector3 point)
     {
         bool canMove = false;
-        if (Physics.Raycast(point, Vector3.down, 2f, groundLayer))
+        if (Physics.Raycast(point + Vector3.up, Vector3.down, 5f, groundLayer))
         {
             RaycastHit hit;
-            if (Physics.Raycast(point, Vector3.down, out hit, 2f, stairLayer))
+            if (Physics.Raycast(point + Vector3.up, Vector3.down, out hit, 5f, stairLayer))
             {
                 Debug.Log("stair layer");
                 if (hit.collider.gameObject.GetComponent<ColorObject>().colorType == colorType)
@@ -85,7 +85,7 @@ public class PlayerController : ColorObject
     private Vector3 checkGround(Vector3 point)
     {
         RaycastHit hit;
-        if (Physics.Raycast(point, Vector3.down, out hit, 2f, groundLayer))
+        if (Physics.Raycast(point + Vector3.up, Vector3.down, out hit, 5f, groundLayer))
         {
             return hit.point + Vector3.up * 0.3f;
         }
@@ -126,7 +126,7 @@ public class PlayerController : ColorObject
         {
             if (other.gameObject.GetComponent<ColorObject>().colorType == colorType)
             {
-                Stage.Ins.RemoveBrick(other.GetComponent<Brick>());
+                stage.RemoveBrick(other.GetComponent<Brick>());
                 AddBrick();
             }
         }

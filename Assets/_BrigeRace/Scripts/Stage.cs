@@ -1,20 +1,9 @@
+using MarchingBytes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ColorType
-{
-    Default,
-    Black,
-    Red,
-    Blue,
-    Green,
-    Yellow,
-    Orange,
-    Brown,
-    Violet
-}
-public class Stage : Singleton<Stage>
+public class Stage : MonoBehaviour
 {
     public Transform[] brickPoints;
     private List<Vector3> emptyPoints = new List<Vector3>();
@@ -25,15 +14,10 @@ public class Stage : Singleton<Stage>
     // Start is called before the first frame update
     void Start()
     {
-        OnInit();
-        for (int i = 0; i < 5; i++)
-        {
-            NewBrick(ColorType.Red);
-            NewBrick(ColorType.Green);
-        }
+        OnInitPoint();
     }
 
-    internal void OnInit()
+    void OnInitPoint()
     {
         for (int i = 0; i < brickPoints.Length; i++)
         {
@@ -41,9 +25,12 @@ public class Stage : Singleton<Stage>
         }
     }
 
-    public void InitColor(ColorType colorType)
+    internal void OnInit(ColorType colorType)
     {
-
+        for (int i = 0; i < 5; i++)
+        {
+            NewBrick(colorType);
+        }
     }
 
     public void NewBrick(ColorType colorType)
@@ -51,7 +38,8 @@ public class Stage : Singleton<Stage>
         if (emptyPoints.Count > 0)
         {
             int randomNumber = Random.Range(0, emptyPoints.Count);
-            Brick brick = Instantiate(brickPrefab, emptyPoints[randomNumber], Quaternion.identity);
+            //Brick brick = Instantiate(brickPrefab, emptyPoints[randomNumber], Quaternion.identity);
+            Brick brick = EasyObjectPool.instance.GetObjectFromPool("Brick", emptyPoints[randomNumber], Quaternion.identity).GetComponent<Brick>();
             brick.ChangeColor(colorType);
             emptyPoints.RemoveAt(randomNumber);
             bricks.Add(brick);
@@ -60,11 +48,12 @@ public class Stage : Singleton<Stage>
 
     public void RemoveBrick(Brick brick)
     {
+        StartCoroutine(respawnBrick(brick.colorType));
         emptyPoints.Add(brick.transform.position);
         bricks.Remove(brick);
-        Destroy(brick.gameObject);
-        // need function later  
-        StartCoroutine(respawnBrick(ColorType.Red));
+        EasyObjectPool.instance.ReturnObjectToPool(brick.gameObject);
+        brick.gameObject.SetActive(false);
+        //Destroy(brick.gameObject);
     }
 
     IEnumerator respawnBrick(ColorType colorType)
