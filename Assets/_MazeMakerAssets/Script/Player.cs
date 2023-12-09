@@ -103,7 +103,7 @@ public class Player : CharacterStackMaker
             {
                 // stop
                 isRunning = true;
-                Debug.Log("Stop");
+                // Debug.Log("Stop");
             }
         }
     }
