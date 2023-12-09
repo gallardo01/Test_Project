@@ -61,4 +61,18 @@ public class Stage : MonoBehaviour
         yield return new WaitForSeconds(3f);
         NewBrick(colorType);
     }
+
+    internal Brick SeekBrickPoint(ColorType colorType)
+    {
+        Brick brick = null;
+        for (int i = 0; i < bricks.Count; i++)
+        {
+            if (bricks[i].colorType == colorType)
+            {
+                brick = bricks[i];
+                break;
+            }
+        }
+        return brick;
+    }
 }

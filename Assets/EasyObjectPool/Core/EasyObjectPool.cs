@@ -63,7 +63,7 @@ namespace MarchingBytes {
 			} else if(fixedSize == false) {
 				//increment size var, this is for info purpose only
 				poolSize++;
-				Debug.Log(string.Format("Growing pool {0}. New size: {1}",poolName,poolSize));
+				//Debug.Log(string.Format("Growing pool {0}. New size: {1}",poolName,poolSize));
 				//create new object
 				po = NewObjectInstance();
 			} else {
@@ -146,7 +146,7 @@ namespace MarchingBytes {
 				                     currentPoolInfo.poolSize, currentPoolInfo.fixedSize);
 
 				
-				Debug.Log("Creating pool: " + currentPoolInfo.poolName);
+				//Debug.Log("Creating pool: " + currentPoolInfo.poolName);
 				//add to mapping dict
 				poolDictionary[currentPoolInfo.poolName] = pool;
 			}
