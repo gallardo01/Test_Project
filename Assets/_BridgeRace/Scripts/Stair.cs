@@ -9,6 +9,8 @@ public class Stair : MonoBehaviour
 
     private bool active;
 
+    public ColorType color { get => brick.ColorType; }
+
     // Start is called before the first frame update
     void Start()
     {

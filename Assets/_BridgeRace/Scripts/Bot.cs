@@ -1,0 +1,101 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+[RequireComponent(typeof(NavMeshAgent))]
+public class Bot : Player
+{
+    private Vector3 destination;
+
+    // public Camera cam;
+    public NavMeshAgent agent;
+
+    public bool IsDestination => Vector3.Distance(new Vector3(destination.x, transform.position.y, destination.z), transform.position) < 0.1f;
+
+    private void Update()
+    {
+        if (currentState != null)
+        {
+            currentState.OnExecute(this);
+            direction = agent.desiredVelocity.normalized;
+            CanMove(transform.position);
+        }
+
+        if (direction != Vector3.zero) body.forward = direction;
+
+    }
+
+    private void CanMove(Vector3 position)
+    {
+        if (Physics.Raycast(transform.position + direction * agent.speed * Time.deltaTime + Vector3.up, Vector3.down, out hit, 2f, stairLayer))
+        {
+            stair = hit.collider.gameObject.GetComponent<Stair>();
+            if (!stair.Filled() || stair.color != colorType) {
+                if (parent.childCount > 0)
+                {
+                    stair.Fill(colorType);
+                    canMove = true;
+
+                    // Remove brick from stack
+                    parent.GetChild(parent.childCount - 1).gameObject.GetComponent<Brick>().Deactivate();
+                    parent.GetChild(parent.childCount - 1).transform.parent = null;
+                } else if (currentState.GetType() == typeof(AttackState)) agent.ResetPath();
+            }
+        }
+    }
+
+    public void ChangeState(IState<Bot> state)
+    {
+        if (currentState != null)
+        {
+            currentState.OnExit(this);
+        }
+        currentState = state;
+        if (currentState != null)
+        {
+            currentState.OnEnter(this);
+        }
+    }
+
+    public void SetDestination(Vector3 position)
+    {
+        destination = position;
+        agent.SetDestination(destination);
+    }
+
+    private void Awake()
+    {
+        Init();
+    }
+
+    IState<Bot> currentState;
+    IEnumerator Start()
+    {
+        agent.autoTraverseOffMeshLink = false;
+        while (true)
+        {
+            if (agent.isOnOffMeshLink)
+            {
+                yield return StartCoroutine(NormalSpeed(agent));
+                agent.CompleteOffMeshLink();
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator NormalSpeed(NavMeshAgent agent)
+    {
+        OffMeshLinkData data = agent.currentOffMeshLinkData;
+        Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
+
+        while (agent.transform.position != endPos)
+        {
+            var dir = endPos - transform.position;
+            direction = new Vector3(dir.x, 0, dir.z).normalized;
+            Check();
+            agent.transform.position = Vector3.MoveTowards(agent.transform.position, endPos, agent.speed * Time.deltaTime);
+            yield return null;
+        }
+    }
+}

@@ -2,21 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PatrolState : IState<Character>
+public class PatrolState : IState<Bot>
 {
-    public void OnEnter(Character t)
+
+    int targetBrick;
+
+    public void OnEnter(Bot t)
+    {
+        t.ChangeAnim("Run");
+        targetBrick = 5;
+        t.SetDestination(t.transform.position);
+    }
+
+    public void OnExecute(Bot t)
+    {
+        if (t.IsDestination) {
+            if (t.Parent.childCount >= targetBrick) {
+                t.ChangeState(new AttackState());
+            } else {
+                SeekTarget(t);
+            }
+        }
+    }
+
+    public void OnExit(Bot t)
     {
 
     }
 
-    public void OnExecute(Character t)
-    {
+    private void SeekTarget(Bot t) {
+        Brick brick = SeekBrickPoint(t);
 
+        if (brick != null) {
+            t.SetDestination(brick.transform.position);
+        }
     }
 
-    public void OnExit(Character t)
-    {
-
+    private Brick SeekBrickPoint(Bot b) {
+        foreach (Brick br in BrickSpawner.Ins.Bricks[b.Level]) {
+            if (br.ColorType == b.ColorType) return br;
+        }
+        return null;
     }
 
 }

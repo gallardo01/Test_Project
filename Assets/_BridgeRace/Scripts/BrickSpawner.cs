@@ -4,30 +4,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class BrickSpawner : MonoBehaviour
+public class BrickSpawner : Singleton<BrickSpawner>
 {
-    public static BrickSpawner Instance { get; private set; }
-    private void Awake()
-    {
-        // If there is an instance, and it's not me, delete myself.
-
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     [SerializeField] private Transform[] parent;
 
     private IObjectPool<Brick> objectPool;
     private List<Dictionary<ColorType, int>> colorCount;
     private List<List<Vector3>> availablePosition;
+    private List<List<Brick>> bricks;
 
     public List<Dictionary<ColorType, int>> ColorCount { get => colorCount; }
+    public Transform[] Parent => parent;
+    public List<List<Brick>> Bricks { get => bricks; }
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +24,8 @@ public class BrickSpawner : MonoBehaviour
         colorCount = new List<Dictionary<ColorType, int>>();
 
         availablePosition = new List<List<Vector3>>();
+
+        bricks = new List<List<Brick>>();
         
         objectPool = ObjectPool.Instance.Pool;
 
@@ -63,7 +54,10 @@ public class BrickSpawner : MonoBehaviour
     }
 
     private void SpawnLevel(int level) {
-        if (availablePosition.Count - 1 < level) FillPosition(level) ;
+        if (availablePosition.Count - 1 < level) FillPosition(level);
+        while (bricks.Count <= level) {
+            bricks.Add(new List<Brick>());
+        }
 
         var cc = colorCount[level];
         while (cc.Count > 0)
@@ -88,11 +82,18 @@ public class BrickSpawner : MonoBehaviour
     private void Spawn(int level) {
         var currentParent = parent[level];
         Brick brick = objectPool.Get();
+        bricks[level].Add(brick);
         brick.transform.parent = currentParent;
         brick.transform.rotation = Quaternion.Euler(Vector3.zero);
+        Vector3 position = Vector3.zero;
 
         // random position at level
-        var position = availablePosition[level][Random.Range(0, availablePosition[level].Count)];
+        try {
+            position = availablePosition[level][Random.Range(0, availablePosition[level].Count)];
+        } catch {
+            Debug.Log("Level: " + level);
+            Debug.Log("Count: " + availablePosition.Count);
+        }
         brick.transform.localPosition = position;
 
         // Make position occupied    
@@ -102,17 +103,19 @@ public class BrickSpawner : MonoBehaviour
     }
 
     public void Consume(Brick brick) {
+        Debug.Log(1);
         StartCoroutine(ReSpawn(brick));
     }
 
     private IEnumerator ReSpawn(Brick brick) {
         
         // value
-        var colorType = brick.colorType;
+        var colorType = brick.ColorType;
         int level = (int) (brick.transform.position.y / 3);
 
         // update empty position
         availablePosition[level].Add(brick.transform.localPosition);
+        bricks[level].Remove(brick);
 
         // update color
         var cc = colorCount[level];
@@ -123,4 +126,5 @@ public class BrickSpawner : MonoBehaviour
         
         Spawn(level);
     }
+
 }

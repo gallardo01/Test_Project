@@ -6,7 +6,9 @@ public class ColorObject : MonoBehaviour
 {
     [SerializeField] protected Renderer renderer;
 
-    public ColorType colorType;
+    protected ColorType colorType;
+
+    public ColorType ColorType { get => colorType; }
 
     public void ChangeColor(ColorType colorType) {
         this.colorType = colorType;

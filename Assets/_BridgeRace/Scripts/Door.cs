@@ -7,27 +7,15 @@ public class Door : MonoBehaviour
 
     [SerializeField] private Stage stage;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other) {
         if (stage.Level == 3){
             Debug.Log("Finish");
             return;
         }
-        PlayerController player = other.GetComponent<PlayerController>();
+        Player player = other.GetComponent<Player>();
         if (player.Level < stage.Level) {
             player.Level = stage.Level;
-            BrickSpawner.Instance.StartLevel(stage.Level, other.GetComponent<Player>().colorType);
+            BrickSpawner.Ins.StartLevel(stage.Level, other.GetComponent<Player>().ColorType);
         }
     }
 }

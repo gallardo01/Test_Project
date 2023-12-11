@@ -19,13 +19,9 @@ public class Brick : ColorObject
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (colorType == other.GetComponent<ColorObject>().colorType) {
-            BrickSpawner.Instance.Consume(this);
+        if (colorType == other.GetComponent<ColorObject>().ColorType) {
+            BrickSpawner.Ins.Consume(this);
             Deactivate();
         }
-    }
-
-    private void ReSpawn() {
-        objectPool.Get();
     }
 }

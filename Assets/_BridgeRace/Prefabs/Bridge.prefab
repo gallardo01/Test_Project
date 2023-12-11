@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 5773099358474333062}
   - component: {fileID: 3379897504691861426}
   - component: {fileID: 2379713603639051927}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7653389258057574911
 GameObject:
@@ -700,6 +700,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stair (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 3757689043237034326, guid: 3b146bfbdde420e4a964f27b923fb8e5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b146bfbdde420e4a964f27b923fb8e5, type: 3}
 --- !u!4 &5664364258813467494 stripped
@@ -761,10 +765,6 @@ PrefabInstance:
     - target: {fileID: 3757689043237034326, guid: 3b146bfbdde420e4a964f27b923fb8e5, type: 3}
       propertyPath: m_Name
       value: Stair
-      objectReference: {fileID: 0}
-    - target: {fileID: 3757689043237034326, guid: 3b146bfbdde420e4a964f27b923fb8e5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b146bfbdde420e4a964f27b923fb8e5, type: 3}
