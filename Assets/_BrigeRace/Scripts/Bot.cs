@@ -11,9 +11,13 @@ public class Bot : Character
     public bool IsDestination => Vector3.Distance(destination, transform.position.x * Vector3.right + 
                                                                 Vector3.up * 2.788f+ 
                                                                 Vector3.forward * transform.position.z) < 0.1f;
+    public int targetBrick;
+
+    public float distanceY;    
     // Start is called before the first frame update
     void Start()
     {
+        
         destination = transform.position;
         changeAnim("idle");
     }
@@ -32,6 +36,9 @@ public class Bot : Character
 
     IState<Bot> currentState;
     private void Update(){
+        if(planeStage != null){
+            distanceY = transform.position.y - planeStage.position.y;
+        }
         if(currentState != null){
             currentState.OnExecute(this);
             CanMove(transform.position);

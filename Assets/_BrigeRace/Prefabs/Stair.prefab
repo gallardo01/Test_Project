@@ -311,4 +311,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorType: 0
-  renderer: {fileID: 7317742404028297482}
+  objRenderer: {fileID: 7317742404028297482}

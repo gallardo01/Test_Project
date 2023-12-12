@@ -14,6 +14,7 @@ public class Character : ColorObject
 
     [SerializeField] PlayerBrick playerBrickPrefabs;
     [SerializeField] Transform brickHolder;
+    [HideInInspector] public Transform planeStage;
     private List<PlayerBrick> playerBricks = new List<PlayerBrick>();
     public Transform endPoint;
     public int BrickCount => playerBricks.Count;
@@ -38,14 +39,11 @@ public class Character : ColorObject
             RaycastHit hit;
             if (Physics.Raycast(point + Vector3.up, Vector3.down, out hit, 5f, stairLayer))
             {
-                // Debug.Log("stair layer");
                 if (hit.collider.gameObject.GetComponent<ColorObject>().colorType == colorType)
                 {
-                    // Debug.Log("same color");
                     canMove = true;
                 } else
                 {
-                    // Debug.Log("different color");
                     if (playerBricks.Count > 0)
                     {
                         hit.collider.GetComponent<Stair>().ChangeColor(colorType);
@@ -54,7 +52,6 @@ public class Character : ColorObject
                     canMove = false;
                 }
             } else {
-                // Debug.Log("ground");
                 canMove = true;
             }
         }
@@ -112,4 +109,5 @@ public class Character : ColorObject
             }
         }
     }
+
 }

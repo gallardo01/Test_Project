@@ -5,7 +5,7 @@ using UnityEngine;
 public class ColorObject : MonoBehaviour
 {
     public ColorType colorType;
-    [SerializeField] private Renderer renderer;
+    [SerializeField] private Renderer objRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +15,6 @@ public class ColorObject : MonoBehaviour
     public void ChangeColor(ColorType colorType)
     {
         this.colorType = colorType;
-        renderer.material = ColorController.Ins.getColorMaterial(colorType);
+        objRenderer.material = ColorController.Ins.getColorMaterial(colorType);
     }
 }

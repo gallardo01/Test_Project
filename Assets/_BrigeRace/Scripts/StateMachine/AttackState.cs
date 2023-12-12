@@ -22,7 +22,8 @@ public class AttackState : IState<Bot>
 
     public void OnExit(Bot t)
     {
-
+        // Debug.Log("Idle 3");
+        // t.changeAnim("idle");
     }
 
 }

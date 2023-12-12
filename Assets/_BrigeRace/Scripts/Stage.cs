@@ -10,6 +10,8 @@ public class Stage : MonoBehaviour
     private List<Brick> bricks = new List<Brick>();
 
     [SerializeField] Brick brickPrefab;
+    public Transform planeStage;
+    
     
     // Start is called before the first frame update
     void Start()

@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 5715738511035058997}
   m_Layer: 0
   m_Name: Bot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +125,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5715738511035058994}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorType: 0
-  renderer: {fileID: 3810182556226091728}
+  objRenderer: {fileID: 3810182556226091728}
   speed: 5
   animator: {fileID: 5715738510573010795}
   body: {fileID: 5715738509116900401}
@@ -179,8 +179,11 @@ MonoBehaviour:
   stage: {fileID: 0}
   playerBrickPrefabs: {fileID: 7541693871549439739, guid: 60c3feaca2c64d34c82a990d6de3ada6, type: 3}
   brickHolder: {fileID: 5715738509635556707}
+  planeStage: {fileID: 0}
   endPoint: {fileID: 0}
   agent: {fileID: 5715738511035058992}
+  targetBrick: 0
+  distanceY: 0
 --- !u!1001 &5715738509818111229
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorType: 0
-  renderer: {fileID: 7527312688169103006}
+  objRenderer: {fileID: 7527312688169103006}
 --- !u!65 &8879284180490342860
 BoxCollider:
   m_ObjectHideFlags: 0
