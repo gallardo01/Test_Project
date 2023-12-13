@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FinishBox : MonoBehaviour
+public class StartBox : MonoBehaviour
 {
 
     public Stage stage;
@@ -12,9 +12,11 @@ public class FinishBox : MonoBehaviour
     {
         Character character = other.GetComponent<Character>();
         character.stage = stage;
-        if (!stage.colorList.Contains(character.colorType)){
+        if (!stage.colorList.Contains(character.colorType))
+        {
             stage.colorList.Add(character.colorType);
             stage.OnInitBrick(character.colorType);
+
         }
     }
 }

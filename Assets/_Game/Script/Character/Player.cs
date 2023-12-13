@@ -15,15 +15,15 @@ public class Player : Character
 
         if (Input.GetMouseButton(0))
         {
-            changAnim("run");
-            if (UpStair(nextPoint))
+            changAnim(Constants.ANIM_RUN);
+            if (CanMove(nextPoint))
             {
                 transform.position = checkGround(nextPoint);
             }
         }
         if (Input.GetMouseButtonUp(0))
         {
-            changAnim("idle");
+            changAnim(Constants.ANIM_IDLE);
         }
 
 

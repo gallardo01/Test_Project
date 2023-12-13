@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Brick
   - FxTemporaire
-  - Door
+  - StartBox
   layers:
   - Default
   - TransparentFX

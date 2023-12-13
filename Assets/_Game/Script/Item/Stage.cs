@@ -9,6 +9,7 @@ public class Stage : MonoBehaviour
     public float distance;
     public List<Vector3> emptyPoints = new List<Vector3>();
     public List<ColorType> colorList = new List<ColorType>();
+    public List<Brick> bricks = new List<Brick>();
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +29,7 @@ public class Stage : MonoBehaviour
                 emptyPoints.Add(newVector);
             }
         }
+        //OnBrick(ColorType.Red);
     }
 
 
@@ -46,6 +48,7 @@ public class Stage : MonoBehaviour
             Vector3 rand = GetEmtyPoint();
             Brick brick = EasyObjectPool.instance.GetObjectFromPool("Brick", rand, Quaternion.identity).GetComponent<Brick>();
             brick.gameObject.SetActive(true);
+            bricks.Add(brick);
             brick.changColor(color);
         }
     }
@@ -55,6 +58,7 @@ public class Stage : MonoBehaviour
         StartCoroutine(RespawnBrick());
         emptyPoints.Add(brick.transform.position);
         EasyObjectPool.instance.ReturnObjectToPool(brick.gameObject);
+        bricks.Remove(brick);
         brick.gameObject.SetActive(false);
     }
     
@@ -77,5 +81,17 @@ public class Stage : MonoBehaviour
             OnBrick(colorList[Random.Range(0, colorList.Count)]);
         }
     }
-
+    internal Brick seekBrickPoint( ColorType color)
+    {
+        Brick brick = null;
+        for (int i = 0; i < bricks.Count; i++)
+        {
+            if (bricks[i].colorType == color)
+            {
+                brick = bricks[i];
+                break;
+            }
+        }
+        return brick;
+    }
 }
