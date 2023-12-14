@@ -11,7 +11,7 @@ public class NewStageBox : MonoBehaviour
     {
         if (!colorTypes.Contains(other.gameObject.GetComponent<ColorObject>().colorType))
         {
-            other.gameObject.GetComponent<Player>().stage = stage;
+            other.gameObject.GetComponent<Character>().stage = stage;
             colorTypes.Add(other.gameObject.GetComponent<ColorObject>().colorType);
             stage.OnInit(other.gameObject.GetComponent<ColorObject>().colorType);
         }
