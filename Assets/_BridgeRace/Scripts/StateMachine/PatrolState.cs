@@ -30,16 +30,18 @@ public class PatrolState : IState<Bot>
 
     }
 
-    private void SeekTarget(Bot t) {
-        Brick brick = SeekBrickPoint(t);
+    private void SeekTarget(Bot b) {
+        Brick brick = SeekBrickPoint(b);
 
         if (brick != null) {
-            t.SetDestination(brick.transform.position);
-        }
+            b.SetDestination(brick.transform.position);
+            b.ChangeAnim("Run");
+        } else b.ChangeAnim("Idle");
     }
 
     private Brick SeekBrickPoint(Bot b) {
-        foreach (Brick br in BrickSpawner.Ins.Bricks[b.Level]) {
+        if (b.Stage == null) return null;
+        foreach (Brick br in b.Stage.Bricks) {
             if (br.ColorType == b.ColorType) return br;
         }
         return null;

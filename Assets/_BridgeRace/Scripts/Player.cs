@@ -18,14 +18,19 @@ public class Player : ColorObject
     protected Stair stair;
     protected int level;
     protected Vector3 direction;
+    private Stage stage;
+    protected bool canCollide = true;
 
     public int Level { get => level; set => level = value; }
     public Transform Parent { get => parent; }
+    public Stage Stage { get => stage; set => stage = value; }
+    public bool CanCollide => canCollide;
 
     protected static List<ColorType> usedColors;
 
     protected void Init()
     {
+        stage = BrickSpawner.Ins.StageOne;
         level = 0;
         usedColors = usedColors ?? new List<ColorType>(GameManager.Ins.UsedColors);
 
@@ -34,7 +39,7 @@ public class Player : ColorObject
         usedColors.RemoveAt(color);
 
         currentAnimation = "Idle";
-        objectPool = ObjectPool.Instance.Pool;
+        objectPool = ObjectPool.Ins.Pool;
     }
 
     public void ChangeAnim(string newAnimation)
@@ -44,9 +49,23 @@ public class Player : ColorObject
         animator.SetTrigger(currentAnimation);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Brick" && other.GetComponent<Brick>().ColorType == ColorType) BrickTrigger();
+        if (other.tag == Constant.BRICK_TAG && (Cache.GetBrick(other).ColorType == ColorType || Cache.GetBrick(other).ColorType == ColorType.Gray)) BrickTrigger();
+    }
+
+    protected void DropBrick() {
+        for (int i = 0; i < parent.childCount; i++) {
+            parent.GetChild(i).localPosition = new Vector3(Mathf.Cos(Mathf.Deg2Rad * Random.Range(0, 360)), 
+            transform.position.y - 0.5f, 
+            Mathf.Cos(Mathf.Deg2Rad * Random.Range(0, 360)));
+
+            Cache.GetBrick(parent.GetChild(i)).ChangeColor(ColorType.Gray);
+
+            Cache.GetBrick(parent.GetChild(i)).Collider.enabled = true;
+        }
+
+        parent.DetachChildren();
     }
 
     protected void BrickTrigger()
@@ -71,14 +90,14 @@ public class Player : ColorObject
         // Update stair color
         if (hit.collider != null)
         {
-            stair = hit.collider.gameObject.GetComponent<Stair>();
+            stair = Cache.GetStair(hit.collider);
             if (parent.childCount > 0 && (!stair.Filled() || stair.color != colorType))
             {
                 stair.Fill(colorType);
 
                 // Remove brick from stack
-                parent.GetChild(parent.childCount - 1).gameObject.GetComponent<Brick>().Deactivate();
-                parent.GetChild(parent.childCount - 1).transform.parent = null;
+                Cache.GetBrick(parent.GetChild(parent.childCount - 1)).Deactivate();
+                parent.GetChild(parent.childCount - 1).parent = null;
             }
         }
 

@@ -35,4 +35,31 @@ public class PlayerController : Player
 
         Reset();
     }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+        if (other.tag == Constant.PLAYER_TAG && 
+        canCollide && Cache.GetPlayer(other).CanCollide && 
+        parent.childCount < Cache.GetPlayer(other).Parent.childCount
+        && parent.childCount > 0) {
+            ChangeAnim("Falling");
+            enabled = false;
+            canCollide = false;
+
+            DropBrick();
+
+            Invoke(nameof(ReEnable), 3f);
+            Invoke(nameof(EnableCollide), 5f);
+        }
+    }
+
+    private void ReEnable() {
+        enabled = true;
+        ChangeAnim("Idle");
+    }
+
+    private void EnableCollide() {
+        canCollide = true;
+    }
 }

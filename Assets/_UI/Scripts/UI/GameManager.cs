@@ -13,6 +13,7 @@ public enum ColorType {
     Blue,
     Purple, 
     Orange,
+    Gray
 }
 
 public class GameManager : Singleton<GameManager>

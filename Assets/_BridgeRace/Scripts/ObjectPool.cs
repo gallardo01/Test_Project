@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class ObjectPool : MonoBehaviour
+public class ObjectPool : Singleton<ObjectPool>
 {
     private IObjectPool<Brick> objectPool;
 
@@ -12,25 +12,15 @@ public class ObjectPool : MonoBehaviour
 
     [SerializeField] private bool collectionCheck = true;
     [SerializeField] private int defaultCapacity = 50;
-    [SerializeField] private int maxSize = 100;
+    [SerializeField] private int maxSize = 150;
     [SerializeField] private Brick brick;
 
-    public static ObjectPool Instance { get; private set; }
 
     private void Awake()
     {
         objectPool = new ObjectPool<Brick>(CreateBrick,
                 OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
                 collectionCheck, defaultCapacity, maxSize);
-
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
     }
 
     private void OnGetFromPool(Brick brick)

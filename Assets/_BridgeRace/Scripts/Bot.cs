@@ -30,7 +30,7 @@ public class Bot : Player
     {
         if (Physics.Raycast(transform.position + direction * agent.speed * Time.deltaTime + Vector3.up, Vector3.down, out hit, 2f, stairLayer))
         {
-            stair = hit.collider.gameObject.GetComponent<Stair>();
+            stair = Cache.GetStair(hit.collider);
             if (!stair.Filled() || stair.color != colorType) {
                 if (parent.childCount > 0)
                 {
@@ -38,8 +38,8 @@ public class Bot : Player
                     canMove = true;
 
                     // Remove brick from stack
-                    parent.GetChild(parent.childCount - 1).gameObject.GetComponent<Brick>().Deactivate();
-                    parent.GetChild(parent.childCount - 1).transform.parent = null;
+                    Cache.GetBrick(parent.GetChild(parent.childCount - 1)).Deactivate();
+                    parent.GetChild(parent.childCount - 1).parent = null;
                 } else if (currentState.GetType() == typeof(AttackState)) agent.ResetPath();
             }
         }
@@ -62,6 +62,38 @@ public class Bot : Player
     {
         destination = position;
         agent.SetDestination(destination);
+    }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+        if (other.tag == Constant.PLAYER_TAG && 
+        canCollide && Cache.GetPlayer(other).CanCollide && 
+        parent.childCount < Cache.GetPlayer(other).Parent.childCount &&
+        !agent.isOnOffMeshLink &&
+        parent.childCount > 0) {
+            agent.ResetPath();
+            ChangeAnim("Falling");
+            enabled = false;
+            agent.enabled = false;
+            canCollide = false;
+
+            DropBrick();
+
+            Invoke(nameof(ReEnable), 3f);
+            Invoke(nameof(EnableCollide), 5f);
+        }
+    }
+
+    private void ReEnable() {
+        enabled = true;
+        agent.enabled = true;
+        ChangeAnim("Idle");
+        agent.SetDestination(destination);
+    }
+
+    private void EnableCollide() {
+        canCollide = true;
     }
 
     private void Awake()

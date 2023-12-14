@@ -9,9 +9,11 @@ public class Brick : ColorObject
     [SerializeField] private Collider collider;
 
     private IObjectPool<Brick> objectPool;
+    private Stage stage;
 
     public IObjectPool<Brick> ObjectPool { set => objectPool = value; }
     public Collider Collider { get => collider; }
+    public Stage Stage { set => stage = value; }
 
     public void Deactivate()
     {
@@ -19,9 +21,9 @@ public class Brick : ColorObject
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (colorType == other.GetComponent<ColorObject>().ColorType) {
-            BrickSpawner.Ins.Consume(this);
+        if (colorType == Cache.GetPlayer(other).ColorType || colorType == ColorType.Gray)
             Deactivate();
-        }
+        if (colorType == Cache.GetPlayer(other).ColorType)
+            stage.Consume(this);
     }
 }
