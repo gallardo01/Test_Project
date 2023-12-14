@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ColorObject : MonoBehaviour
 {
-    [SerializeField] private Renderer renderer;
+    [SerializeField]  private Renderer renderer;
     public ColorType colorType;
     public void ChangeColor(ColorType colorType)
     {
