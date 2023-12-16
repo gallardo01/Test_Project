@@ -1,3 +1,4 @@
+using MarchingBytes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,12 +8,14 @@ public class Character : MonoBehaviour
 {
     [SerializeField] protected int speed;
     [SerializeField] protected LayerMask groundLayer;
-    protected string currentAnim = "run";
+    protected const string idleAnim = "idle";
+    protected const string runAnim = "run";
+    protected string currentAnim = runAnim;
     [SerializeField] private Animator playerAnim;
     // Start is called before the first frame update
     void Start()
     {
-        changeAnim("idle");
+        OnInit();
     }
 
     // Update is called once per frame
@@ -20,8 +23,6 @@ public class Character : MonoBehaviour
     {
         
     }
-
-    
 
     protected bool CanMove(Vector3 point)
     {
@@ -42,4 +43,35 @@ public class Character : MonoBehaviour
             playerAnim.SetTrigger(currentAnim);
         }
     }
+
+    void OnInit(){
+        changeAnim(idleAnim);
+    }
+
+    void SetData(){
+        
+    }
+
+    void OnDespawn(){
+
+    }
+
+    void OnDeath(){
+
+    }
+
+    void OnKill(){
+
+    }
+
+    protected void Attack(Vector3 startPoint, Vector3 endPoint){
+        Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", startPoint, Quaternion.identity).GetComponent<Bullet>();
+        bullet.SetDestination(endPoint);
+        // EasyObjectPool.instance.ReturnObjectToPool(bullet);
+    }
+
+    void UpSize(){
+
+    }
+
 }

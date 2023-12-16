@@ -6,11 +6,7 @@ public class Player : Character
 {
     [SerializeField] private Transform player;
     [SerializeField] private GameObject body;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Transform hand;
 
     // Update is called once per frame
     void Update()
@@ -23,13 +19,11 @@ public class Player : Character
         if (Input.GetMouseButton(0))
         {
             JoyStickControl();
-            changeAnim("run");
-            body.GetComponent<Rigidbody>().useGravity = true;
+            changeAnim(runAnim);
         }
         if (Input.GetMouseButtonUp(0))
         {
-            changeAnim("idle");
-            body.GetComponent<Rigidbody>().useGravity = false;
+            changeAnim(idleAnim);
         }
     }
 
@@ -49,4 +43,9 @@ public class Player : Character
             player.forward = JoystickControl.direct;
         }  
     }
+
+    public void OnAttack(Vector3 des){
+        Attack(hand.position, des);
+    }
+
 }
