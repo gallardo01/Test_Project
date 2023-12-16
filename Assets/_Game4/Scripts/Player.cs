@@ -6,11 +6,7 @@ public class Player : Character
 {
     [SerializeField] private Transform player;
     [SerializeField] private GameObject body;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -23,12 +19,11 @@ public class Player : Character
         if (Input.GetMouseButton(0))
         {
             JoyStickControl();
-            changeAnim("run");
             body.GetComponent<Rigidbody>().useGravity = true;
         }
         if (Input.GetMouseButtonUp(0))
         {
-            changeAnim("idle");
+            changeAnim(AnimConstant.idleAnim);
             body.GetComponent<Rigidbody>().useGravity = false;
         }
     }
@@ -40,6 +35,11 @@ public class Player : Character
         if (CanMove(nextPoint))
         {
             Debug.Log("Acess CanMove");
+            // if (Vector3)
+            // {
+
+            // }
+            changeAnim(AnimConstant.runAnim);
             player.position = nextPoint;
         }
 

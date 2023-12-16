@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using MarchingBytes;
 
 public class Character : MonoBehaviour
 {
@@ -9,10 +10,12 @@ public class Character : MonoBehaviour
     [SerializeField] protected LayerMask groundLayer;
     protected string currentAnim = "run";
     [SerializeField] private Animator playerAnim;
+    //[SerializeField] protected GameObject bulletPrefab;
     // Start is called before the first frame update
     void Start()
     {
-        changeAnim("idle");
+        Debug.Log("Start");
+        changeAnim(AnimConstant.idleAnim);
     }
 
     // Update is called once per frame
@@ -22,6 +25,10 @@ public class Character : MonoBehaviour
     }
 
     
+    void OnOnit()
+    {
+
+    }
 
     protected bool CanMove(Vector3 point)
     {
@@ -41,5 +48,36 @@ public class Character : MonoBehaviour
             currentAnim = animName;
             playerAnim.SetTrigger(currentAnim);
         }
+    }
+
+    void OnDespawn()
+    {
+        
+    }
+    //
+    void OnDeath()
+    {
+
+    }
+    // detect target -------------------------------------------------------------------
+    // bool detectTarget(int level)
+    // {
+    //     return true;
+    // }
+
+    // Attack -------------------------------------------------------------------
+    public void Attack()
+    {
+        changeAnim(AnimConstant.attackAnim);
+        Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", transform.position, Quaternion.identity).GetComponent<Bullet>();
+        //bullet.OnShoot();
+    }
+
+    void OnAttack()
+    {
+        // if(detectTarget())
+        // {
+        //     Attack();
+        // }
     }
 }
