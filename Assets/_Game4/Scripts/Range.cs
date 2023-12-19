@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Range : MonoBehaviour
 {
-    [SerializeField] private Character character;
-    [SerializeField] private const string BotTag = "bot";
+    public bool enterRange = false, onTarget = false;
+    public Vector3 target;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,14 +19,21 @@ public class Range : MonoBehaviour
         
     }
 
-    void OnTriggerEnter(Collider other)
-    {   if (other.tag == BotTag)
+    void OnTriggerStay(Collider other)
+    {   
+        if (other.tag == Tag.botTag)
         {
-            if (Input.GetMouseButtonDown(1))
-            {
-                Debug.Log("Range Attack");
-                character.Attack();
-            }
+            Debug.Log("Target = True");
+            onTarget = true;
+            target = other.gameObject.transform.position;
         }
-    }       
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == Tag.botTag)
+        {
+            onTarget = false;
+        }
+    }
 }

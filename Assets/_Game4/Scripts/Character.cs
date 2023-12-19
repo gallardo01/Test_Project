@@ -6,16 +6,18 @@ using MarchingBytes;
 
 public class Character : MonoBehaviour
 {
+    [SerializeField] protected Transform rightHand;
     [SerializeField] protected int speed;
     [SerializeField] protected LayerMask groundLayer;
     protected string currentAnim = "run";
     [SerializeField] private Animator playerAnim;
+    [SerializeField] protected Range range;
+    public bool isDead = false;
     //[SerializeField] protected GameObject bulletPrefab;
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Start");
-        changeAnim(AnimConstant.idleAnim);
+        ChangeAnim(AnimConstant.idleAnim);
     }
 
     // Update is called once per frame
@@ -39,8 +41,7 @@ public class Character : MonoBehaviour
         return false;
     }
 
-    // change anim -------------------------------------------------------------------
-    protected void changeAnim(string animName)
+    protected void ChangeAnim(string animName) //-------------------------------------------------------------------
     {
         if (currentAnim != animName)
         {
@@ -54,22 +55,36 @@ public class Character : MonoBehaviour
     {
         
     }
-    //
-    void OnDeath()
-    {
 
+    void OnTriggerEnter(Collider other) //-------------------------------------------------------------------
+    {
+        if (other.tag == Tag.bulletTag)
+        {
+            isDead = true;
+        }
     }
-    // detect target -------------------------------------------------------------------
-    // bool detectTarget(int level)
-    // {
-    //     return true;
-    // }
 
-    // Attack -------------------------------------------------------------------
-    public void Attack()
+    protected void OnDeath() //-------------------------------------------------------------------
     {
-        changeAnim(AnimConstant.attackAnim);
-        Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", transform.position, Quaternion.identity).GetComponent<Bullet>();
+        if (isDead)
+        {
+            ChangeAnim(AnimConstant.deadAnim);
+            Destroy(gameObject);
+        }
+    }
+
+    public void Attack() //-------------------------------------------------------------------
+    {
+        ChangeAnim(AnimConstant.attackAnim);
+        Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", rightHand.position, transform.rotation).GetComponent<Bullet>();
+        if (range.onTarget)
+        {
+            bullet.SetDestination(range.target);
+        }
+        if (!range.onTarget)
+        {
+            bullet.SetDestination(bullet.transform.position + transform.forward * 10f);
+        }
         //bullet.OnShoot();
     }
 

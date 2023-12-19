@@ -23,8 +23,9 @@ public class Player : Character
         }
         if (Input.GetMouseButtonUp(0))
         {
-            changeAnim(AnimConstant.idleAnim);
+            ChangeAnim(AnimConstant.idleAnim);
             body.GetComponent<Rigidbody>().useGravity = false;
+            Attack();
         }
     }
 
@@ -39,7 +40,7 @@ public class Player : Character
             // {
 
             // }
-            changeAnim(AnimConstant.runAnim);
+            ChangeAnim(AnimConstant.runAnim);
             player.position = nextPoint;
         }
 
