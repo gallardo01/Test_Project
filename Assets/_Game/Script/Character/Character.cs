@@ -13,24 +13,22 @@ public class Character : MonoBehaviour
     [SerializeField] protected GameObject WeaponImg;
     [SerializeField] protected float speed;
 
-    [SerializeField] protected float attackRange;
- 
 
-    private string currentAnim;
+    public float attackRange;
+    public float timeCountat;
+    public float timeat = 1f;
     public Vector3 positionTarget;
     public Character target;
     public float lenghtRaycast;
-    
+    public bool isAttack;
+    public bool isRun;
+    public Vector3 direct;
+    private string currentAnim;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
 
     public void OnInit()
     {
-
+        SetData();
     }
 
     public void OnDeath()
@@ -40,7 +38,7 @@ public class Character : MonoBehaviour
 
     public void SetData()
     {
-
+        attackRange = 5f;
     }
 
 
@@ -65,13 +63,46 @@ public class Character : MonoBehaviour
     {
 
     }
+    public void Attack()
+    {
+        if (Vector3.Distance(direct, Vector3.zero) >= 0.00001f)
+        {
+            isRun = true;
 
-    public void ThrowWeapon(Vector3 target)
+        }
+        Collider[] enemies = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
+        if (enemies.Length > 1)
+        {
+            ChangAnim(Constants.ANIM_ATTACK);
+            target = Cache.GetScript(enemies[1]);
+            positionTarget = target.transform.position;
+            timeCountat += Time.deltaTime;
+            if (timeCountat >= timeat && target != null)
+            {
+
+                timeCountat = 0;
+                ThrowWeapon();
+
+            }
+
+        }
+
+    }
+    public bool CheckEnemy()
+    {
+        Collider[] Enemys = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
+        return Enemys.Length > 1;
+    }
+    public void ThrowWeapon()
     {
         ThrowWeapon bullet = EasyObjectPool.instance.GetObjectFromPool("Arrow", transform.position, transform.rotation).GetComponent<ThrowWeapon>();
-        bullet.gameObject.SetActive(true);
-        bullet.character = this;
-        bullet.OnInit();
+        if (bullet != null)
+        {
+            
+            bullet.gameObject.SetActive(true);
+            bullet.character = this;
+            bullet.OnInit();
+        }
     }
 
 

@@ -1,16 +1,16 @@
 using UnityEngine;
 
+
 public class Player : Character
 {
 
     [SerializeField] FloatingJoystick joystick;
-    private Vector3 direct;
-    public bool isAttack;
-    public bool isRun;
+    public RangeAttack rangeAttack;
 
     // Start is called before the first frame update
     void Start()
     {
+        OnInit();
         ChangAnim(Constants.ANIM_IDLE);
         isAttack = false;
         isRun = false;
@@ -21,7 +21,6 @@ public class Player : Character
     {
 
         direct = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
-        //Debug.Log(Vector3.Distance(direct, Vector3.zero));
         if (!isRun)
         {
             if (CheckEnemy())
@@ -54,34 +53,5 @@ public class Player : Character
 
 
     }
-    public void Attack()
-    {
-        if (Vector3.Distance(direct, Vector3.zero) >= 0.00001f)
-        {
-            isRun = true;
 
-        }
-        Collider[] enemies = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
-        if (enemies.Length > 1)
-        {
-            ChangAnim(Constants.ANIM_ATTACK);
-            target = Cache.GetScript(enemies[0]);
-            positionTarget = target.transform.position;
-            if (target != null)
-            {
-
-                isAttack = true;
-                ThrowWeapon(positionTarget);
-
-            }
-
-        }
-
-    }
-    public bool CheckEnemy()
-    {
-
-        Collider[] Enemys = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
-        return Enemys.Length > 1;
-    }
 }

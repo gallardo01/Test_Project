@@ -7,6 +7,7 @@ public class ThrowWeapon : MonoBehaviour
 {
     public Vector3 direct;
     public Character character;
+    public Vector3 startPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,14 +16,18 @@ public class ThrowWeapon : MonoBehaviour
     
     public void OnInit()
     {
+        startPoint = character.target.transform.position;
         direct =character.target.transform.position -  character.transform.position;
         direct.y = 0;
     }
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(direct);
         this.transform.position += direct * Time.deltaTime;
+        if(Vector3.Distance(this.transform.position, startPoint) > character.attackRange)
+        {
+            EasyObjectPool.instance.ReturnObjectToPool(this.gameObject);
+        }
     }
 
     public void Remove()
