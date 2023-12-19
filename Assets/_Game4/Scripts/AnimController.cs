@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Range : MonoBehaviour
+public class AnimController : MonoBehaviour
 {
-    [SerializeField] private Character yourCharacter;
+    [SerializeField] private Character character;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,10 +17,9 @@ public class Range : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if(other.tag == "Bot"){
-            yourCharacter.OnAttack(other.gameObject.transform.position);
-        }
+    public void CharacterShooting(){
+        Bullet bullet = character.Shooting();
+        bullet.ActiveCollider();
     }
 
 }

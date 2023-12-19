@@ -23,4 +23,11 @@ public class Bot : Character
         }
     }
 
+    void OnTriggerEnter(Collider other){
+        if(other.tag == "Bullet"){
+            Debug.Log("Hit");
+            OnDeath();
+        }
+    }
+
 }

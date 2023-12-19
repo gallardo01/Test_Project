@@ -6,7 +6,6 @@ public class Player : Character
 {
     [SerializeField] private Transform player;
     [SerializeField] private GameObject body;
-    [SerializeField] private Transform hand;
 
     // Update is called once per frame
     void Update()
@@ -18,34 +17,40 @@ public class Player : Character
     {
         if (Input.GetMouseButton(0))
         {
-            JoyStickControl();
-            changeAnim(runAnim);
+            MoveByJoystick();
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && !isAttack)
         {
             changeAnim(idleAnim);
         }
     }
 
-    void JoyStickControl()
+    void MoveByJoystick()
     {
         Vector3 nextPoint = player.position + JoystickControl.direct * speed * Time.deltaTime;
 
         if (CanMove(nextPoint))
         {
-            Debug.Log("Acess CanMove");
+            changeAnim(runAnim);
             player.position = nextPoint;
         }
 
         if (JoystickControl.direct != Vector3.zero)
         {
-            Debug.Log("Acess Diff");
             player.forward = JoystickControl.direct;
         }  
     }
 
-    public void OnAttack(Vector3 des){
-        Attack(hand.position, des);
+    public void Attack(Vector3 des){
+        // OnAttack(hand.position, des);
     }
+
+    void OnTriggerEnter(Collider other){
+        if(other.tag == "Bullet"){
+            Debug.Log("Hit");
+            OnDeath();
+        }
+    }
+
 
 }

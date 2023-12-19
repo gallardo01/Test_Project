@@ -10,8 +10,13 @@ public class Character : MonoBehaviour
     [SerializeField] protected LayerMask groundLayer;
     protected const string idleAnim = "idle";
     protected const string runAnim = "run";
-    protected string currentAnim = runAnim;
+    protected const string attackAnim = "attack";
+    public string currentAnim = runAnim;
     [SerializeField] private Animator playerAnim;
+    [SerializeField] private Transform hand;
+    public bool isAttack = false;
+    private int sizeNum = 1;
+    public Vector3 enemyPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +31,7 @@ public class Character : MonoBehaviour
 
     protected bool CanMove(Vector3 point)
     {
-        if (Physics.Raycast(point + Vector3.up * 0.2f, Vector3.down, 5f, groundLayer))
+        if (Physics.Raycast(point + Vector3.up * 0.2f, Vector3.down, 5f, groundLayer) && !isAttack)
         {
             return true;
         }
@@ -53,25 +58,44 @@ public class Character : MonoBehaviour
     }
 
     void OnDespawn(){
-
+        
     }
 
-    void OnDeath(){
-
+    public void OnDeath(){
+        changeAnim("die");
     }
 
     void OnKill(){
 
     }
 
-    protected void Attack(Vector3 startPoint, Vector3 endPoint){
-        Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", startPoint, Quaternion.identity).GetComponent<Bullet>();
-        bullet.SetDestination(endPoint);
-        // EasyObjectPool.instance.ReturnObjectToPool(bullet);
+    void OnStopMove(){
+
+    }
+
+    public void OnAttack(Vector3 endPoint){
+        transform.forward = endPoint - transform.position;
+        changeAnim(attackAnim);
+        // Debug.Log("attack");
+        isAttack = true;
+        enemyPoint = endPoint;
+        // StartCoroutine(IEShooting(endPoint));
+    }
+
+    IEnumerator IEShooting(Vector3 endPoint){
+        yield return new WaitForSeconds(0.5f);
+        Shooting();
+    }
+
+    public Bullet Shooting(){
+        isAttack = false;
+        Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", hand.position, Quaternion.identity).GetComponent<Bullet>();
+        bullet.SetDestination(enemyPoint);
+        return bullet;
     }
 
     void UpSize(){
-
+        transform.localScale = Vector3.one * sizeNum;
     }
 
 }
