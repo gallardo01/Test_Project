@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/_BridgeRace/Scene/SampleScene.unity
+- path: Assets/_MoveStopMove/Asset/Scene/MoveStopMove.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

@@ -63,11 +63,11 @@ namespace MarchingBytes {
 			} else if(fixedSize == false) {
 				//increment size var, this is for info purpose only
 				poolSize++;
-				//Debug.Log(string.Format("Growing pool {0}. New size: {1}",poolName,poolSize));
+				Debug.Log(string.Format("Growing pool {0}. New size: {1}",poolName,poolSize));
 				//create new object
 				po = NewObjectInstance();
 			} else {
-				//Debug.LogWarning("No object available & cannot grow pool: " + poolName);
+				Debug.LogWarning("No object available & cannot grow pool: " + poolName);
 			}
 			
 			GameObject result = null;
@@ -92,13 +92,13 @@ namespace MarchingBytes {
 				 * While that would have been more robust, it would have made this method O(n) 
 				 */
 				if(po.isPooled) {
-					//Debug.LogWarning(po.gameObject.name + " is already in pool. Why are you trying to return it again? Check usage.");	
+					Debug.LogWarning(po.gameObject.name + " is already in pool. Why are you trying to return it again? Check usage.");	
 				} else {
 					AddObjectToPool(po);
 				}
 				
 			} else {
-				//Debug.LogError(string.Format("Trying to add object to incorrect pool {0} {1}",po.poolName,poolName));
+				Debug.LogError(string.Format("Trying to add object to incorrect pool {0} {1}",po.poolName,poolName));
 			}
 		}
 	}
@@ -129,11 +129,11 @@ namespace MarchingBytes {
 			for (int index = 0; index < poolInfo.Length; index++) {
 				string poolName = poolInfo[index].poolName;
 				if(poolName.Length == 0) {
-					//Debug.LogError(string.Format("Pool {0} does not have a name!",index));
+					Debug.LogError(string.Format("Pool {0} does not have a name!",index));
 				}
 				for (int internalIndex = index + 1; internalIndex < poolInfo.Length; internalIndex++) {
 					if(poolName.Equals(poolInfo[internalIndex].poolName)) {
-						//Debug.LogError(string.Format("Pool {0} & {1} have the same name. Assign different names.", index, internalIndex));
+						Debug.LogError(string.Format("Pool {0} & {1} have the same name. Assign different names.", index, internalIndex));
 					}
 				}
 			}
@@ -146,7 +146,7 @@ namespace MarchingBytes {
 				                     currentPoolInfo.poolSize, currentPoolInfo.fixedSize);
 
 				
-				//Debug.Log("Creating pool: " + currentPoolInfo.poolName);
+				Debug.Log("Creating pool: " + currentPoolInfo.poolName);
 				//add to mapping dict
 				poolDictionary[currentPoolInfo.poolName] = pool;
 			}
@@ -165,11 +165,11 @@ namespace MarchingBytes {
 				result = pool.NextAvailableObject(position,rotation);
 				//scenario when no available object is found in pool
 				if(result == null) {
-					//Debug.LogWarning("No object available in pool. Consider setting fixedSize to false.: " + poolName);
+					Debug.LogWarning("No object available in pool. Consider setting fixedSize to false.: " + poolName);
 				}
 				
 			} else {
-				//Debug.LogError("Invalid pool name specified: " + poolName);
+				Debug.LogError("Invalid pool name specified: " + poolName);
 			}
 			
 			return result;
@@ -178,13 +178,13 @@ namespace MarchingBytes {
 		public void ReturnObjectToPool(GameObject go) {
 			PoolObject po = go.GetComponent<PoolObject>();
 			if(po == null) {
-				//Debug.LogWarning("Specified object is not a pooled instance: " + go.name);
+				Debug.LogWarning("Specified object is not a pooled instance: " + go.name);
 			} else {
 				if(poolDictionary.ContainsKey(po.poolName)) {
 					Pool pool = poolDictionary[po.poolName];
 					pool.ReturnObjectToPool(po);
 				} else {
-					//Debug.LogWarning("No pool available with name: " + po.poolName);
+					Debug.LogWarning("No pool available with name: " + po.poolName);
 				}
 			}
 		}
