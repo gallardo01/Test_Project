@@ -9,16 +9,20 @@ public class PatrolState : IState<Bot>
     public void OnEnter(Bot t)
     {
         t.changeAnim("run");
+        SeekTarget(t);
     }
 
     public void OnExecute(Bot t)
     {
-        SeekTarget(t);
+        if (t.IsDestintion)
+        {
+            t.ChangeState(new IdleState());
+        }
     }
 
     public void OnExit(Bot t)
     {
-
+    
     }
 
     private void SeekTarget(Bot t)
