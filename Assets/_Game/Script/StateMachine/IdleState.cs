@@ -6,15 +6,13 @@ public class IdleState : IState<Bot>
 {
     public void OnEnter(Bot t)
     {
-        // wait - run animation
-        // dung lai 1-5s
         t.changeAnim("idle");
-        t.ChangeState(new PatrolState());
+        t.Counter.Start(() => t.ChangeState(new PatrolState()), Random.Range(1f, 3f));
     }
 
     public void OnExecute(Bot t)
     {
-
+        t.Counter.Execute();
     }
 
     public void OnExit(Bot t)

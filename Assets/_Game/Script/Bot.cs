@@ -10,6 +10,10 @@ public class Bot : Character
 
     public bool IsDestintion => (Mathf.Abs(destionation.x - transform.position.x) + Mathf.Abs(destionation.z - transform.position.z)) < 0.05f;
 
+    private CounterTime counter = new CounterTime();
+    public CounterTime Counter => counter;
+
+
     // Start is called before the first frame update
     void Start()
     {

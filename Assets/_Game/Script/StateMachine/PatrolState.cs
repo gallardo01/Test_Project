@@ -27,6 +27,6 @@ public class PatrolState : IState<Bot>
 
     private void SeekTarget(Bot t)
     {
-        t.SetDestination(new Vector3(Random.Range(-15f, 15f),0.5f, Random.Range(-15f, 15f)));
+        t.SetDestination(new Vector3(Random.Range(-14f, 14f),0.5f, Random.Range(-14f, 14f)));
     }
 }
