@@ -9,6 +9,8 @@ public class Bot : Character
 
     [SerializeField] private NavMeshAgent agent;
     public Vector3 destionation;
+
+    private bool IsDestionation => Mathf.Abs((destionation.x - transform.position.x)+ (destionation.z - transform.position.z)) <=  0.01f;
     IState<Bot> currentState;
     // Start is called before the first frame update
     void Start()
@@ -45,4 +47,5 @@ public class Bot : Character
         agent.SetDestination(destionation);
 
     }
+    
 }

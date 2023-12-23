@@ -1,57 +1,53 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
 public class Player : Character
 {
 
-    [SerializeField] FloatingJoystick joystick;
-    public RangeAttack rangeAttack;
-
+    [SerializeField] Rigidbody rb;
+    [SerializeField] private float speed;
     // Start is called before the first frame update
-    void Start()
+    void Start() 
     {
         OnInit();
-        ChangAnim(Constants.ANIM_IDLE);
-        isAttack = false;
-        isRun = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        direct = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
-        if (!isRun)
+        if (Input.GetMouseButton(0) && JoystickControl.direct != Vector3.zero)
         {
-            if (CheckEnemy())
-            {
+            rb.MovePosition(rb.position + JoystickControl.direct * speed * Time.deltaTime);
+            transform.position = rb.position;
+            transform.forward = JoystickControl.direct;
+            ChangAnim(Constants.ANIM_RUN);
+        }
 
-                Attack();
+        if (Input.GetMouseButtonUp(0))
+        {
+            Character target = GetTarget();
+            if (target != null)
+            {
+                RotateTarget();
+                ChangAnim(Constants.ANIM_ATTACK);
+
+                ThrowWeapon();
             }
             else
             {
-
                 ChangAnim(Constants.ANIM_IDLE);
             }
-            if (Vector3.Distance(direct, Vector3.zero) >= 0.00001f)
-            {
-                isRun = true;
-
-            }
         }
-        else
+    }
+    public void Attack()
+    {
+        if (Vector3.Distance(direct, Vector3.zero) >= 0.00001f)
         {
-            ChangAnim(Constants.ANIM_RUN);
-            transform.position += direct * speed * Time.deltaTime;
-            playerSkin.transform.forward = direct;
-            if (Vector3.Distance(direct, Vector3.zero) <= 0.00001f) isRun = false;
+            
 
         }
-
-
-
-
-
+  
     }
 
 }

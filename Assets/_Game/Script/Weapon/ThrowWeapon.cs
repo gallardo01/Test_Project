@@ -1,31 +1,39 @@
 using MarchingBytes;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ThrowWeapon : MonoBehaviour
 {
+    private Transform target;
     public Vector3 direct;
     public Character character;
     public Vector3 startPoint;
+    public float speed;
+    public Transform child;
     // Start is called before the first frame update
     void Start()
     {
         
     }
     
-    public void OnInit()
+    public void OnInit(Character character, Transform target)
     {
-        startPoint = character.target.transform.position;
-        direct =character.target.transform.position -  character.transform.position;
-        direct.y = 0;
+        this.target = target;
+        this.character = character;
+        startPoint = this.character.transform.position;
+        transform.forward = (target.position - transform.position).normalized;
     }
     // Update is called once per frame
     void Update()
     {
-        this.transform.position += direct * Time.deltaTime;
-        if(Vector3.Distance(this.transform.position, startPoint) > character.attackRange)
+        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        child.Rotate(Vector3.up * -6, Space.Self);
+
+        if (Vector3.Distance(this.transform.position, startPoint) > this.character.attackRange)
         {
+            Debug.Log("remove");
             EasyObjectPool.instance.ReturnObjectToPool(this.gameObject);
         }
     }
@@ -34,13 +42,21 @@ public class ThrowWeapon : MonoBehaviour
     {
         EasyObjectPool.instance.ReturnObjectToPool(transform.gameObject);
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Bot"))
-        {
-            Destroy(other.gameObject);
-            EasyObjectPool.instance.ReturnObjectToPool(this.gameObject);
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag(Constants.TAG_BOT))
+    //    {
+    //        //Debug.Log(2);
+    //        Bot bot = other.GetComponent<Bot>();
+    //        bot.changState(new DeadState());
+    //        EasyObjectPool.instance.ReturnObjectToPool(this.gameObject);
+    //    }
+    //    //if (other.CompareTag(Constants.TAG_PLAYER))
+    //    //{
+    //    //    Player player = other.GetComponent<Player>();
+    //    //    EasyObjectPool.instance.ReturnObjectToPool(this.gameObject);
+    //    //    Destroy(player.gameObject);
+    //    //}
+    //}
 
 }

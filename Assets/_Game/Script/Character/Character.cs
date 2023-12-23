@@ -1,4 +1,5 @@
 using MarchingBytes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,22 +9,24 @@ public class Character : MonoBehaviour
 {
 
     [SerializeField] private Animator anim;
-    [SerializeField] protected LayerMask characterLayer;
+    [SerializeField] internal LayerMask characterLayer;
     [SerializeField] protected GameObject playerSkin;
     [SerializeField] protected GameObject WeaponImg;
-    [SerializeField] protected float speed;
+    [SerializeField] protected SphereCollider sphere;
 
+    
+    public Collider collider;
+    public float attackRange => sphere.radius;
 
-    public float attackRange;
-    public float timeCountat;
-    public float timeat = 1f;
-    public Vector3 positionTarget;
-    public Character target;
     public float lenghtRaycast;
-    public bool isAttack;
-    public bool isRun;
     public Vector3 direct;
     private string currentAnim;
+
+    public List<Character> targets = new List<Character>();
+    public Vector3 positionTarget;
+    public Character target;
+    private CounterTime counterTime = new CounterTime();
+    public CounterTime count => counterTime;
     // Start is called before the first frame update
 
     public void OnInit()
@@ -38,7 +41,7 @@ public class Character : MonoBehaviour
 
     public void SetData()
     {
-        attackRange = 5f;
+        sphere.radius = 3.5f;
     }
 
 
@@ -63,47 +66,71 @@ public class Character : MonoBehaviour
     {
 
     }
-    public void Attack()
+   
+    public void AddTarget(Character target)
     {
-        if (Vector3.Distance(direct, Vector3.zero) >= 0.00001f)
-        {
-            isRun = true;
-
-        }
-        Collider[] enemies = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
-        if (enemies.Length > 1)
-        {
-            ChangAnim(Constants.ANIM_ATTACK);
-            target = Cache.GetScript(enemies[1]);
-            positionTarget = target.transform.position;
-            timeCountat += Time.deltaTime;
-            if (timeCountat >= timeat && target != null)
-            {
-
-                timeCountat = 0;
-                ThrowWeapon();
-
-            }
-
-        }
-
+        targets.Add(target);
     }
-    public bool CheckEnemy()
+    public void RemoveTarget(Character target)
     {
-        Collider[] Enemys = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
-        return Enemys.Length > 1;
+        targets.Remove(target);
+        target = null;
     }
+
+    public Character GetTarget()
+    {
+        if(targets.Count > 0)
+        {
+            target = targets[UnityEngine.Random.Range(0, targets.Count)];
+            return target;
+        }
+        return null;
+    }
+    //public bool CheckEnemy()
+    //{
+    //    Collider[] Enemys = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
+    //    Array.Sort(Enemys, new ColliderDistanceComparer(transform.position));
+    //    if(Enemys.Length > 1 ) {
+    //        target = Cache.GetScript(Enemys[1]);
+    //    }
+    //    return Enemys.Length > 1;
+    //}
     public void ThrowWeapon()
     {
-        ThrowWeapon bullet = EasyObjectPool.instance.GetObjectFromPool("Arrow", transform.position, transform.rotation).GetComponent<ThrowWeapon>();
+        ThrowWeapon bullet = EasyObjectPool.instance.GetObjectFromPool("Candy", transform.position + transform.forward*0.8f, transform.rotation).GetComponent<ThrowWeapon>();
         if (bullet != null)
         {
-            
             bullet.gameObject.SetActive(true);
-            bullet.character = this;
-            bullet.OnInit();
+            bullet.OnInit(this, target.transform);
         }
     }
+    public void RotateTarget()
+    {
+        positionTarget = target.transform.position;
+        Vector3 directionToTarget = positionTarget - transform.position;
+        directionToTarget.y = 0f;
 
+        if (directionToTarget != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 50f);
+        }
+    }
+}
 
+public class ColliderDistanceComparer : IComparer<Collider>
+{
+    private Vector3 m_ComparePosition;
+
+    public ColliderDistanceComparer(Vector3 comparePosition)
+    {
+        m_ComparePosition = comparePosition;
+    }
+
+    public int Compare(Collider x, Collider y)
+    {
+        float xDistance = Vector3.Distance(m_ComparePosition, x.transform.position);
+        float yDistance = Vector3.Distance(m_ComparePosition, y.transform.position);
+        return xDistance.CompareTo(yDistance);
+    }
 }
