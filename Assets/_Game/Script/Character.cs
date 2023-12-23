@@ -10,11 +10,20 @@ public class Character : AbsCharacter
     private string currentAnim;
     public Transform body;
     public LayerMask groundLayer;
+    public List<Character> targets = new List<Character>();
+    protected Character target;
+    [SerializeField] GameObject bulletPrefabs;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
+    }
+
+    public void Throw()
+    {
+        Bullet bullet = Instantiate(bulletPrefabs, transform.position, Quaternion.identity).GetComponent<Bullet>();
+        bullet.OnInit(this, target.transform);
     }
 
     public bool CanMove(Vector3 point)
@@ -31,6 +40,27 @@ public class Character : AbsCharacter
             currentAnim = animName;
             animator.SetTrigger(currentAnim);
         }
+    }
+
+    public virtual void AddTarget(Character target)
+    {
+        targets.Add(target);
+    }
+
+    public virtual void RemoveTarget(Character target)
+    {
+        targets.Remove(target);
+        this.target = null;
+    }
+
+    public Character GetTargetInRange()
+    {
+        if (targets.Count > 0)
+        {
+            target = targets[Random.Range(0, targets.Count)];
+            return target;
+        }
+        return null;
     }
 
     public override void OnInit()

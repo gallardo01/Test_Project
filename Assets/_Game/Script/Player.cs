@@ -25,7 +25,16 @@ public class Player : Character
 
         if (Input.GetMouseButtonUp(0))
         {
-            changeAnim("idle");
+            Character target = GetTargetInRange();
+            if (target != null)
+            {
+                changeAnim("attack");
+                Throw();
+            }
+            else
+            {
+                changeAnim("idle");
+            }
         }
     }
 }
