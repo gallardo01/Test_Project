@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.VisualScripting.Dependencies.Sqlite.SQLite3;
 
 public class Character : AbsCharacter
 {
@@ -13,7 +12,7 @@ public class Character : AbsCharacter
     public List<Character> targets = new List<Character>();
     protected Character target;
     [SerializeField] GameObject bulletPrefabs;
-
+    [SerializeField] GameObject weapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +21,10 @@ public class Character : AbsCharacter
 
     public void Throw()
     {
+        //weapon.SetActive(false);
         Bullet bullet = Instantiate(bulletPrefabs, transform.position, Quaternion.identity).GetComponent<Bullet>();
         bullet.OnInit(this, target.transform);
+        weapon.GetComponent<Weapon>().Throw();
     }
 
     public bool CanMove(Vector3 point)

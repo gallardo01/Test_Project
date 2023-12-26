@@ -5,12 +5,15 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     // Ban den dau
-    [SerializeField] Transform target;
+    private Transform target;
 
     // Nguoi ban ra vien dan nay
-    [SerializeField] Character character;
-    [SerializeField] float speed = 6f;
+    private Character character;
+    [SerializeField] float speed = 8f;
     [SerializeField] Transform child;
+
+    CounterTime counterTime = new CounterTime();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +25,7 @@ public class Bullet : MonoBehaviour
     {
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
         child.Rotate(Vector3.up * -6, Space.Self);
+        counterTime.Execute();
     }
 
     public void OnInit(Character character, Transform target)
@@ -30,5 +34,13 @@ public class Bullet : MonoBehaviour
         this.target = target;
         transform.forward = (target.position - transform.position).normalized;
         //transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+        counterTime.Start(deactiveBullet, 1f);
     }
+
+    public void deactiveBullet()
+    {
+        gameObject.SetActive(false);
+    }
+
+
 }
