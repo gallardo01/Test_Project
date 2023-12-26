@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimController : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
-    [SerializeField] private Character yourCharacter;
+    public GameObject bullet;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,10 +17,13 @@ public class AnimController : MonoBehaviour
         
     }
 
-    public void Shooting(){
-        // Bullet bullet = yourCharacter.Shooting();
-        // bullet.ActiveCollider();
-        yourCharacter.OnShoot();
+    public void OnEnabled(){
+        bullet.SetActive(true);
+    }
+
+    public void Throw(){
+        bullet.SetActive(false);
+        Invoke(nameof(OnEnabled), 0.3f);
     }
 
 }

@@ -4,98 +4,128 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : AbstractCharacter
 {
-    [SerializeField] protected int speed;
+    
     [SerializeField] protected LayerMask groundLayer;
-    protected const string idleAnim = "idle";
-    protected const string runAnim = "run";
-    protected const string attackAnim = "attack";
-    public string currentAnim = runAnim;
+    private string currentAnim;
     [SerializeField] private Animator playerAnim;
-    [SerializeField] private Transform hand;
-    public bool isAttack = false;
-    private int sizeNum = 1;
+    [SerializeField] private Transform body, hand;
+    public bool canMove = true;
+    [SerializeField] private Weapon yourWeapon;
+    // public bool isAttack = false;
+    // private int sizeNum = 1;
     public Vector3 enemyPoint;
-    // Start is called before the first frame update
-    void Start()
-    {
-        OnInit();
+    void Start(){
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public override void OnInit(){
+
+    }
+    public override void OnDespawn(){
+
+    }
+    public override void OnDeath(){
+
+    }
+    public override void OnAttack(){
+
+    }
+    // [SerializeField] protected int speed;
+    // [SerializeField] protected LayerMask groundLayer;
+    // protected const string idleAnim = "idle";
+    // protected const string runAnim = "run";
+    // protected const string attackAnim = "attack";
+    // public string currentAnim = runAnim;
+    // [SerializeField] private Animator playerAnim;
+    // [SerializeField] private Transform hand;
+    // public bool isAttack = false;
+    // private int sizeNum = 1;
+    // public Vector3 enemyPoint;
+    // // Start is called before the first frame update
+    // void Start()
+    // {
+    //     OnInit();
+    // }
+
+    // // Update is called once per frame
+    // void Update()
+    // {
         
-    }
+    // }
 
-    protected bool CanMove(Vector3 point)
+    public bool CanMove(Vector3 point)
     {
-        if (Physics.Raycast(point + Vector3.up * 0.2f, Vector3.down, 5f, groundLayer) && !isAttack)
-        {
-            return true;
-        }
-        return false;
+        return canMove;
     }
 
-    // change anim -------------------------------------------------------------------
-    protected void changeAnim(string animName)
+    // // change anim -------------------------------------------------------------------
+    public void changeAnim(string animName)
     {
         if (currentAnim != animName)
         {
             playerAnim.ResetTrigger(currentAnim);
             currentAnim = animName;
             playerAnim.SetTrigger(currentAnim);
+            if(currentAnim == "attack"){
+                canMove = false;
+            }
         }
     }
 
-    void OnInit(){
-        changeAnim(idleAnim);
-    }
+    // void OnInit(){
+    //     changeAnim(idleAnim);
+    // }
 
-    void SetData(){
+    // void SetData(){
         
-    }
+    // }
 
-    void OnDespawn(){
+    // void OnDespawn(){
         
-    }
+    // }
 
-    public void OnDeath(){
-        changeAnim("die");
-    }
+    // public void OnDeath(){
+    //     changeAnim("die");
+    // }
 
-    void OnKill(){
+    // void OnKill(){
 
-    }
+    // }
 
-    void OnStopMove(){
+    // void OnStopMove(){
 
-    }
+    // }
 
     public void OnAttack(Vector3 endPoint){
-        transform.forward = endPoint - transform.position;
-        changeAnim(attackAnim);
+        // transform.forward = new Vector3(0, 0, 0);
+        Vector3 lookPos = endPoint - transform.position;
+        lookPos.y = 0;
+        transform.rotation = Quaternion.LookRotation(lookPos);
+        changeAnim("attack");
         // Debug.Log("attack");
-        isAttack = true;
+        // isAttack = true;
         enemyPoint = endPoint;
         // StartCoroutine(IEShooting(endPoint));
     }
 
-    IEnumerator IEShooting(Vector3 endPoint){
-        yield return new WaitForSeconds(0.5f);
-        Shooting();
-    }
+    // IEnumerator IEShooting(Vector3 endPoint){
+    //     yield return new WaitForSeconds(0.5f);
+    //     Shooting();
+    // }
 
-    public Bullet Shooting(){
-        isAttack = false;
-        Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", hand.position, Quaternion.identity).GetComponent<Bullet>();
+    public void OnShoot(){
+        Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", hand.position + new Vector3(0,0,0.5f), transform.rotation).GetComponent<Bullet>();
         bullet.SetDestination(enemyPoint);
-        return bullet;
+        canMove = true;
+        yourWeapon.Throw();
+        // yourWeapon.OnEnabled();
+
     }
 
-    void UpSize(){
-        transform.localScale = Vector3.one * sizeNum;
-    }
+    // void UpSize(){
+    //     transform.localScale = Vector3.one * sizeNum;
+    // }
 
 }

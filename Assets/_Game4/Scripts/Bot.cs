@@ -1,32 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using MarchingBytes;
 
 public class Bot : Character
 {
+    public NavMeshAgent agent;
+    private Vector3 destination;
+
+    public bool IsDestination => (Mathf.Abs(destination.x - transform.position.x) + Mathf.Abs(destination.z - transform.position.z)) < 0.05f;
+    // public int targetBrick;
+    private CounterTime counter = new CounterTime();
+    public CounterTime Counter => counter;
+    // public float distanceY;    
     // Start is called before the first frame update
     void Start()
     {
         
+        // destination = transform.position;
+        // changeAnim("idle");
+        ChangeState(new PatrolState());
     }
 
     // Update is called once per frame
-    void Update()
+    public void SetDestination(Vector3 position)
     {
         
+        agent.enabled = true;
+        destination = position;
+        destination.y = 0.5f;
+        agent.SetDestination(position);
+        changeAnim("run");
+        // Debug.Log("Destination: "+position);
     }
 
     IState<Bot> currentState;
-    public void ChangeState(IState<Bot> state){
-        if (currentState != null){
-            ChangeState(new AttackState());
+    private void Update(){
+        if(currentState != null){
+            currentState.OnExecute(this);
         }
     }
 
-    void OnTriggerEnter(Collider other){
+    public void ChangeState(IState<Bot> state){
+        if(currentState != null){
+            currentState.OnExit(this);
+        }
+        currentState = state;
+        if(currentState != null){
+            currentState.OnEnter(this);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) {
         if(other.tag == "Bullet"){
-            Debug.Log("Hit");
-            OnDeath();
+            EasyObjectPool.instance.ReturnObjectToPool(gameObject);
         }
     }
 
