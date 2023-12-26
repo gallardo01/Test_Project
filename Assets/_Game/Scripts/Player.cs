@@ -1,95 +1,143 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.Pool;
 
 public class Player : MonoBehaviour
 {
 
     [SerializeField] protected Animator animator;
-    [SerializeField] protected float attackRange;
+    [SerializeField] public float attackRange;
     [SerializeField] protected Transform player;
-    [SerializeField] protected float speed;
     [SerializeField] protected Weapon weapon;
+    [SerializeField] protected Collider collider;
+    [SerializeField] protected LayerMask playerMask;
+    [SerializeField] protected WeaponList weaponList;
+    [SerializeField] protected Transform hand;
+    [SerializeField] protected Vector3 scoreOffset;
 
+    protected CameraFollow cameraFollow;
     protected string currentAnim;
-    protected List<Transform> targets;
-    protected Vector3 currentTarget;
+    protected Collider[] targets;
+    protected Transform currentTarget;
     protected bool canAttack;
+    protected int score;
+    protected int targetCount;
+    protected GameObject scoreObject;
+    protected TextMeshProUGUI scoreText;
 
-    protected void ToCallInUpdate() {
-        if (targets.Count > 0 && currentAnim == Constants.IDLE_ANIM && canAttack) {
-            Attack();
-        }
+    public void SetScoreText(GameObject score) {
+        scoreObject = score;
+        scoreText = scoreObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        scoreText.SetText("0");
     }
 
-    private void Awake() {
+    protected void ToCallInUpdate()
+    {
+        targetCount = Physics.OverlapSphereNonAlloc(transform.position, attackRange, targets, playerMask);
+        float minDistance = -1;
+        for (int i = 0; i < targetCount; i++)
+        {
+            if (targets[i] == collider) continue;
+            float distance = Vector3.Distance(transform.position, targets[i].transform.position);
+            if (distance < minDistance || minDistance == -1)
+            {
+                minDistance = distance;
+                currentTarget = targets[i].transform;
+            }
+        }
+
+        if (minDistance != -1 && currentAnim == Constants.IDLE_ANIM && canAttack) Attack();
+        
+        scoreObject.transform.position = Camera.main.WorldToScreenPoint(transform.position + scoreOffset);
+        Debug.Log(Camera.main.WorldToViewportPoint(scoreObject.transform.position));
+    }
+
+    private void OnEnable()
+    {
         OnInit();
     }
 
-    protected void OnInit() {
-        targets = new List<Transform>();
+    protected void OnInit()
+    {
+        cameraFollow = FindObjectOfType<CameraFollow>();
+        score = 0;
+        weapon.OnInit(this);
+        targets = new Collider[LevelManager.Instance.botCount + 1];
         currentAnim = Constants.IDLE_ANIM;
         canAttack = true;
+        collider.enabled = true;
     }
 
     // Remove
-    public virtual void OnDespawn() {
-
+    public virtual void OnDespawn()
+    {
+        Destroy(scoreObject);
     }
 
     // Run Animation
-    public void OnDeath() {
+    public virtual void OnDeath()
+    {
         ChangeAnim(Constants.DEATH_ANIM);
+        collider.enabled = false;
     }
 
-    protected void SetData() {
+    protected void SetData()
+    {
 
     }
 
-    protected void OnKill() {
-
+    public virtual void OnKill()
+    {
+        UpSize();
+        score++;
+        if (scoreText) scoreText.SetText(score.ToString());
     }
 
     // Check if current target active
-    protected void Attack() {
-        currentTarget = targets[0].position;
-        transform.LookAt(currentTarget);
-        ChangeAnim(Constants.ATTACK_ANIM); 
+    protected void Attack()
+    {
+        transform.LookAt(currentTarget.position - Vector3.up * currentTarget.position.y);
+        ChangeAnim(Constants.ATTACK_ANIM);
     }
 
-    public void ChangeAnim(string newAnim) {
-        if (newAnim == currentAnim) return;
+    public void ChangeAnim(string newAnim)
+    {
+        if (newAnim == currentAnim || !collider.enabled) return;
         animator.ResetTrigger(currentAnim);
         currentAnim = newAnim;
         animator.SetTrigger(newAnim);
     }
 
-    protected void UpSize() {
-
+    protected void UpSize()
+    {
+        transform.localScale *= 1.025f;
+        attackRange *= 1.025f;
     }
 
-    public void AddTarget(Collider other) {
-        targets.Add(other.transform);
+    protected void ChangeWeapon(int index)
+    {
+        Transform transform = weapon.transform;
+        Destroy(weapon.gameObject);
+        weapon =  Instantiate(weaponList.GetWeapon(index), hand);
+        weapon.transform.position = transform.position;
+        weapon.transform.localRotation = transform.localRotation;
+        weapon.transform.localScale = transform.localScale;
     }
 
-    public void RemoveTarget(Collider other) {
-        targets.Remove(other.transform);
-    }
-
-    protected void ChangeWeapon() {
-
-    }
-
-    public void Throw() {
-        Bullet bullet = BulletPool.Get();
-        bullet.transform.position = transform.position;
-        bullet.OnInit(this, transform.position + (currentTarget - transform.position).normalized * attackRange);
+    public void Throw()
+    {
         canAttack = false;
         Invoke(nameof(AttackReady), 2);
+
+        weapon.Throw(currentTarget.position);
     }
 
-    private void AttackReady() {
+    private void AttackReady()
+    {
         canAttack = true;
     }
 }

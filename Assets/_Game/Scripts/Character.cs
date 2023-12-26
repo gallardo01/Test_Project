@@ -5,6 +5,7 @@ using UnityEngine;
 public class Character : Player
 {
 
+    [SerializeField] private float speed;
     [SerializeField] private GameObject targetDecoration;
 
     private Vector3 direction;
@@ -12,16 +13,19 @@ public class Character : Player
 
     private void Start()
     {
-        decoration = Instantiate(targetDecoration, Vector3.zero + Vector3.up * 0.3f, Quaternion.identity);
+        decoration = Instantiate(targetDecoration, Vector3.zero + Vector3.up * 0.3f, Quaternion.Euler(new Vector3(90, 0, 0)));
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (targets.Count > 0)
+        ToCallInUpdate();
+
+        if (targetCount > 1)
         {
             decoration.SetActive(true);
-            decoration.transform.position = new Vector3(targets[0].position.x, decoration.transform.position.y, targets[0].transform.position.z);
+            decoration.transform.localScale = currentTarget.localScale;
+            decoration.transform.position = new Vector3(currentTarget.position.x, decoration.transform.position.y, currentTarget.position.z);
         } else {
             decoration.SetActive(false);
         }
@@ -36,13 +40,16 @@ public class Character : Player
         else if (currentAnim != Constants.ATTACK_ANIM) ChangeAnim(Constants.IDLE_ANIM);
 
         player.Translate(direction * speed * Time.deltaTime, Space.World);
-
-        ToCallInUpdate();
-
+        
     }
 
     public override void OnDespawn()
     {
-        Application.Quit();
+        base.OnDespawn();
+    }
+
+    public override void OnKill() {
+        base.OnKill();
+        cameraFollow.UpSize();
     }
 }

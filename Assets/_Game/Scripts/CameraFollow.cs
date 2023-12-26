@@ -5,10 +5,11 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
 
-    [SerializeField] Transform camera;
-    [SerializeField] Vector3 offset;
-    [SerializeField] Transform character;
-    [SerializeField] float speed;
+    [SerializeField] private Transform camera;
+    [SerializeField] private Vector3 offset;
+    [SerializeField] private Transform character;
+    [SerializeField] private float speed;
+    [SerializeField] private float increaseRatio;
 
     void Start()
     {
@@ -19,5 +20,9 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         camera.position = Vector3.Lerp(camera.position, character.position + offset, speed * Time.deltaTime);
+    }
+
+    public void UpSize() {
+        Camera.main.orthographicSize *= (100 + increaseRatio) / 100;   
     }
 }
