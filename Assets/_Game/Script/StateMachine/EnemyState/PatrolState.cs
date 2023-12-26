@@ -14,15 +14,12 @@ public class PatrolState : IState<Bot>
     {
         bot.SetDestionation(randomPos);
         bot.ChangAnim(Constants.ANIM_RUN);
-        if(Vector3.Distance(bot.transform.position , randomPos) <= 0.0001f )
+        if(Vector3.Distance(bot.transform.position , randomPos) <= 0.0001f || bot.targets.Count>0 )
         {
             bot.changState(new IdleState());
             
         }
-        if( bot.targets.Count > 0)
-        {
-            bot.changState(new AttackState());
-        }
+        
 
     }
 

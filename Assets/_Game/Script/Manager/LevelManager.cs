@@ -22,13 +22,14 @@ public class LevelManager : Singleton<LevelManager>
     {
         NavMesh.RemoveAllNavMeshData();
         NavMesh.AddNavMeshData(navMeshData);
-
+        player.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
         // bot
         for (int i = 0; i < botAmount; i++)
         {
             Bot bot = Instantiate(BotPref, GetRandomPointOnNavMesh() , Quaternion.identity).GetComponent<Bot>();
             bot.changState(new PatrolState());
-            
+            bot.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
+
         }
     }
     public Vector3 GetRandomPointOnNavMesh()

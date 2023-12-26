@@ -6,37 +6,37 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class AttackState : IState<Bot>
 {
-    private float resetAttack = 2f;
+    private float resetAttack = 0.5f;
     private float timeCount;
+    private float timeChange = 1f;
+    private bool isThrow;
+    private int countAttack;
     public void OnEnter(Bot bot)
     {
         bot.SetDestionation(bot.transform.position);
+        isThrow = false;
         timeCount = resetAttack;
-        
+        countAttack = 0;
 
     }
 
     public void OnExecute(Bot bot)
     {
+        bot.count.Excute();
         timeCount += Time.deltaTime;
-        if(bot.targets.Count <= 0)
+        
+        if (bot.targets.Count <= 0 || timeCount > 2f)
         {
             bot.changState(new PatrolState());
         }
-        if(timeCount >= resetAttack)
+        Character target = bot.GetTarget();
+        if (target != null)
         {
-            Character target = bot.GetTarget();
-            if(target != null)
-            {
-                Attack(bot);
-            }
-            else
-            {
-                bot.changState(new PatrolState());
-            }
+            Attack(bot);
+         
         }
-        
-        
+
+
     }
 
     public void OnExit(Bot bot)
@@ -45,9 +45,14 @@ public class AttackState : IState<Bot>
     }
     private void Attack(Bot bot)
     {
-        timeCount = 0;
-        bot.ChangAnim(Constants.ANIM_ATTACK);
-        bot.ThrowWeapon();
+        if(timeCount > resetAttack && !isThrow && bot.target.GetComponent<Character>().collider == true)
+        {
+            isThrow = true;
+            bot.RotateTarget();
+            bot.ChangAnim(Constants.ANIM_ATTACK);
+            bot.OnAttack();
+        }
+        
         
     }
 

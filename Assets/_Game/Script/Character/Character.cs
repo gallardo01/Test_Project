@@ -5,23 +5,23 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : AbsCharacter 
 {
 
     [SerializeField] private Animator anim;
     [SerializeField] internal LayerMask characterLayer;
     [SerializeField] protected GameObject playerSkin;
-    [SerializeField] protected GameObject WeaponImg;
+    public Weapon WeaponImg;
     [SerializeField] protected SphereCollider sphere;
 
-    
+    public Renderer skinColor;
+    private int level;
     public Collider collider;
     public float attackRange => sphere.radius;
 
     public float lenghtRaycast;
     public Vector3 direct;
     private string currentAnim;
-
     public List<Character> targets = new List<Character>();
     public Vector3 positionTarget;
     public Character target;
@@ -29,28 +29,32 @@ public class Character : MonoBehaviour
     public CounterTime count => counterTime;
     // Start is called before the first frame update
 
-    public void OnInit()
+    public override void OnInit()
     {
         SetData();
     }
 
-    public void OnDeath()
+    public override void OnDeath()
     {
 
     }
 
     public void SetData()
     {
-        sphere.radius = 3.5f;
+        sphere.radius = 3.6f;
+        level = 1;
     }
 
 
 
-    public void Onkill()
+   public override void OnAttack()
     {
 
     }
-
+    public override void OnDespawn()
+    {
+        
+    }
     public void ChangAnim(string animName)
     {
         if (currentAnim != animName)
@@ -62,17 +66,21 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void UpSize()
-    {
-
-    }
+    //public void UpSize(int levelAdd)
+    //{
+    //    level += levelAdd;
+    //    float radius = sphere.radius += levelAdd;
+    //    circleAttack.transform.localScale = new Vector3(radius / 3, radius / 3, radius / 3);
+    //}
    
+
     public void AddTarget(Character target)
     {
         targets.Add(target);
     }
     public void RemoveTarget(Character target)
     {
+        Debug.Log(gameObject.name);
         targets.Remove(target);
         target = null;
     }
@@ -82,22 +90,19 @@ public class Character : MonoBehaviour
         if(targets.Count > 0)
         {
             target = targets[UnityEngine.Random.Range(0, targets.Count)];
+            //if(target != null)
+            //{
+            //    return target;
+            //}
             return target;
         }
         return null;
     }
-    //public bool CheckEnemy()
-    //{
-    //    Collider[] Enemys = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
-    //    Array.Sort(Enemys, new ColliderDistanceComparer(transform.position));
-    //    if(Enemys.Length > 1 ) {
-    //        target = Cache.GetScript(Enemys[1]);
-    //    }
-    //    return Enemys.Length > 1;
-    //}
+
     public void ThrowWeapon()
     {
-        ThrowWeapon bullet = EasyObjectPool.instance.GetObjectFromPool("Candy", transform.position + transform.forward*0.8f, transform.rotation).GetComponent<ThrowWeapon>();
+        WeaponImg.OnDisable();
+        ThrowWeapon bullet = EasyObjectPool.instance.GetObjectFromPool("Candy", transform.position  + transform.forward*1f, transform.rotation).GetComponent<ThrowWeapon>();
         if (bullet != null)
         {
             bullet.gameObject.SetActive(true);
@@ -113,10 +118,12 @@ public class Character : MonoBehaviour
         if (directionToTarget != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 50f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 150f);
         }
     }
 }
+
+
 
 public class ColliderDistanceComparer : IComparer<Collider>
 {

@@ -47,5 +47,11 @@ public class Bot : Character
         agent.SetDestination(destionation);
 
     }
-    
+    public override void OnAttack()
+    {
+        base.OnAttack();
+        count.Start(ThrowWeapon, 0.4f);
+        //ChangAnim(Constants.ANIM_IDLE);
+
+    }
 }

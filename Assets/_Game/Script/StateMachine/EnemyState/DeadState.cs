@@ -21,13 +21,13 @@ public class DeadState : IState<Bot>
         timeCount += Time.deltaTime;
         if(Mathf.Abs(timeDead - timeCount) < 0.01f)
         {
-            //Debug.Log("dead");
-            Object.Destroy(bot.gameObject);
+
+            OnExit(bot);
         }
     }
 
     public void OnExit(Bot bot)
     {
-
+        Object.Destroy(bot.gameObject);
     }
 }

@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 2962077204758416006}
   - component: {fileID: 4199405513977564856}
   - component: {fileID: 4203575244625725663}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,6 +176,7 @@ MonoBehaviour:
   playerSkin: {fileID: 1889597057282763653}
   WeaponImg: {fileID: 0}
   sphere: {fileID: 4199405513977564856}
+  skinColor: {fileID: 7952857401554576486}
   collider: {fileID: 7573048606145558425}
   lenghtRaycast: 2
   direct: {x: 0, y: 0, z: 0}
@@ -280,5 +281,10 @@ Transform:
 --- !u!95 &4821218413184824556 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
+  m_PrefabInstance: {fileID: 7573048606512984716}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &7952857401554576486 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8699012472884554006, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
   m_PrefabInstance: {fileID: 7573048606512984716}
   m_PrefabAsset: {fileID: 0}

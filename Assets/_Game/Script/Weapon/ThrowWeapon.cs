@@ -33,30 +33,36 @@ public class ThrowWeapon : MonoBehaviour
 
         if (Vector3.Distance(this.transform.position, startPoint) > this.character.attackRange)
         {
-            Debug.Log("remove");
-            EasyObjectPool.instance.ReturnObjectToPool(this.gameObject);
+            Remove();
         }
     }
 
     public void Remove()
     {
         EasyObjectPool.instance.ReturnObjectToPool(transform.gameObject);
+        character.WeaponImg.OnEnable();
+        
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag(Constants.TAG_BOT))
-    //    {
-    //        //Debug.Log(2);
-    //        Bot bot = other.GetComponent<Bot>();
-    //        bot.changState(new DeadState());
-    //        EasyObjectPool.instance.ReturnObjectToPool(this.gameObject);
-    //    }
-    //    //if (other.CompareTag(Constants.TAG_PLAYER))
-    //    //{
-    //    //    Player player = other.GetComponent<Player>();
-    //    //    EasyObjectPool.instance.ReturnObjectToPool(this.gameObject);
-    //    //    Destroy(player.gameObject);
-    //    //}
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log(other.gameObject.tag);
+        //Debug.Log(other.transform);
+        if (other.CompareTag(Constants.TAG_BOT))
+        {
+            //Debug.Log(2);
+            Bot bot = other.GetComponent<Bot>();
+            bot.changState(new DeadState());
+            Remove();
+        }
+        if (other.CompareTag(Constants.TAG_PLAYER))
+        {
+            Debug.Log("player");
+            Player player = other.GetComponent<Player>();
+            Remove();
+            player.collider.enabled = false;
+
+            player.gameObject.SetActive(false);
+        }
+    }
 
 }
