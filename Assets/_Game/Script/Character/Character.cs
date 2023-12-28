@@ -2,6 +2,7 @@ using MarchingBytes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -27,11 +28,14 @@ public class Character : AbsCharacter
     public Character target;
     private CounterTime counterTime = new CounterTime();
     public CounterTime count => counterTime;
+    public bool IsWeapon;
     // Start is called before the first frame update
+
 
     public override void OnInit()
     {
-        SetData();
+        //SetData();
+        IsWeapon = true;
     }
 
     public override void OnDeath()
@@ -74,30 +78,30 @@ public class Character : AbsCharacter
     //}
    
 
-    public void AddTarget(Character target)
-    {
-        targets.Add(target);
-    }
-    public void RemoveTarget(Character target)
-    {
-        Debug.Log(gameObject.name);
-        targets.Remove(target);
-        target = null;
-    }
+    //public void AddTarget(Character target)
+    //{
+    //    targets.Add(target);
+    //}
+    //public void RemoveTarget(Character target)
+    //{
+    //    //Debug.Log(gameObject.name);
+    //    targets.Remove(target);
+    //    target = null;
+    //}
 
-    public Character GetTarget()
-    {
-        if(targets.Count > 0)
-        {
-            target = targets[UnityEngine.Random.Range(0, targets.Count)];
-            //if(target != null)
-            //{
-            //    return target;
-            //}
-            return target;
-        }
-        return null;
-    }
+    //public Character GetTarget()
+    //{
+    //    if(targets.Count > 0)
+    //    {
+    //        target = targets[UnityEngine.Random.Range(0, targets.Count)];
+    //        if (target != null)
+    //        {
+    //            return target;
+    //        }
+    //        return target;
+    //    }
+    //    return null;
+    //}
 
     public void ThrowWeapon()
     {
@@ -118,26 +122,22 @@ public class Character : AbsCharacter
         if (directionToTarget != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 150f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 200f);
         }
     }
-}
-
-
-
-public class ColliderDistanceComparer : IComparer<Collider>
-{
-    private Vector3 m_ComparePosition;
-
-    public ColliderDistanceComparer(Vector3 comparePosition)
+    public bool checkTarget()
     {
-        m_ComparePosition = comparePosition;
-    }
+        Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
+        colliders = colliders.OrderBy(c => Vector3.Distance(c.bounds.center, transform.position)).ToArray();
+        if(colliders.Length > 1)
+        {
+            target = Cache.GetScript(colliders[1]);
+        }
+        return colliders.Length > 1;
 
-    public int Compare(Collider x, Collider y)
-    {
-        float xDistance = Vector3.Distance(m_ComparePosition, x.transform.position);
-        float yDistance = Vector3.Distance(m_ComparePosition, y.transform.position);
-        return xDistance.CompareTo(yDistance);
     }
 }
+
+
+
+

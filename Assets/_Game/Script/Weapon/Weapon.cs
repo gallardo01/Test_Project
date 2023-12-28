@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private GameObject child;
 
-
+    
     public void OnEnable()
     {
         child.SetActive(true);
@@ -16,4 +16,8 @@ public class Weapon : MonoBehaviour
     {
         child.SetActive(false); 
     }
+    // public bool HaveWeapon()
+    //{
+    //    return child.activeSelf;
+    //}
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class DeadState : IState<Bot>
 {
 
-    private float timeDead = 0.5f;
+    private float timeDead = 0.7f;
     private float timeCount;
     public void OnEnter(Bot bot)
     {

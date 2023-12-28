@@ -8,6 +8,7 @@ public class Player : Character
     [SerializeField] Rigidbody rb;
     [SerializeField] private float speed;
     [SerializeField] private GameObject circleAttack;
+    private bool isRun;
     // Start is called before the first frame update
     void Start() 
     {
@@ -20,6 +21,7 @@ public class Player : Character
         if(Input.GetMouseButtonDown(0))
         {
             count.Cancel();
+            IsWeapon = true;
         }
         if (Input.GetMouseButton(0) && JoystickControl.direct != Vector3.zero)
         {
@@ -33,24 +35,41 @@ public class Player : Character
             count.Excute();
         }
 
+        //if (Input.GetMouseButtonUp(0))
+        //{
+
+
+        //    if (checkTarget() && IsWeapon )
+        //    {
+        //        RotateTarget();
+        //        ChangAnim(Constants.ANIM_ATTACK);
+        //        OnAttack();
+        //    }
+        //    else
+        //    {                
+        //        ChangAnim(Constants.ANIM_IDLE);
+        //    }
+        //}
         if (Input.GetMouseButtonUp(0))
         {
-            Character target = GetTarget();
-            if (target != null)
+            ChangAnim(Constants.ANIM_IDLE);
+        }
+        if (!Input.GetMouseButton(0))
+        {
+            if(checkTarget() && IsWeapon )
             {
                 RotateTarget();
                 ChangAnim(Constants.ANIM_ATTACK);
                 OnAttack();
-            }
-            else
-            {
-                ChangAnim(Constants.ANIM_IDLE);
-            }
+            }           
         }
     }
+
     public override void OnAttack()
     {
+        //Debug.Log("attack");
         base.OnAttack();
+        IsWeapon = false;
         count.Start(ThrowWeapon, 0.4f);
         //ChangAnim(Constants.ANIM_IDLE);
   

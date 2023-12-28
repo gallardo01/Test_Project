@@ -14,7 +14,7 @@ public class PatrolState : IState<Bot>
     {
         bot.SetDestionation(randomPos);
         bot.ChangAnim(Constants.ANIM_RUN);
-        if(Vector3.Distance(bot.transform.position , randomPos) <= 0.0001f || bot.targets.Count>0 )
+        if(Vector3.Distance(bot.transform.position , randomPos) <= 0.0001f || (bot.checkTarget() && bot.IsWeapon))
         {
             bot.changState(new IdleState());
             

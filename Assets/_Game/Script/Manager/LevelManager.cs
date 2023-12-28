@@ -34,7 +34,8 @@ public class LevelManager : Singleton<LevelManager>
     }
     public Vector3 GetRandomPointOnNavMesh()
     {
-        Vector3 randomPoint = new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f));
+        //Vector3 randomPoint = new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f));
+        Vector3 randomPoint = new Vector3(Random.Range(-20f, 20f), 0f, Random.Range(-20f, 20f));
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomPoint, out hit, 10f, NavMesh.AllAreas))
         {

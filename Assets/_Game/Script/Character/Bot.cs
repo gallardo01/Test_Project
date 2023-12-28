@@ -8,13 +8,14 @@ public class Bot : Character
 {
 
     [SerializeField] private NavMeshAgent agent;
-    public Vector3 destionation;
+    private Vector3 destionation;
+    //private bool IsDestionation => Mathf.Abs((destionation.x - transform.position.x)+ (destionation.z - transform.position.z)) <=  0.01f;
 
-    private bool IsDestionation => Mathf.Abs((destionation.x - transform.position.x)+ (destionation.z - transform.position.z)) <=  0.01f;
     IState<Bot> currentState;
     // Start is called before the first frame update
     void Start()
     {
+        OnInit();
         ChangAnim(Constants.ANIM_IDLE);
     }
 
@@ -47,11 +48,11 @@ public class Bot : Character
         agent.SetDestination(destionation);
 
     }
-    public override void OnAttack()
-    {
-        base.OnAttack();
-        count.Start(ThrowWeapon, 0.4f);
-        //ChangAnim(Constants.ANIM_IDLE);
+    //public override void OnAttack()
+    //{
+    //    base.OnAttack();
+    //    count.Start(ThrowWeapon, 0.4f);
+    //    //ChangAnim(Constants.ANIM_IDLE);
 
-    }
+    //}
 }

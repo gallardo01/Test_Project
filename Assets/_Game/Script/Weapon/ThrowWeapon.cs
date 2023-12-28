@@ -7,11 +7,12 @@ using UnityEngine;
 public class ThrowWeapon : MonoBehaviour
 {
     private Transform target;
-    public Vector3 direct;
-    public Character character;
-    public Vector3 startPoint;
+    private Vector3 direct;
+    private Character character;
+    private Vector3 startPoint;
     public float speed;
-    public Transform child;
+    [SerializeField] private Transform child;
+    private float range;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class ThrowWeapon : MonoBehaviour
     {
         this.target = target;
         this.character = character;
+        this.range = character.attackRange;
         startPoint = this.character.transform.position;
         transform.forward = (target.position - transform.position).normalized;
     }
@@ -31,7 +33,7 @@ public class ThrowWeapon : MonoBehaviour
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
         child.Rotate(Vector3.up * -6, Space.Self);
 
-        if (Vector3.Distance(this.transform.position, startPoint) > this.character.attackRange)
+        if (Vector3.Distance(this.transform.position, startPoint) > this.range)
         {
             Remove();
         }
@@ -41,6 +43,7 @@ public class ThrowWeapon : MonoBehaviour
     {
         EasyObjectPool.instance.ReturnObjectToPool(transform.gameObject);
         character.WeaponImg.OnEnable();
+        character.IsWeapon = true;
         
     }
     private void OnTriggerEnter(Collider other)
@@ -54,15 +57,14 @@ public class ThrowWeapon : MonoBehaviour
             bot.changState(new DeadState());
             Remove();
         }
-        if (other.CompareTag(Constants.TAG_PLAYER))
-        {
-            Debug.Log("player");
-            Player player = other.GetComponent<Player>();
-            Remove();
-            player.collider.enabled = false;
-
-            player.gameObject.SetActive(false);
-        }
+        //if (other.CompareTag(Constants.TAG_PLAYER))
+        //{
+        //    Debug.Log("player");
+        //    Player player = other.GetComponent<Player>();
+        //    Remove();
+        //    //player.collider.enabled = false;
+        //    //player.gameObject.SetActive(false);
+        //}
     }
 
 }

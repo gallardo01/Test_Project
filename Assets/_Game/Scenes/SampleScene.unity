@@ -891,7 +891,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -914,14 +914,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1025812623}
-  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
+  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
   m_LocalPosition: {x: 0, y: 10, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
 --- !u!1 &1082939833
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,8 +1225,8 @@ MonoBehaviour:
   targets: []
   positionTarget: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
+  IsWeapon: 0
   agent: {fileID: 1523332765}
-  destionation: {x: 0, y: 0, z: 0}
 --- !u!54 &1523332767
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1396,7 +1396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2055645150}
-  botAmount: 1
+  botAmount: 5
   BotPref: {fileID: 274452093079449050, guid: 236dfe392bbda4340a2f9b3dc0878e88, type: 3}
   navMeshData: {fileID: 23800000, guid: 659e3e19b32493f4a8b05d8857a857df, type: 2}
 --- !u!4 &1681294659
@@ -1917,7 +1917,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 32
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &2055645149
 BoxCollider:
@@ -1958,6 +1958,7 @@ MonoBehaviour:
   targets: []
   positionTarget: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
+  IsWeapon: 0
   rb: {fileID: 2055645148}
   speed: 5
   circleAttack: {fileID: 1619825725}

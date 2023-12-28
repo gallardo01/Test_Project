@@ -8,7 +8,6 @@ public class AttackState : IState<Bot>
 {
     private float resetAttack = 0.5f;
     private float timeCount;
-    private float timeChange = 1f;
     private bool isThrow;
     private int countAttack;
     public void OnEnter(Bot bot)
@@ -24,16 +23,9 @@ public class AttackState : IState<Bot>
     {
         bot.count.Excute();
         timeCount += Time.deltaTime;
-        
-        if (bot.targets.Count <= 0 || timeCount > 2f)
-        {
-            bot.changState(new PatrolState());
-        }
-        Character target = bot.GetTarget();
-        if (target != null)
+        if (bot.checkTarget())
         {
             Attack(bot);
-         
         }
 
 
@@ -45,15 +37,21 @@ public class AttackState : IState<Bot>
     }
     private void Attack(Bot bot)
     {
-        if(timeCount > resetAttack && !isThrow && bot.target.GetComponent<Character>().collider == true)
+        if (timeCount > resetAttack && !isThrow)
         {
+            bot.IsWeapon = false;
             isThrow = true;
             bot.RotateTarget();
             bot.ChangAnim(Constants.ANIM_ATTACK);
-            bot.OnAttack();
+            bot.count.Start(Throw, 0.4f);
         }
-        
-        
+         void Throw()
+        {
+            bot.ThrowWeapon();
+            bot.changState(new PatrolState());
+
+        }
     }
+
 
 }

@@ -17,7 +17,7 @@ public class IdleState : IState<Bot>
     {
 
         bot.count.Excute();
-        if (bot.targets.Count>0)
+        if (bot.checkTarget() && bot.IsWeapon)
         {
             bot.count.Cancel();
             bot.changState(new AttackState());
