@@ -9,11 +9,12 @@ public class Character : MonoBehaviour
     [SerializeField] protected Transform rightHand;
     [SerializeField] protected int speed;
     [SerializeField] protected LayerMask groundLayer;
-    protected string currentAnim = "run";
+    protected string currentAnim;
     [SerializeField] private Animator playerAnim;
     [SerializeField] protected Range range;
     public bool isDead = false;
     //[SerializeField] protected GameObject bulletPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +33,7 @@ public class Character : MonoBehaviour
 
     }
 
-    protected bool CanMove(Vector3 point)
+    public bool CanMove(Vector3 point)
     {
         if (Physics.Raycast(point + Vector3.up * 0.2f, Vector3.down, 5f, groundLayer))
         {
@@ -41,7 +42,7 @@ public class Character : MonoBehaviour
         return false;
     }
 
-    protected void ChangeAnim(string animName) //-------------------------------------------------------------------
+    public void ChangeAnim(string animName) //-------------------------------------------------------------------
     {
         if (currentAnim != animName)
         {
@@ -60,7 +61,9 @@ public class Character : MonoBehaviour
     {
         if (other.tag == Tag.bulletTag)
         {
+            Debug.Log("Bullet Hit");
             isDead = true;
+            OnDeath();
         }
     }
 
@@ -68,14 +71,21 @@ public class Character : MonoBehaviour
     {
         if (isDead)
         {
+            Debug.Log("Die Bitch!!");
             ChangeAnim(AnimConstant.deadAnim);
             Destroy(gameObject);
         }
     }
 
+    public void Rotate() //-------------------------------------------------------------------
+    {
+        Vector3 directionToTarget = range.target - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = lookRotation;
+    }
+
     public void Attack() //-------------------------------------------------------------------
     {
-        ChangeAnim(AnimConstant.attackAnim);
         Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", rightHand.position, transform.rotation).GetComponent<Bullet>();
         if (range.onTarget)
         {
@@ -88,11 +98,11 @@ public class Character : MonoBehaviour
         //bullet.OnShoot();
     }
 
-    void OnAttack()
-    {
-        // if(detectTarget())
-        // {
-        //     Attack();
-        // }
-    }
+    // public void OnAttack()
+    // {
+    //     if(range.onTarget)
+    //     {
+    //         Attack();
+    //     }
+    // }
 }

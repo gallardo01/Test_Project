@@ -20,4 +20,5 @@ public static class Tag
 {
     public const string botTag = "bot";
     public const string bulletTag = "bullet";
+    public const string playerTag = "Player";
 }

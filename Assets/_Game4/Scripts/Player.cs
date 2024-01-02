@@ -23,9 +23,17 @@ public class Player : Character
         }
         if (Input.GetMouseButtonUp(0))
         {
-            ChangeAnim(AnimConstant.idleAnim);
+            if(range.onTarget)
+            {
+                Rotate();
+                ChangeAnim(AnimConstant.attackAnim);
+            }
+            if(!range.onTarget)
+            {
+                ChangeAnim(AnimConstant.idleAnim);
+            }
             body.GetComponent<Rigidbody>().useGravity = false;
-            Attack();
+            // Attack();
         }
     }
 
@@ -36,10 +44,6 @@ public class Player : Character
         if (CanMove(nextPoint))
         {
             Debug.Log("Acess CanMove");
-            // if (Vector3)
-            // {
-
-            // }
             ChangeAnim(AnimConstant.runAnim);
             player.position = nextPoint;
         }

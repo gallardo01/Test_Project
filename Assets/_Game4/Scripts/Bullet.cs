@@ -32,6 +32,10 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    void OnInit()
+    {
+
+    }
     void CanMove()
     {
         canMove = true;
@@ -45,5 +49,14 @@ public class Bullet : MonoBehaviour
     public void SetDestination(Vector3 target)
     {
         destination = target;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player" || other.tag == "Player")
+        {
+            Debug.Log("Shut The Bullet Off");
+            EasyObjectPool.instance.ReturnObjectToPool(gameObject);
+        }
     }
 }
