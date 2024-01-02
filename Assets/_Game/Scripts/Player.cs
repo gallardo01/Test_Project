@@ -8,6 +8,7 @@ using UnityEngine.Pool;
 
 public class Player : MonoBehaviour
 {
+    public Transform hand;
 
     [SerializeField] protected Animator animator;
     [SerializeField] public float attackRange;
@@ -16,7 +17,6 @@ public class Player : MonoBehaviour
     [SerializeField] protected Collider collider;
     [SerializeField] protected LayerMask playerMask;
     [SerializeField] protected WeaponList weaponList;
-    [SerializeField] protected Transform hand;
     [SerializeField] protected Vector3 scoreOffset;
 
     protected CameraFollow cameraFollow;
@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
         if (minDistance != -1 && currentAnim == Constants.IDLE_ANIM && canAttack) Attack();
         
         scoreObject.transform.position = Camera.main.WorldToScreenPoint(transform.position + scoreOffset);
-        Debug.Log(Camera.main.WorldToViewportPoint(scoreObject.transform.position));
     }
 
     private void OnEnable()
@@ -120,12 +119,9 @@ public class Player : MonoBehaviour
 
     protected void ChangeWeapon(int index)
     {
-        Transform transform = weapon.transform;
         Destroy(weapon.gameObject);
         weapon =  Instantiate(weaponList.GetWeapon(index), hand);
-        weapon.transform.position = transform.position;
-        weapon.transform.localRotation = transform.localRotation;
-        weapon.transform.localScale = transform.localScale;
+        weapon.OnInit(this);
     }
 
     public void Throw()

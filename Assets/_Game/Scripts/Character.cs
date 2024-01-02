@@ -40,7 +40,10 @@ public class Character : Player
         else if (currentAnim != Constants.ATTACK_ANIM) ChangeAnim(Constants.IDLE_ANIM);
 
         player.Translate(direction * speed * Time.deltaTime, Space.World);
-        
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeWeapon(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeWeapon(2);
     }
 
     public override void OnDespawn()

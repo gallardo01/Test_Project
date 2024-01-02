@@ -9,43 +9,39 @@ public class Bot : Player
 {
 
     public NavMeshAgent agent;
-    
-    [SerializeField] GameObject hint;
 
     private Vector3 destination;
     private IState<Bot> currentState;
     private CounterTime counter;
     private Transform character;
-    private Transform arrow;
-    
+
 
     public CounterTime Counter => counter;
     public bool IsDestination => Vector3.Distance(transform.position, destination) < 0.34f;
     public Transform Character { set => character = value; }
-    public GameObject Hint => hint;
 
-    private void Start() {
+    private void Start()
+    {
         counter = new CounterTime();
         ChangeState(new PatrolState());
         canAttack = false;
         Invoke(nameof(EnableAttack), 10);
-        arrow = hint.transform.GetChild(1);
     }
 
-    private void EnableAttack() {
+    private void EnableAttack()
+    {
         canAttack = true;
     }
 
-    private void Update() {
+    private void Update()
+    {
         if (currentState != null) currentState.OnExecute(this);
         ToCallInUpdate();
         if (Mathf.Abs(transform.position.x) > 49 || Mathf.Abs(transform.position.z) > 49) agent.ResetPath();
-        arrow.transform.position = Camera.main.WorldToScreenPoint(Vector3.zero);
-        // Debug.Log(Camera.main.WorldToViewportPoint(arrow.position));
-
     }
 
-    public void SetDestination(Vector3 position) {
+    public void SetDestination(Vector3 position)
+    {
         destination = position;
         agent.SetDestination(destination);
 
@@ -65,7 +61,8 @@ public class Bot : Player
         agent.ResetPath();
     }
 
-    public void ChangeState(IState<Bot> state) {
+    public void ChangeState(IState<Bot> state)
+    {
         if (currentState != null) currentState.OnExit(this);
 
         currentState = state;
@@ -73,8 +70,9 @@ public class Bot : Player
         if (currentState != null) currentState.OnEnter(this);
     }
 
-    public void ResetPath() {
+    public void ResetPath()
+    {
         agent.ResetPath();
     }
-    
+
 }

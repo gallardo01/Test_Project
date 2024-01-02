@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 89198026}
-  - component: {fileID: 89198028}
   - component: {fileID: 89198029}
   m_Layer: 0
   m_Name: ObjectPool
@@ -156,22 +155,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &89198028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 89198024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 444386dd1c1976f408c4953f5aea6d09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collectionCheck: 1
-  defaultCapacity: 50
-  maxSize: 150
-  bullet: {fileID: 3894141284710057048, guid: fc4ee14fa6813c1418d7afec63c5b248, type: 3}
 --- !u!114 &89198029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,12 +200,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bfd9c13f23ddc649b7b9d35314784c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  botCount: 0
+  botCount: 1
   character: {fileID: 5461311522226908316, guid: 2ddee6625f1f4d943b4982b6f4ae8429, type: 3}
   radius: 35
   score: {fileID: 4976738729928180836, guid: 93f48ecf02059324ab7b633c80f23b7b, type: 3}
   scoreParent: {fileID: 518770352}
-  hintParent: {fileID: 865830706}
+  hintParent: {fileID: 377666522}
 --- !u!4 &364246912
 Transform:
   m_ObjectHideFlags: 0
@@ -349,7 +332,6 @@ RectTransform:
   m_Children:
   - {fileID: 1656487206}
   - {fileID: 518770352}
-  - {fileID: 865830706}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -646,48 +628,12 @@ Transform:
   m_GameObject: {fileID: 763694110}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &865830705
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 865830706}
-  m_Layer: 5
-  m_Name: Hint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &865830706
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865830705}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 377666522}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1004848909
 GameObject:
   m_ObjectHideFlags: 0

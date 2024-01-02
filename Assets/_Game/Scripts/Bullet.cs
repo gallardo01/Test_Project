@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
 
     public void Deactivate() {
         weapon.gameObject.SetActive(true);
-        BulletPool.Release(this);
+        // BulletPool.Release(this);
     }
 
     private void OnTriggerEnter(Collider other) {

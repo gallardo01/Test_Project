@@ -12,8 +12,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Character character;
     [SerializeField] private float radius;
     [SerializeField] private GameObject score;
-    [SerializeField] private Transform scoreParent;
-    [SerializeField] private Transform hintParent;
+    public Transform scoreParent;
+    public Transform hintParent;
 
     private List<Bot> bots;
     private Vector3[] positions;
@@ -53,7 +53,6 @@ public class LevelManager : MonoBehaviour
             Bot bot = BotPool.Get();
             bot.SetScoreText(Instantiate(score, scoreParent));
             bot.Character = mainCharacter.transform;
-            bot.Hint.transform.SetParent(hintParent);
 
             float x = mainCharacter.transform.position.x;
             float z = mainCharacter.transform.position.z;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6310387484532187059}
   - component: {fileID: 5825986355381239375}
   - component: {fileID: 1353108077280194130}
+  - component: {fileID: 7677552583954117714}
   m_Layer: 0
   m_Name: Axe
   m_TagString: Untagged
@@ -26,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5285615697278049010}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.00000039488071, y: 0.0000000037252899, z: -0.87050396, w: 0.49216148}
+  m_LocalPosition: {x: -0.17999992, y: 0.15000015, z: 0.08000003}
+  m_LocalScale: {x: 40, y: 40, z: 40}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -99,4 +100,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 0
   price: 0
-  speed: 0
+  speed: 9
+  collider: {fileID: 7677552583954117714}
+  rotateSpeed: 720
+--- !u!65 &7677552583954117714
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5285615697278049010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.025, z: 0.01}
+  m_Center: {x: 0, y: 0, z: 0}
