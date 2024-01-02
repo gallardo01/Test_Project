@@ -17,22 +17,26 @@ public class Bot : Character
     // Start is called before the first frame update
     void Start()
     {
-        
-        // destination = transform.position;
-        // changeAnim("idle");
         ChangeState(new PatrolState());
     }
 
     // Update is called once per frame
     public void SetDestination(Vector3 position)
     {
-        
         agent.enabled = true;
         destination = position;
-        destination.y = 0.5f;
+        destination.y = 1f;
         agent.SetDestination(position);
         changeAnim("run");
         // Debug.Log("Destination: "+position);
+    }
+
+    public override void OnAttack(Vector3 point){
+        base.OnAttack(point);
+        isAttack = true;
+        SetDestination(transform.position);
+        agent.enabled = false;
+        ChangeState(new AttackState());
     }
 
     IState<Bot> currentState;

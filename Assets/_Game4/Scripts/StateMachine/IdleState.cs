@@ -6,10 +6,9 @@ public class IdleState : IState<Bot>
 {
     public void OnEnter(Bot t)
     {
+        t.agent.enabled = true;
         t.changeAnim("idle");
-        // t.ChangeState(new PatrolState());
         t.Counter.Start(() => t.ChangeState(new PatrolState()), Random.Range(1f,5f));
-        // Invoke(nameof(ChangePatrolState), 1f);
     }
 
     // private void ChangePatrolState(){

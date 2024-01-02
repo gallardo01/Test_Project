@@ -8,6 +8,7 @@ public class Player : Character
     // [SerializeField] private GameObject body;
     [SerializeField] private Rigidbody rb;
     [SerializeField] protected float speed = 5f;
+    [SerializeField] private Transform forwardTrans;
     
     // Update is called once per frame
     void Update()
@@ -17,18 +18,25 @@ public class Player : Character
 
     void Moving()
     {
+        if(Input.GetMouseButtonDown(0)){
+            canMove = true;
+        }
         if (Input.GetMouseButton(0) && JoystickControl.direct != Vector3.zero && canMove)
         {
+            isAttack = false;
             rb.MovePosition(rb.position + JoystickControl.direct * speed * Time.deltaTime);
             transform.position = rb.position;
             transform.forward = JoystickControl.direct;
             changeAnim("run");
+            
         }
 
-        if (Input.GetMouseButtonUp(0) && canMove)
+        if (Input.GetMouseButtonUp(0))
         {
-            changeAnim("idle");
-                
+            OnAttack(forwardTrans.position);
+            if(!isAttack){
+                changeAnim("idle");
+            }
         }
     }
 
@@ -52,12 +60,12 @@ public class Player : Character
     //     // OnAttack(hand.position, des);
     // }
 
-    // void OnTriggerEnter(Collider other){
-    //     if(other.tag == "Bullet"){
-    //         Debug.Log("Hit");
-    //         OnDeath();
-    //     }
-    // }
+    void OnTriggerEnter(Collider other){
+        if(other.tag == "Bullet"){
+            // OnDeath();
+            Debug.Log("Hit Player");
+        }
+    }
 
 
 }

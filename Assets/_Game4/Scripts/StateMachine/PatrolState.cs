@@ -6,8 +6,6 @@ public class PatrolState : IState<Bot>
 {
     public void OnEnter(Bot t)
     {
-        Debug.Log("Patrol Enter");
-
         t.changeAnim("run");
         SeekTarget(t);
         // t.targetBrick = 5;
