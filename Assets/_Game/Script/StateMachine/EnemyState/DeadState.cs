@@ -1,3 +1,4 @@
+using MarchingBytes;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,9 +11,10 @@ public class DeadState : IState<Bot>
     private float timeCount;
     public void OnEnter(Bot bot)
     {
-        bot.collider.enabled = false;
+        
         timeCount = 0;
         bot.SetDestionation(bot.transform.position);
+        EasyObjectPool.instance.ReturnObjectToPool(bot.targetIndicator.gameObject);
     }
 
     public void OnExecute(Bot bot)
@@ -28,6 +30,7 @@ public class DeadState : IState<Bot>
 
     public void OnExit(Bot bot)
     {
-        Object.Destroy(bot.gameObject);
+        
+        EasyObjectPool.instance.ReturnObjectToPool(bot.gameObject);
     }
 }

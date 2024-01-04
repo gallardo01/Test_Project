@@ -157,6 +157,7 @@ Transform:
   m_Children:
   - {fileID: 5095181377786194136}
   - {fileID: 274452091983298607}
+  - {fileID: 3405816666805222077}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -206,17 +207,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   playerSkin: {fileID: 8137689719895448267}
-  WeaponImg: {fileID: 6128432151785027624}
   sphere: {fileID: 274452092307703653}
   skinColor: {fileID: 327050317558322472}
   collider: {fileID: 274452093079449031}
-  lenghtRaycast: 0
   direct: {x: 0, y: 0, z: 0}
   targets: []
   positionTarget: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
+  WeaponImg: {fileID: 6128432151785027624}
+  IsWeapon: 0
+  indicatorPoint: {fileID: 3405816666805222077}
+  targetIndicator: {fileID: 0}
   agent: {fileID: 8058550175627950711}
-  destionation: {x: 0, y: 0, z: 0}
 --- !u!195 &8058550175627950711
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -239,6 +241,37 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!1 &3967508057640551581
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3405816666805222077}
+  m_Layer: 7
+  m_Name: Indicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3405816666805222077
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3967508057640551581}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 274452093079449030}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &274452091952956354
 PrefabInstance:
   m_ObjectHideFlags: 0

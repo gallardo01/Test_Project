@@ -10,7 +10,7 @@ public class IdleState : IState<Bot>
 
         bot.SetDestionation(bot.transform.position);
         bot.ChangAnim(Constants.ANIM_IDLE);
-        bot.count.Start(() => bot.changState(new PatrolState()), Random.Range(1f, 3f));
+        bot.count.Start(() => bot.changState(bot.move), Random.Range(1f, 3f));
     }
 
     public void OnExecute(Bot bot)
@@ -20,7 +20,7 @@ public class IdleState : IState<Bot>
         if (bot.checkTarget() && bot.IsWeapon)
         {
             bot.count.Cancel();
-            bot.changState(new AttackState());
+            bot.changState(bot.attack);
         }
     }
 

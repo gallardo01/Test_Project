@@ -3,8 +3,7 @@ using UnityEngine;
 
 
 public class Player : Character
-{
-
+{ 
     [SerializeField] Rigidbody rb;
     [SerializeField] private float speed;
     [SerializeField] private GameObject circleAttack;
@@ -65,6 +64,10 @@ public class Player : Character
         }
     }
 
+    public override void OnInit()
+    {
+        base.OnInit();
+    }
     public override void OnAttack()
     {
         //Debug.Log("attack");

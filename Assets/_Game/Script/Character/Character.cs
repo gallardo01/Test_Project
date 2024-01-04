@@ -12,30 +12,31 @@ public class Character : AbsCharacter
     [SerializeField] private Animator anim;
     [SerializeField] internal LayerMask characterLayer;
     [SerializeField] protected GameObject playerSkin;
-    public Weapon WeaponImg;
     [SerializeField] protected SphereCollider sphere;
-
     public Renderer skinColor;
-    private int level;
     public Collider collider;
     public float attackRange => sphere.radius;
-
-    public float lenghtRaycast;
     public Vector3 direct;
-    private string currentAnim;
     public List<Character> targets = new List<Character>();
     public Vector3 positionTarget;
     public Character target;
+    public Weapon WeaponImg;
+    public bool IsWeapon;
+
     private CounterTime counterTime = new CounterTime();
     public CounterTime count => counterTime;
-    public bool IsWeapon;
-    // Start is called before the first frame update
-
-
+    
+    public Transform indicatorPoint;
+    public TargetIndicator targetIndicator;
+    private int score = 0;
+    private string currentAnim;
     public override void OnInit()
     {
         //SetData();
         IsWeapon = true;
+        targetIndicator = EasyObjectPool.instance.GetObjectFromPool("Indicator", transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
+        targetIndicator.gameObject.SetActive(true);
+        targetIndicator.OnInit(this.indicatorPoint);
     }
 
     public override void OnDeath()
@@ -46,7 +47,6 @@ public class Character : AbsCharacter
     public void SetData()
     {
         sphere.radius = 3.6f;
-        level = 1;
     }
 
 

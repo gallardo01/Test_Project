@@ -9,6 +9,7 @@ public class ThrowWeapon : MonoBehaviour
     private Transform target;
     private Vector3 direct;
     private Character character;
+    public Bot Victim;
     private Vector3 startPoint;
     public float speed;
     [SerializeField] private Transform child;
@@ -54,8 +55,9 @@ public class ThrowWeapon : MonoBehaviour
         {
             //Debug.Log(2);
             Bot bot = other.GetComponent<Bot>();
-            bot.changState(new DeadState());
-            Remove();
+            this.Victim = bot;
+            this.PostEvent(EventID.OnEnemyDead, this);
+
         }
         //if (other.CompareTag(Constants.TAG_PLAYER))
         //{

@@ -1,17 +1,28 @@
+using MarchingBytes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
+
 
 public class LevelManager : Singleton<LevelManager>
 {
 
-    public Player player;
-    public int botAmount;
-    private List<Bot> bots = new List<Bot>();
-    private int characterAmount => botAmount + 1;
-    [SerializeField] private GameObject BotPref;
-    public NavMeshData navMeshData;
+    [SerializeField] private Player player;
+    [SerializeField] private NavMeshData navMeshData;
+    private List<Bot> bots = new List<Bot>();    
+    private int MaxBot = 6;
+
+    public int CountBotCurrent = 3;
+    public int CountBot = 0;
+
+    private void Awake()
+    {
+
+        this.RegisterListener(EventID.OnEnemyDead, (param) => OnWeaponHitEnemy((ThrowWeapon)param));
+
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -24,13 +35,25 @@ public class LevelManager : Singleton<LevelManager>
         NavMesh.AddNavMeshData(navMeshData);
         player.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
         // bot
-        for (int i = 0; i < botAmount; i++)
+        for (int i = 0; i < CountBotCurrent; i++)
         {
-            Bot bot = Instantiate(BotPref, GetRandomPointOnNavMesh() , Quaternion.identity).GetComponent<Bot>();
-            bot.changState(new PatrolState());
-            bot.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
-
+            SpawnBot();
         }
+        this.PostEvent(EventID.OnPlay);
+    }
+    private void OnWeaponHitEnemy(ThrowWeapon weapon)
+    {
+        
+        if (bots.Contains(weapon.Victim))
+        {
+            Debug.Log("remove");
+            this.bots.Remove(weapon.Victim);
+        }
+        weapon.Victim.collider.enabled = false;
+        this.SpawnEnemyInGame();
+        weapon.Victim.changState(weapon.Victim.dead);
+        weapon.Remove();
+
     }
     public Vector3 GetRandomPointOnNavMesh()
     {
@@ -42,6 +65,32 @@ public class LevelManager : Singleton<LevelManager>
             return hit.position;
         }
         return randomPoint;
+    }
+
+    public string GetCountAlive()
+    {
+        return (MaxBot - CountBot + bots.Count).ToString();
+    }
+
+    public void SpawnBot()
+    {
+        Debug.Log("spawn");
+        Vector3 pos = GetRandomPointOnNavMesh();
+        Bot bot = EasyObjectPool.instance.GetObjectFromPool("Bot",pos,Quaternion.identity).GetComponent<Bot>();
+        bot.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
+        bot.collider.enabled = true;
+        bot.gameObject.SetActive(true);
+        bots.Add(bot);
+        bot.changState(new MoveState());
+        CountBot++;
+    }
+    private void SpawnEnemyInGame()
+    {
+        if (CountBot >= MaxBot) return;
+        if (bots.Count < CountBotCurrent)
+        {
+            this.SpawnBot();
+        }
     }
     // Update is called once per frame
     void Update()

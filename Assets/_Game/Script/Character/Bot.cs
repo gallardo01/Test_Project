@@ -1,3 +1,4 @@
+using MarchingBytes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,13 @@ using UnityEngine.UI;
 public class Bot : Character
 {
 
+    internal IdleState idle = new IdleState();
+    internal MoveState move = new MoveState();
+    internal AttackState attack = new AttackState();
+    internal DeadState dead = new DeadState();
+
     [SerializeField] private NavMeshAgent agent;
     private Vector3 destionation;
-    //private bool IsDestionation => Mathf.Abs((destionation.x - transform.position.x)+ (destionation.z - transform.position.z)) <=  0.01f;
 
     IState<Bot> currentState;
     // Start is called before the first frame update
@@ -55,4 +60,16 @@ public class Bot : Character
     //    //ChangAnim(Constants.ANIM_IDLE);
 
     //}
+    //public void SpawnNewWayPoint()
+    //{
+
+    //    wayPoint = EasyObjectPool.instance.GetObjectFromPool("WayPoint", this.transform.position, Quaternion.identity).GetComponent<WayPoint>();
+    //    wayPoint.target = this.transform;
+    //    wayPoint.color.color = skinColor.material.color;
+    //}
+    public override void OnInit()
+    {
+        base.OnInit();
+
+    }
 }

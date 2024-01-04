@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PatrolState : IState<Bot>
+public class MoveState : IState<Bot>
 {
     private Vector3 randomPos;
     public void OnEnter(Bot bot)
@@ -16,7 +16,7 @@ public class PatrolState : IState<Bot>
         bot.ChangAnim(Constants.ANIM_RUN);
         if(Vector3.Distance(bot.transform.position , randomPos) <= 0.0001f || (bot.checkTarget() && bot.IsWeapon))
         {
-            bot.changState(new IdleState());
+            bot.changState(bot.idle);
             
         }
         
