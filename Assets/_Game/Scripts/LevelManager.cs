@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,8 +13,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Character character;
     [SerializeField] private float radius;
     [SerializeField] private GameObject score;
+
     public Transform scoreParent;
     public Transform hintParent;
+    public int remainingBotCount;
 
     private List<Bot> bots;
     private Vector3[] positions;
@@ -43,6 +46,8 @@ public class LevelManager : MonoBehaviour
         
         positions = new Vector3[4];
 
+        remainingBotCount = 1; // Including character
+
         Spawn();
     }
 
@@ -64,6 +69,7 @@ public class LevelManager : MonoBehaviour
 
             bot.transform.position = positions[Random.Range(0, 4)];
             bots.Add(bot);
+            remainingBotCount++;
         }
     }
 

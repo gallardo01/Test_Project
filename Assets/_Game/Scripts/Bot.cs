@@ -14,11 +14,13 @@ public class Bot : Player
     private IState<Bot> currentState;
     private CounterTime counter;
     private Transform character;
+    private GameObject arrow;
 
 
     public CounterTime Counter => counter;
     public bool IsDestination => Vector3.Distance(transform.position, destination) < 0.34f;
     public Transform Character { set => character = value; }
+    public GameObject Arrow { set => arrow = value; }
 
     private void Start()
     {
@@ -36,7 +38,12 @@ public class Bot : Player
     private void Update()
     {
         if (currentState != null) currentState.OnExecute(this);
-        ToCallInUpdate();
+
+        // Only attack when on screen
+        Vector2 viewportPosition = Camera.main.WorldToViewportPoint(transform.position);
+        if (viewportPosition.x <= 1 && viewportPosition.x >= 0 && viewportPosition.y <= 1 && viewportPosition.y >= 0)
+            ToCallInUpdate();
+            
         if (Mathf.Abs(transform.position.x) > 49 || Mathf.Abs(transform.position.z) > 49) agent.ResetPath();
     }
 
@@ -59,6 +66,9 @@ public class Bot : Player
         base.OnDeath();
         ChangeState(null);
         agent.ResetPath();
+
+        // Pool later
+        Destroy(arrow);
     }
 
     public void ChangeState(IState<Bot> state)

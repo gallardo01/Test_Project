@@ -9,15 +9,16 @@ using UnityEngine.Pool;
 public class Player : MonoBehaviour
 {
     public Transform hand;
+    public float attackRange;
 
     [SerializeField] protected Animator animator;
-    [SerializeField] public float attackRange;
     [SerializeField] protected Transform player;
     [SerializeField] protected Weapon weapon;
     [SerializeField] protected Collider collider;
     [SerializeField] protected LayerMask playerMask;
     [SerializeField] protected WeaponList weaponList;
     [SerializeField] protected Vector3 scoreOffset;
+    [SerializeField] protected ParticleSystem sprayOnDeath;
 
     protected CameraFollow cameraFollow;
     protected string currentAnim;
@@ -51,7 +52,9 @@ public class Player : MonoBehaviour
         }
 
         if (minDistance != -1 && currentAnim == Constants.IDLE_ANIM && canAttack) Attack();
-        
+    }
+
+    private void LateUpdate() {
         scoreObject.transform.position = Camera.main.WorldToScreenPoint(transform.position + scoreOffset);
     }
 
@@ -82,6 +85,7 @@ public class Player : MonoBehaviour
     {
         ChangeAnim(Constants.DEATH_ANIM);
         collider.enabled = false;
+        LevelManager.Instance.remainingBotCount--;
     }
 
     protected void SetData()

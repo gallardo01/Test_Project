@@ -7,18 +7,17 @@ public class Arrow : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private float scalePosition;
 
-    private Character character;
-
     private void Awake()
     {
         transform.SetParent(LevelManager.Instance.hintParent);
     }
 
-    private void Start() {
-        character = FindObjectOfType<Character>();
+    // Pool later
+    private void OnEnable() {
+        bot.Arrow = gameObject;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         // Direction before removing z value;
         // Camera.main.WorldToViewportPoint(bot.transform.position - character.transform.position);

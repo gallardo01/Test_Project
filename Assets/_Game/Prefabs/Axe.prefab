@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b902b9a1c1000a741b3c865e60c3fb76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 0
+  range: 12
   price: 0
   speed: 9
   collider: {fileID: 7677552583954117714}

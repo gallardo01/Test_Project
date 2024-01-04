@@ -67,7 +67,7 @@ public class Weapon : MonoBehaviour
     public void Throw(Vector3 target)
     {
         collider.enabled = true;
-        this.target = target;
+        this.target = (target - transform.position).normalized * owner.attackRange + transform.position;
         StartCoroutine(Fly());
     }
 
