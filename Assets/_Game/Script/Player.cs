@@ -12,7 +12,7 @@ public class Player : Character
     // Start is called before the first frame update
     void Start()
     {
-        
+        OnInit();
     }
 
     // Update is called once per frame
@@ -48,10 +48,22 @@ public class Player : Character
         }
     }
 
+    public override void OnInit()
+    {
+        base.OnInit();
+    }
+
     public override void OnAttack()
     {
         base.OnAttack();
         counter.Start(Throw, 0.5f);
         //changeAnim("idle");
+    }
+
+    public override void OnDeath()
+    {
+        // quay ve main menu
+
+        base.OnDeath();
     }
 }

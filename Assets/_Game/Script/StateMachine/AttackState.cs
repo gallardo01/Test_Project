@@ -8,13 +8,12 @@ public class AttackState : IState<Bot>
 
     public void OnEnter(Bot t)
     {
-        Debug.Log("Attack Enter");
+        t.OnMoveStop();
+        t.OnAttack();
     }
 
-    // Dieu kien de ko di ve dich nua, chuyen trang thai
     public void OnExecute(Bot t)
     {
-        Debug.Log("Attack Execute");
     }
 
     public void OnExit(Bot t)

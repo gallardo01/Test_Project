@@ -42,5 +42,15 @@ public class Bullet : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && other.gameObject != character.gameObject)
+        {
+            other.GetComponent<Character>().OnDeath();
+            character.RemoveTarget(target.GetComponent<Character>());
+            gameObject.SetActive(false);
+        }
+    }
+
 
 }
