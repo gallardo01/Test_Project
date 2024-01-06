@@ -13,14 +13,18 @@ public class Character : AbstractCharacter
     public bool canMove = true;
     [SerializeField] private Weapon yourWeapon;
     public bool isAttack = false;
-
+    [SerializeField] GameObject indicatorPrefabs;
+    [SerializeField] GameObject indicatorPoint;
+    protected TargetIndicator targetIndicator;
     public Vector3 enemyPoint;
     void Start(){
-
+        OnInit();
     }
 
     public override void OnInit(){
-
+        Debug.Log("Init Character");
+        targetIndicator = Instantiate(indicatorPrefabs, transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
+        targetIndicator.OnInit(indicatorPoint.transform);
     }
     public override void OnDespawn(){
 
