@@ -232,7 +232,6 @@ MonoBehaviour:
   target: {fileID: 0}
   bulletPrefabs: {fileID: 6219690728032268277, guid: 38d83c5cde14a0e4898171275f8b8ff3, type: 3}
   weapon: {fileID: 534672220606198493}
-  indicatorPrefabs: {fileID: 7164652982129775005, guid: 6472b75fa183035458a5a8a584de9568, type: 3}
   indicatorPoint: {fileID: 6167129166265922941}
   agent: {fileID: 4662621927025102437}
   isDead: 0
@@ -315,7 +314,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6167129166265922941}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

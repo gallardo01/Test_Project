@@ -14,8 +14,7 @@ public class Character : AbsCharacter
     [SerializeField] GameObject bulletPrefabs;
     [SerializeField] GameObject weapon;
     // Start is called before the first frame update
-    private int score = 0;
-    [SerializeField] GameObject indicatorPrefabs;
+    private int score = 1;
     [SerializeField] GameObject indicatorPoint;
     protected TargetIndicator targetIndicator;
 
@@ -36,6 +35,13 @@ public class Character : AbsCharacter
     {
         bool canMove = true;
         return canMove;
+    }
+
+    public void UpdatePoints()
+    {
+        score++;
+        targetIndicator.SetScore(score);
+        transform.localScale = new Vector3(1f + (score-1)*0.2f, 1f + (score - 1) * 0.2f, 1f + (score - 1) * 0.2f);
     }
 
     public virtual void changeAnim(string animName)
@@ -71,8 +77,7 @@ public class Character : AbsCharacter
 
     public override void OnInit()
     {
-        targetIndicator = Instantiate(indicatorPrefabs, transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
-        targetIndicator.OnInit(indicatorPoint.transform);
+        targetIndicator = LevelManager.Ins.CreateIndicatorPanel(indicatorPoint.transform);
     }
     public override void OnDespawn()
     {
@@ -82,6 +87,8 @@ public class Character : AbsCharacter
     }
     public override void OnDeath()
     {
+        targetIndicator.gameObject.SetActive(false);
+        LevelManager.Ins.InitCharacterAlive();
         changeAnim("dead");
     }
 }

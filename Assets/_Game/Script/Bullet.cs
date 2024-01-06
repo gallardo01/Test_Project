@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class Bullet : MonoBehaviour
 {
@@ -46,6 +47,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Player") && other.gameObject != character.gameObject)
         {
+            character.UpdatePoints();
             other.GetComponent<Character>().OnDeath();
             character.RemoveTarget(target.GetComponent<Character>());
             gameObject.SetActive(false);

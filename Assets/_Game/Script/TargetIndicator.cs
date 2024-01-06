@@ -18,7 +18,6 @@ public class TargetIndicator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.transform.SetParent(CanvasGame.Ins.getCanvas().transform);
     }
 
     // Update is called once per frame
@@ -34,5 +33,15 @@ public class TargetIndicator : MonoBehaviour
         Color color = new Color(Random.value, Random.value, Random.value, 1);
         iconLevel.color = color;
         nameText.color = color;
+    }
+
+    public void SetScore(int score)
+    {
+        levelText.text = score.ToString();
+    }
+
+    public void SetInformation(string name)
+    {
+        nameText.text = name;
     }
 }
