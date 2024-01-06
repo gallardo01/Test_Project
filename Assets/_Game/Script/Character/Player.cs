@@ -1,3 +1,4 @@
+using MarchingBytes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class Player : Character
     void Start() 
     {
         OnInit();
+        
     }
 
     // Update is called once per frame
@@ -66,6 +68,10 @@ public class Player : Character
 
     public override void OnInit()
     {
+        nameCharacter = "you";
+        targetIndicator = EasyObjectPool.instance.GetObjectFromPool("Indicator", transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
+        targetIndicator.gameObject.SetActive(true);
+        targetIndicator.OnInit(this.indicatorPoint, this.nameCharacter);
         base.OnInit();
     }
     public override void OnAttack()
@@ -77,5 +83,9 @@ public class Player : Character
         //ChangAnim(Constants.ANIM_IDLE);
   
     }
-
+    public override void UpScore(int addScore)
+    {
+        base.UpScore(addScore);
+        circleAttack.transform.localScale = new Vector3(sphere.radius / 3, sphere.radius / 3, sphere.radius / 3);
+    }
 }

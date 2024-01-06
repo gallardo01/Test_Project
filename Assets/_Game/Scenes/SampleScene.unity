@@ -447,6 +447,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95e0d81fd2b13f745886f0c5eefc43ea, type: 3}
+--- !u!1 &526532213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 526532214}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &526532214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526532213}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 922600333}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &528316098
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,7 +556,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -860,8 +891,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -878,12 +909,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 37.2
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 50
   m_fontStyle: 1
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
@@ -1112,6 +1143,7 @@ Transform:
   - {fileID: 1681294659}
   - {fileID: 768367005}
   - {fileID: 1082939835}
+  - {fileID: 526532214}
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1506,8 +1538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74dc3e2ce61a80408f2e89ef25b112c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameChar: {fileID: 1398114226}
-  target: {fileID: 0}
 --- !u!114 &1398114226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,16 +1702,20 @@ MonoBehaviour:
   poolInfo:
   - poolName: Bot
     prefab: {fileID: 274452093079449050, guid: 236dfe392bbda4340a2f9b3dc0878e88, type: 3}
-    poolSize: 1
+    poolSize: 0
     fixedSize: 0
   - poolName: Candy
     prefab: {fileID: 3926841049702721965, guid: d4b2994b665aeb24ca46acb92b143275, type: 3}
-    poolSize: 5
+    poolSize: 0
     fixedSize: 0
   - poolName: Indicator
     prefab: {fileID: 344508834843133400, guid: b0fa68a7a96df7b41b5b19d5043f9293, type: 3}
-    poolSize: 5
+    poolSize: 0
     fixedSize: 0
+  poolType:
+  - Bot
+  - Candy
+  - Indicator
 --- !u!1 &1514937329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1755,10 +1789,10 @@ RectTransform:
   m_Father: {fileID: 528316099}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 123, y: -365}
-  m_SizeDelta: {x: 400, y: 200}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -195}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1592727364
 MonoBehaviour:
@@ -1793,7 +1827,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cdb1142820956a74d9fd3c81acd75f67, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 94441927f6016d949b3de7ce0743f650, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1931,7 +1965,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2055645150}
   navMeshData: {fileID: 23800000, guid: 659e3e19b32493f4a8b05d8857a857df, type: 2}
-  CountBotCurrent: 1
+  bots: []
+  MaxBot: 5
+  CountBotCurrent: 5
   CountBot: 0
 --- !u!4 &1681294659
 Transform:
@@ -2410,6 +2446,8 @@ MonoBehaviour:
   IsWeapon: 0
   indicatorPoint: {fileID: 811919500}
   targetIndicator: {fileID: 0}
+  score: 0
+  nameCharacter: 
   rb: {fileID: 2055645148}
   speed: 5
   circleAttack: {fileID: 1619825725}

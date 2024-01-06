@@ -171,8 +171,9 @@ namespace MarchingBytes {
 			} else {
 				Debug.LogError("Invalid pool name specified: " + poolName);
 			}
-			
-			return result;
+			result.SetActive(true);
+
+            return result;
 		}
 
 		public void ReturnObjectToPool(GameObject go) {
@@ -188,5 +189,6 @@ namespace MarchingBytes {
 				}
 			}
 		}
+		public string[] poolType = { "Bot", "Candy", "Indicator" };
 	}
 }

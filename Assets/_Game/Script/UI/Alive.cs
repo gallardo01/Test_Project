@@ -9,7 +9,7 @@ public class Alive : MonoBehaviour
     [SerializeField] private TextMeshProUGUI txtAliveUI;
     private void Awake()
     {       
-        this.RegisterListener(EventID.OnEnemyDead, (param) => ChangeAlive());
+        this.RegisterListener(EventID.UpdateAlive, (param) => ChangeAlive());
         this.RegisterListener(EventID.OnPlay, (param) => ChangeAlive());
     }
     public void ChangeAlive()

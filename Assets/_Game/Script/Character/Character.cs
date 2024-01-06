@@ -28,15 +28,15 @@ public class Character : AbsCharacter
     
     public Transform indicatorPoint;
     public TargetIndicator targetIndicator;
-    private int score = 0;
+    public int score = 1;
     private string currentAnim;
+    public string nameCharacter;
     public override void OnInit()
     {
         //SetData();
         IsWeapon = true;
-        targetIndicator = EasyObjectPool.instance.GetObjectFromPool("Indicator", transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
-        targetIndicator.gameObject.SetActive(true);
-        targetIndicator.OnInit(this.indicatorPoint);
+        targetIndicator.setScore(score);
+        
     }
 
     public override void OnDeath()
@@ -70,13 +70,21 @@ public class Character : AbsCharacter
         }
     }
 
+    public virtual void UpScore(int addScore)
+    {
+        score += addScore;
+        targetIndicator.setScore(score);
+        sphere.radius++;
+        this.transform.localScale = new Vector3(1f + (score - 1) * 0.3f, 1f + (score - 1) * 0.3f, 1f + (score - 1) * 0.3f);
+
+    }
     //public void UpSize(int levelAdd)
     //{
     //    level += levelAdd;
     //    float radius = sphere.radius += levelAdd;
     //    circleAttack.transform.localScale = new Vector3(radius / 3, radius / 3, radius / 3);
     //}
-   
+
 
     //public void AddTarget(Character target)
     //{
@@ -102,7 +110,12 @@ public class Character : AbsCharacter
     //    }
     //    return null;
     //}
-
+    public void GetTargetIndicator()
+    {
+        this.nameCharacter = Name.GetName();
+        targetIndicator = EasyObjectPool.instance.GetObjectFromPool("Indicator", transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
+        targetIndicator.OnInit(this.indicatorPoint, this.nameCharacter);        
+    }
     public void ThrowWeapon()
     {
         WeaponImg.OnDisable();
@@ -122,7 +135,7 @@ public class Character : AbsCharacter
         if (directionToTarget != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 200f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 100f);
         }
     }
     public bool checkTarget()

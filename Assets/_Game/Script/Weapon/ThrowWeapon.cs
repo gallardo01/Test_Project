@@ -49,24 +49,24 @@ public class ThrowWeapon : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log(other.gameObject.tag);
-        //Debug.Log(other.transform);
-        if (other.CompareTag(Constants.TAG_BOT))
+
+        if (other.CompareTag(Constants.TAG_BOT) && this.character.gameObject != other.gameObject)
         {
-            //Debug.Log(2);
+            
             Bot bot = other.GetComponent<Bot>();
             this.Victim = bot;
+            this.character.UpScore(Victim.score);
             this.PostEvent(EventID.OnEnemyDead, this);
 
         }
-        //if (other.CompareTag(Constants.TAG_PLAYER))
-        //{
-        //    Debug.Log("player");
-        //    Player player = other.GetComponent<Player>();
-        //    Remove();
-        //    //player.collider.enabled = false;
-        //    //player.gameObject.SetActive(false);
-        //}
+        if (other.CompareTag(Constants.TAG_PLAYER) && this.character.gameObject != other.gameObject)
+        {
+            Debug.Log(this.character.name);
+            Player player = other.GetComponent<Player>();
+            Remove();
+            player.collider.enabled = false;
+            player.gameObject.SetActive(false);
+        }
     }
 
 }

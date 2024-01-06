@@ -11,8 +11,8 @@ public class LevelManager : Singleton<LevelManager>
 
     [SerializeField] private Player player;
     [SerializeField] private NavMeshData navMeshData;
-    private List<Bot> bots = new List<Bot>();    
-    private int MaxBot = 6;
+    public List<Bot> bots = new List<Bot>();    
+    public int MaxBot = 3;
 
     public int CountBotCurrent = 3;
     public int CountBot = 0;
@@ -27,10 +27,12 @@ public class LevelManager : Singleton<LevelManager>
     void Start()
     {
         OnInit();
+        
     }
 
     public void OnInit()
     {
+        Name.RandomIndex();
         NavMesh.RemoveAllNavMeshData();
         NavMesh.AddNavMeshData(navMeshData);
         player.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
@@ -43,12 +45,13 @@ public class LevelManager : Singleton<LevelManager>
     }
     private void OnWeaponHitEnemy(ThrowWeapon weapon)
     {
-        
+
         if (bots.Contains(weapon.Victim))
         {
-            Debug.Log("remove");
+            //Debug.Log("remove");
             this.bots.Remove(weapon.Victim);
         }
+        this.PostEvent(EventID.UpdateAlive, this);
         weapon.Victim.collider.enabled = false;
         this.SpawnEnemyInGame();
         weapon.Victim.changState(weapon.Victim.dead);
@@ -74,15 +77,22 @@ public class LevelManager : Singleton<LevelManager>
 
     public void SpawnBot()
     {
-        Debug.Log("spawn");
+        //Debug.Log("spawn");
         Vector3 pos = GetRandomPointOnNavMesh();
-        Bot bot = EasyObjectPool.instance.GetObjectFromPool("Bot",pos,Quaternion.identity).GetComponent<Bot>();
-        bot.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
-        bot.collider.enabled = true;
-        bot.gameObject.SetActive(true);
-        bots.Add(bot);
-        bot.changState(new MoveState());
-        CountBot++;
+        Bot bot = EasyObjectPool.instance.GetObjectFromPool(EasyObjectPool.instance.poolType[0],pos,Quaternion.identity).GetComponent<Bot>();
+        if(bot != null)
+        {
+            bot.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
+            bot.collider.enabled = true;
+            if(bot.targetIndicator == null)
+            {
+                bot.GetTargetIndicator();
+            }
+            bots.Add(bot);
+            bot.OnInit();
+            bot.changState(new MoveState());
+            CountBot++;
+        }
     }
     private void SpawnEnemyInGame()
     {
@@ -92,6 +102,10 @@ public class LevelManager : Singleton<LevelManager>
             this.SpawnBot();
         }
     }
+
+
+
+
     // Update is called once per frame
     void Update()
     {
