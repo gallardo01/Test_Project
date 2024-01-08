@@ -19,21 +19,11 @@ public class Player : Character
         if (Input.GetMouseButton(0))
         {
             JoyStickControl();
-            body.GetComponent<Rigidbody>().useGravity = true;
+            // body.GetComponent<Rigidbody>().useGravity = true;
         }
         if (Input.GetMouseButtonUp(0))
         {
-            if(range.onTarget)
-            {
-                Rotate();
-                ChangeAnim(AnimConstant.attackAnim);
-            }
-            if(!range.onTarget)
-            {
-                ChangeAnim(AnimConstant.idleAnim);
-            }
-            body.GetComponent<Rigidbody>().useGravity = false;
-            // Attack();
+            OnAttack();
         }
     }
 

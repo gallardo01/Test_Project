@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - bot
-  - bullet
+  - Character
+  - Bullet
+  - Bot
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Range
   - Player
   - Bot
-  - 
+  - Bullet
   - 
   - 
   - 

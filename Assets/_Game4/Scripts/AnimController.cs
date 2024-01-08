@@ -21,6 +21,7 @@ public class AnimController : MonoBehaviour
 
     public void Shoot()
     {
-        character.Attack();
+        Vector3 point = new Vector3();
+        character.Attack(point);
     }
 }

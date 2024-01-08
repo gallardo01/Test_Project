@@ -21,7 +21,7 @@ public class Range : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {   
-        if (other.tag == Tag.botTag)
+        if (other.tag == Tag.characterTag)
         {
             Debug.Log("Target = True");
             onTarget = true;
@@ -31,9 +31,24 @@ public class Range : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.tag == Tag.botTag)
+        if (other.tag == Tag.characterTag)
         {
             onTarget = false;
         }
     }
+
+    // public void SetTarget()
+    // {
+    //     if (other.tag == Tag.characterTag)
+    //     {
+    //         Debug.Log("Target = True");
+    //         onTarget = true;
+    //         target = other.gameObject.transform.position;
+    //     }
+    // }
+
+    // public void RemoveTarget()
+    // {
+
+    // }
 }

@@ -25,18 +25,25 @@ public class Bot : Character
     // Update is called once per frame
     void UpDate()
     {
-        transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        // transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        OnAttack();
     }
 
     public void SetDestination(Vector3 position)
-    {
-        
+    {  
         agent.enabled = true;
         destination = position;
         destination.y = 0.5f;
         agent.SetDestination(position);
-        ChangeAnim("run");
+        ChangeAnim(AnimConstant.runAnim);
         // Debug.Log("Destination: "+position);
+    }
+
+    public override void Attack(Vector3 point){
+        base.Attack(point);
+        SetDestination(transform.position);
+        agent.enabled = false;
+        ChangeState(new AttackState());
     }
 
     IState<Bot> currentState;
@@ -56,5 +63,13 @@ public class Bot : Character
         }
     }
 
-
+    // public void AddTarget(Character target)
+    // {
+    //     // base.AddTarget(target);
+    //     if (Random.Range(0, 2) == 0 && Camera.main.WorldToViewportPoint(transform.position).x < 1f && Camera.main.WorldToViewportPoint(transform.position).y < 1f)
+    //     {
+    //         ChangeState(new AttackState());
+    //         Invoke(nameof(ChangeStateAfterAttack), 1f);
+    //     }
+    // }
 }

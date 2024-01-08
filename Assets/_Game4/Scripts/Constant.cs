@@ -7,7 +7,7 @@ public class Constant
    
 }
 
-public static class AnimConstant
+public static class AnimConstant // Toi muon doi tat ca moi noi thanh Anim + Muon them Attack() cho bot
 {
     public const string idleAnim = "idle";
     public const string runAnim = "run";
@@ -18,7 +18,8 @@ public static class AnimConstant
 
 public static class Tag
 {
-    public const string botTag = "bot";
-    public const string bulletTag = "bullet";
+    public const string botTag = "Bot";
+    public const string bulletTag = "Bullet";
     public const string playerTag = "Player";
+    public const string characterTag = "Character";
 }

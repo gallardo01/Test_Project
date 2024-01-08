@@ -8,7 +8,7 @@ public class PatrolState : IState<Bot>
     {
         Debug.Log("Patrol Enter");
 
-        t.ChangeAnim("run");
+        t.ChangeAnim(AnimConstant.runAnim);
         SeekTarget(t);
         // t.targetBrick = 5;
     }

@@ -7,8 +7,8 @@ public class AttackState : IState<Bot>
     public void OnEnter(Bot t)
     {
         Debug.Log("Attack Enter");
-        t.ChangeAnim("attack");
-        t.Attack();
+        t.ChangeAnim(AnimConstant.attackAnim);
+        // t.Attack();
         // t.canMove = false;
         
     }
