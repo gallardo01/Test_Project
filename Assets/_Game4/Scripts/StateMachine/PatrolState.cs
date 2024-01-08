@@ -6,7 +6,7 @@ public class PatrolState : IState<Bot>
 {
     public void OnEnter(Bot t)
     {
-        Debug.Log("Patrol Enter");
+        // Debug.Log("Patrol Enter");
 
         t.ChangeAnim(AnimConstant.runAnim);
         SeekTarget(t);

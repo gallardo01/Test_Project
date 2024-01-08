@@ -33,14 +33,14 @@ public class Player : Character
 
         if (CanMove(nextPoint))
         {
-            Debug.Log("Acess CanMove");
+            // Debug.Log("Acess CanMove");
             ChangeAnim(AnimConstant.runAnim);
             player.position = nextPoint;
         }
 
         if (JoystickControl.direct != Vector3.zero)
         {
-            Debug.Log("Acess Diff");
+            // Debug.Log("Acess Diff");
             player.forward = JoystickControl.direct;
         }  
     }

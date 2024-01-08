@@ -10,7 +10,6 @@ public class Bullet : MonoBehaviour
 {
     public Vector3 destination;
     private bool canMove = false;
-    [SerializeField] protected Range range;
     protected Character character;
 
     // Start is called before the first frame update
@@ -26,7 +25,7 @@ public class Bullet : MonoBehaviour
 
         if (canMove)
         {
-            Debug.Log("canMove = true");
+            // Debug.Log("canMove = true");
             OnShoot();
             if (transform.position == destination + transform.forward * 10f)
             {
@@ -58,7 +57,7 @@ public class Bullet : MonoBehaviour
 
     public void OnShoot()
     {   
-        Debug.Log("OnShoot");
+        // Debug.Log("OnShoot");
         transform.position = Vector3.MoveTowards(transform.position, destination + transform.forward * 10f, 0.02f);
     }
 
@@ -69,11 +68,14 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == Tag.characterTag || other.tag == Tag.botTag)
+        if(other.tag == Tag.characterTag)
         {
             Debug.Log("Bullet Hit");
+            // other.gameObject.tag = Tag.botTag;
             other.gameObject.GetComponent<Character>().OnDeath();
+            // Destroy(other.gameObject);
             EasyObjectPool.instance.ReturnObjectToPool(gameObject);
+            character.range.onTarget = false;
         }
     }
 }

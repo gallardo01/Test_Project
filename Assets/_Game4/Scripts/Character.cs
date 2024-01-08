@@ -11,8 +11,11 @@ public class Character : AbstractCharacter
     [SerializeField] protected LayerMask groundLayer;
     protected string currentAnim;
     [SerializeField] private Animator playerAnim;
-    [SerializeField] protected Range range;
+    [SerializeField] public Range range;
     public bool isDead = false;
+    private int score = 0;
+    [SerializeField] GameObject indicatorPrefabs;
+    protected TargetIndicator targetIndicator;
     //[SerializeField] protected GameObject bulletPrefab;
 
     // Start is called before the first frame update
@@ -29,7 +32,8 @@ public class Character : AbstractCharacter
 
     public override void OnInit()
     {
-        
+        targetIndicator = Instantiate(indicatorPrefabs, transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
+
     }
 
     public override void OnDespawn()
@@ -74,14 +78,15 @@ public class Character : AbstractCharacter
         {
             Debug.Log("Die Bitch!!");
             // ChangeAnim(AnimConstant.deadAnim);
-            Destroy(gameObject);
+            EasyObjectPool.instance.ReturnObjectToPool(gameObject);
+            // Destroy(gameObject);
         }
     }
 
     public void Rotate() //-------------------------------------------------------------------
     {
         Vector3 directionToTarget = range.target - transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0f, directionToTarget.z));
         transform.rotation = lookRotation;
     }
 

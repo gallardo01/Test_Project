@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using MarchingBytes;
 using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
     private List<Bot> bots = new List<Bot>();
     [SerializeField] private GameObject bot;
-    public Player player;
+    // public Player player;
     [SerializeField] int totalBot;
 
     public int TotalCharacter => totalBot + 1;
 
     void Start()
     {
-        OnInit();
+        // OnInit();
+        Invoke(nameof(OnInit), 1f);
     }
 
     public void OnInit()
@@ -26,8 +28,9 @@ public class LevelManager : Singleton<LevelManager>
 
     private void NewBot()
     {
-        Bot botSpawn = Instantiate(bot, RandomPoint(), Quaternion.identity).GetComponent<Bot>();
-        bots.Add(botSpawn);
+        // Bot botSpawn = Instantiate(bot, RandomPoint(), Quaternion.identity).GetComponent<Bot>();
+        // bots.Add(botSpawn);
+        Bot botSpawn = EasyObjectPool.instance.GetObjectFromPool("Bot", RandomPoint(), transform.rotation).GetComponent<Bot>();
     }
 
     private Vector3 RandomPoint()

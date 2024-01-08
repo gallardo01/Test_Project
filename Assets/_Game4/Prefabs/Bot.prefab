@@ -1358,12 +1358,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4076267532411340753}
   - component: {fileID: 4076267532411340765}
-  - component: {fileID: 4076267532411340754}
   - component: {fileID: 4076267532411340755}
   - component: {fileID: 4076267532411340764}
   m_Layer: 9
   m_Name: Character_Optimieze2
-  m_TagString: bot
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1406,22 +1405,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!54 &4076267532411340754
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4076267532411340766}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!136 &4076267532411340755
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2572,9 +2555,10 @@ GameObject:
   - component: {fileID: 4076267533330242739}
   - component: {fileID: 4076267533330242748}
   - component: {fileID: 5329443268774965781}
+  - component: {fileID: 8655067100221623167}
   m_Layer: 0
   m_Name: Bot
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2588,7 +2572,7 @@ Transform:
   m_GameObject: {fileID: 4076267533330242749}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.89, y: 0, z: -8.88}
-  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4076267532411340753}
@@ -2617,6 +2601,7 @@ MonoBehaviour:
   playerAnim: {fileID: 4076267532411340765}
   range: {fileID: 4076267531245729780}
   isDead: 0
+  indicatorPrefabs: {fileID: 1983579070919960397, guid: 8b683bc1395b51e4f9902ed6bf4e419e, type: 3}
   agent: {fileID: 4076267533330242748}
 --- !u!195 &4076267533330242748
 NavMeshAgent:
@@ -2654,6 +2639,22 @@ CapsuleCollider:
   m_Height: 2.3
   m_Direction: 1
   m_Center: {x: 0, y: 1.15, z: 0}
+--- !u!54 &8655067100221623167
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4076267533330242749}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4076267533332819283
 GameObject:
   m_ObjectHideFlags: 0

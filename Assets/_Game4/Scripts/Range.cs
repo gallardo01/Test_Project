@@ -33,6 +33,7 @@ public class Range : MonoBehaviour
     {
         if (other.tag == Tag.characterTag)
         {
+            Debug.Log("Target = False");
             onTarget = false;
         }
     }
