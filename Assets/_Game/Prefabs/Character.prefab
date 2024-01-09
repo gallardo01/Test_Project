@@ -1546,6 +1546,7 @@ MonoBehaviour:
     m_Bits: 8
   weaponList: {fileID: 11400000, guid: fd00162092265084599d8c616550a43f, type: 2}
   scoreOffset: {x: 0, y: 8, z: 0}
+  sprayTransform: {fileID: 3667910819302672959}
   speed: 8
   targetDecoration: {fileID: 5374750994553706402, guid: c140402ce34b3d744b962ce3671d90cb, type: 3}
 --- !u!65 &5461311522226908317

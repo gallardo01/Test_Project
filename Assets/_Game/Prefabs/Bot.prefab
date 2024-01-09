@@ -161,6 +161,7 @@ Transform:
   m_Children:
   - {fileID: 4634739797433646719}
   - {fileID: 6599257526782086431}
+  - {fileID: 4797342630707629524}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -206,8 +207,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hand: {fileID: 6225228117283911964}
-  animator: {fileID: 3376543633887023877}
   attackRange: 12
+  animator: {fileID: 3376543633887023877}
   player: {fileID: 372483222787303811}
   weapon: {fileID: 2587260542702308182}
   collider: {fileID: 372483222787303933}
@@ -216,6 +217,7 @@ MonoBehaviour:
     m_Bits: 8
   weaponList: {fileID: 11400000, guid: fd00162092265084599d8c616550a43f, type: 2}
   scoreOffset: {x: 0, y: 8, z: 0}
+  sprayTransform: {fileID: 4797342630707629524}
   agent: {fileID: 3969957677044433309}
 --- !u!195 &3969957677044433309
 NavMeshAgent:
@@ -881,6 +883,37 @@ Transform:
   m_Father: {fileID: 5995118123386927668}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 26.917923, y: 13.411826, z: 25.661842}
+--- !u!1 &3184417947982375791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4797342630707629524}
+  m_Layer: 0
+  m_Name: Spray Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4797342630707629524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3184417947982375791}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 1.375, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 372483222787303811}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &3338121868760074638
 GameObject:
   m_ObjectHideFlags: 0

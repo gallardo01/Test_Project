@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Unity.VisualStudio.Editor;
+using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,12 +16,14 @@ public class Bot : Player
     private CounterTime counter;
     private Transform character;
     private GameObject arrow;
+    private Pool<Bot> pool;
 
 
     public CounterTime Counter => counter;
     public bool IsDestination => Vector3.Distance(transform.position, destination) < 0.34f;
     public Transform Character { set => character = value; }
     public GameObject Arrow { set => arrow = value; }
+    public Pool<Bot> Pool { set => pool = value; }
 
     private void Start()
     {
@@ -58,7 +61,7 @@ public class Bot : Player
     public override void OnDespawn()
     {
         base.OnDespawn();
-        BotPool.Release(this);
+        pool.Release(this);
     }
 
     public override void OnDeath()

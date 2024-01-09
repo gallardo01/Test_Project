@@ -1,8 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -16,6 +12,7 @@ public class LevelManager : MonoBehaviour
 
     public Transform scoreParent;
     public Transform hintParent;
+    
     public int remainingBotCount;
 
     private List<Bot> bots;
@@ -55,7 +52,8 @@ public class LevelManager : MonoBehaviour
     {
         for (int i = 0; i < botCount; i++)
         {
-            Bot bot = BotPool.Get();
+            Bot bot = Pools.botPool.Get();
+            bot.Pool = Pools.botPool;
             bot.SetScoreText(Instantiate(score, scoreParent));
             bot.Character = mainCharacter.transform;
 

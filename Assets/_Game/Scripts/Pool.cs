@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class Pool<T> where T : MonoBehaviour
+public class Pool<T> where T : Component
 {
 
     [SerializeField] private bool collectionCheck = true;
@@ -13,18 +13,21 @@ public class Pool<T> where T : MonoBehaviour
     private GameObject gameObject;
     private IObjectPool<T> pool;
 
-    private Pool(T gameObject) => pool = new ObjectPool<T>(Create,
+    public Pool(GameObject gameObject) {
+        pool = new ObjectPool<T>(Create,
                 OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
                 collectionCheck, defaultCapacity, maxSize);
+        this.gameObject = gameObject;
+    }
 
-    private T Get()
+    public T Get()
     {
         return pool.Get();
     }
 
     private T Create()
     {
-        return GameObject.Instantiate(gameObject).GetComponent<T>();
+        return Object.Instantiate(gameObject).GetComponent<T>();
     }
 
     public void Release(T t)

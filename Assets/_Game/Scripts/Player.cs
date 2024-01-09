@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] protected LayerMask playerMask;
     [SerializeField] protected WeaponList weaponList;
     [SerializeField] protected Vector3 scoreOffset;
-    [SerializeField] protected ParticleSystem sprayOnDeath;
+    [SerializeField] protected Transform sprayTransform;
 
     protected CameraFollow cameraFollow;
     protected string currentAnim;
@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
     }
 
     private void LateUpdate() {
+        // Score deleted when main character die but character is not deleted
         scoreObject.transform.position = Camera.main.WorldToScreenPoint(transform.position + scoreOffset);
     }
 
@@ -77,6 +78,7 @@ public class Player : MonoBehaviour
     // Remove
     public virtual void OnDespawn()
     {
+        // Need Pooling
         Destroy(scoreObject);
     }
 
@@ -86,6 +88,10 @@ public class Player : MonoBehaviour
         ChangeAnim(Constants.DEATH_ANIM);
         collider.enabled = false;
         LevelManager.Instance.remainingBotCount--;
+        ParticleSystem spray = Pools.sprayPool.Get();
+        spray.transform.SetParent(sprayTransform);
+        spray.transform.localPosition = Vector3.zero;
+        spray.transform.localRotation = Quaternion.identity;
     }
 
     protected void SetData()
