@@ -64,6 +64,7 @@ public class Player : Character
         if(other.tag == "Bullet"){
             // OnDeath();
             Debug.Log("Hit Player");
+            OnDeath();
         }
     }
 

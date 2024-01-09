@@ -39,9 +39,18 @@ public class Bot : Character
         ChangeState(new AttackState());
     }
 
+    public override void OnDeath(){
+        base.OnDeath();
+        Invoke(nameof(DestroyBot), 1f);
+    }
+
+    void DestroyBot(){
+        EasyObjectPool.instance.ReturnObjectToPool(gameObject);
+    }
+
     IState<Bot> currentState;
     private void Update(){
-        if(currentState != null){
+        if(currentState != null && !isDead){
             currentState.OnExecute(this);
         }
     }
@@ -51,14 +60,30 @@ public class Bot : Character
             currentState.OnExit(this);
         }
         currentState = state;
-        if(currentState != null){
+        if(currentState != null && !isDead){
             currentState.OnEnter(this);
         }
     }
 
+    // private OnAttack(int randomPercent){
+    //     int randomNum = 0;
+    //     if(randomPercent == 50){
+    //         randomNum = Random.Range(0,2);
+    //     }
+    //     else if(randomPercent == 100){
+    //         randomNum = 1;
+    //     }
+    //     if(onTarget && randomPercent == 1){
+    //         // attack
+    //     }
+    //     if(!onTarget){
+    //         // no attack
+    //     }
+    // }
+
     private void OnTriggerEnter(Collider other) {
         if(other.tag == "Bullet"){
-            EasyObjectPool.instance.ReturnObjectToPool(gameObject);
+            OnDeath();
         }
     }
 

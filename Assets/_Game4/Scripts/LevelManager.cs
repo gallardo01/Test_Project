@@ -15,13 +15,14 @@ public class LevelManager : Singleton<LevelManager>
     // Start is called before the first frame update
     void Start()
     {
-        totalCharacterAlive = totalCharacter;
-        Invoke(nameof(InitBots), 1f);
+        OnInit();
         // Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", transform.position, Quaternion.identity).GetComponent<Bullet>();
     }
 
     void OnInit()
     {
+        // totalCharacterAlive = totalCharacter;
+        Invoke(nameof(InitBots), 1f);
         
     }
 
@@ -31,10 +32,19 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
+    public void MinusBot(){
+        totalBot--;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateUi();
+    }
+
+    void UpdateUi(){
+        totalCharacterAlive = totalCharacter;
+        textAlive.text = $"Alive: {totalCharacterAlive}";
     }
 
     void SpawnBot(){

@@ -17,6 +17,11 @@ public class Range : MonoBehaviour
         
     // }
 
+    public void Disable(){
+        gameObject.GetComponent<SphereCollider>().enabled = false;
+        
+    }
+
     private void OnTriggerEnter(Collider other) {
         if(other.tag == "Character"){
             yourCharacter.OnAttack(other.gameObject.transform.position);

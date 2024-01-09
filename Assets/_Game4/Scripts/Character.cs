@@ -8,6 +8,7 @@ public class Character : AbstractCharacter
 {
     [SerializeField] protected LayerMask groundLayer;
     private string currentAnim;
+    public bool isDead = false;
     [SerializeField] private Animator playerAnim;
     [SerializeField] private Transform body, hand, bulletSpot;
     public bool canMove = true;
@@ -17,6 +18,7 @@ public class Character : AbstractCharacter
     [SerializeField] GameObject indicatorPoint;
     protected TargetIndicator targetIndicator;
     public Vector3 enemyPoint;
+    [SerializeField] private Range range;
     void Start(){
         OnInit();
     }
@@ -30,7 +32,12 @@ public class Character : AbstractCharacter
 
     }
     public override void OnDeath(){
-
+        changeAnim("die");
+        isDead = true;
+        gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        LevelManager.Ins.MinusBot();
+        gameObject.GetComponent<Rigidbody>().useGravity = false;
+        range.Disable();
     }
 
     // public override void OnAttack(){
