@@ -18,16 +18,17 @@ public class Bot : Character
     void Start()
     {
         // destination = transform.position;
-        // changeAnim("idle");
+        ChangeAnim(Anim.idleAnim);
         ChangeState(new PatrolState());
     }
 
     // Update is called once per frame
-    void UpDate()
-    {
-        // transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
-        OnAttack();
-    }
+    // void UpDate()
+    // {
+    //     Debug.Log("Update");
+    //     // transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+    //     OnAttack();
+    // }
 
     public void SetDestination(Vector3 position)
     {  
@@ -35,22 +36,32 @@ public class Bot : Character
         destination = position;
         destination.y = 0.5f;
         agent.SetDestination(position);
-        ChangeAnim(AnimConstant.runAnim);
+        ChangeAnim(Anim.runAnim);
         // Debug.Log("Destination: "+position);
     }
 
     public override void Attack(Vector3 point){
+        Debug.Log("Bot Attack");
         base.Attack(point);
         SetDestination(transform.position);
         agent.enabled = false;
         ChangeState(new AttackState());
     }
 
+    // public override void OnAttack()
+    // {
+    //     if(Random.Range(0, 2) == 0)
+    //     {  
+    //         base.OnAttack();
+    //     }
+    // }
+
     IState<Bot> currentState;
     private void Update(){
         if(currentState != null){
             currentState.OnExecute(this);
         }
+        OnAttack(State.half);
     }
 
     public void ChangeState(IState<Bot> state){

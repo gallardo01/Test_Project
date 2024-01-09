@@ -602,7 +602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bot: {fileID: 4076267533330242749, guid: ea6095910e737bf4ab8623f83333fb53, type: 3}
-  totalBot: 3
+  totalBot: 7
 --- !u!4 &731103325
 Transform:
   m_ObjectHideFlags: 0
@@ -1452,7 +1452,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2084433294}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 311c2b9aa51986347b1bea9d1aa1b9ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 4677c2bc57b953341a93a015f55f755b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enterRange: 0

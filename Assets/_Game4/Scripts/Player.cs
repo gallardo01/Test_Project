@@ -23,7 +23,7 @@ public class Player : Character
         }
         if (Input.GetMouseButtonUp(0))
         {
-            OnAttack();
+            OnAttack(State.all);
         }
     }
 
@@ -34,7 +34,7 @@ public class Player : Character
         if (CanMove(nextPoint))
         {
             // Debug.Log("Acess CanMove");
-            ChangeAnim(AnimConstant.runAnim);
+            ChangeAnim(Anim.runAnim);
             player.position = nextPoint;
         }
 

@@ -37,19 +37,4 @@ public class Range : MonoBehaviour
             onTarget = false;
         }
     }
-
-    // public void SetTarget()
-    // {
-    //     if (other.tag == Tag.characterTag)
-    //     {
-    //         Debug.Log("Target = True");
-    //         onTarget = true;
-    //         target = other.gameObject.transform.position;
-    //     }
-    // }
-
-    // public void RemoveTarget()
-    // {
-
-    // }
 }

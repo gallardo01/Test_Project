@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using MarchingBytes;
+using Unity.VisualScripting;
 
 public class Character : AbstractCharacter
 {
@@ -16,18 +17,19 @@ public class Character : AbstractCharacter
     private int score = 0;
     [SerializeField] GameObject indicatorPrefabs;
     protected TargetIndicator targetIndicator;
+    int frameCount = 0;
     //[SerializeField] protected GameObject bulletPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        ChangeAnim(AnimConstant.idleAnim);
+        ChangeAnim(Anim.idleAnim);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        frameCount += 1;
     }
 
     public override void OnInit()
@@ -77,7 +79,7 @@ public class Character : AbstractCharacter
         if (!isDead) // isDead khong can thiet
         {
             Debug.Log("Die Bitch!!");
-            // ChangeAnim(AnimConstant.deadAnim);
+            // ChangeAnim(Anim.deadAnim);
             EasyObjectPool.instance.ReturnObjectToPool(gameObject);
             // Destroy(gameObject);
         }
@@ -95,27 +97,36 @@ public class Character : AbstractCharacter
         Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", rightHand.position, transform.rotation).GetComponent<Bullet>();
         bullet.OnInit(this);
         bullet.SetDestination(range.target);
-        // if (range.onTarget)
-        // {
-        //     bullet.SetDestination(range.target);
-        // }
-        // if (!range.onTarget)
-        // {
-        //     bullet.SetDestination(bullet.transform.position + transform.forward * 10f);
-        // }
-        //bullet.OnShoot();
     }
 
-    public void OnAttack()
+    public virtual void OnAttack(int percent)
     {
-        if(range.onTarget)
+        if(percent == State.half && frameCount == 100)
         {
-            Rotate();
-            ChangeAnim(AnimConstant.attackAnim);
+            frameCount = 0;
+            percent = Random.Range(0, 2);
+
+            if(percent == 0)
+            {
+                percent = State.half;
+            }
+            if (percent == 1)
+            {
+                percent = State.all;
+            }
         }
-        if(!range.onTarget)
+
+        if(percent == State.all)
         {
-            ChangeAnim(AnimConstant.idleAnim);
+            if(range.onTarget)
+            {
+                Rotate();
+                ChangeAnim(Anim.attackAnim);
+            }
+            if(!range.onTarget)
+            {
+                ChangeAnim(Anim.idleAnim);
+            }
         }
         // body.GetComponent<Rigidbody>().useGravity = false;
     }

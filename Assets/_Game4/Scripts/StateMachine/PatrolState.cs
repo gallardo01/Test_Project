@@ -8,14 +8,15 @@ public class PatrolState : IState<Bot>
     {
         // Debug.Log("Patrol Enter");
 
-        t.ChangeAnim(AnimConstant.runAnim);
+        t.ChangeAnim(Anim.runAnim);
         SeekTarget(t);
         // t.targetBrick = 5;
     }
 
     public void OnExecute(Bot t)
     {
-        if(t.IsDestination){
+        if(t.IsDestination)
+        {
             t.ChangeState(new IdleState());
         }
     }
@@ -25,7 +26,8 @@ public class PatrolState : IState<Bot>
 
     }
 
-    private void SeekTarget(Bot t){
+    private void SeekTarget(Bot t)
+    {
         t.SetDestination(new Vector3(Random.Range(-24f,24f),0,Random.Range(-24f,24f)));
     }
 
