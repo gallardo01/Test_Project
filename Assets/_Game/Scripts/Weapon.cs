@@ -15,8 +15,10 @@ public class Weapon : MonoBehaviour
 {
 
     [SerializeField] private float range;
+    [SerializeField] private string weaponName;
     [SerializeField] private float price;
-    [SerializeField] private float speed;
+    [SerializeField] private float attackSpeed;
+    [SerializeField] private float weaponSpeed;
     [SerializeField] private Collider collider;
     [SerializeField] private float rotateSpeed;
 
@@ -27,7 +29,8 @@ public class Weapon : MonoBehaviour
 
     public float Range => range;
     public float Price => price;
-    public float Speed => speed;
+    public string WeaponName => weaponName;
+    public float AttackSpeed => attackSpeed;
 
     private Player owner;
 
@@ -46,7 +49,7 @@ public class Weapon : MonoBehaviour
         transform.SetParent(null);
         while (transform.position != target && !hit)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, target, weaponSpeed * Time.deltaTime);
             transform.Rotate(0, rotateSpeed * Time.deltaTime, 0, Space.World);
             yield return null;
         }
