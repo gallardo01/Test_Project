@@ -6,52 +6,53 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Character : AbsCharacter 
+public class Character : GameUnit 
 {
 
     [SerializeField] private Animator anim;
     [SerializeField] internal LayerMask characterLayer;
     [SerializeField] protected GameObject playerSkin;
-    [SerializeField] protected SphereCollider sphere;
     public Renderer skinColor;
     public Collider collider;
-    public float attackRange => sphere.radius;
+    public float attackRange;
     public Vector3 direct;
     public List<Character> targets = new List<Character>();
     public Vector3 positionTarget;
     public Character target;
     public Weapon WeaponImg;
     public bool IsWeapon;
-
+    public PoolType typeWeapon;
     private CounterTime counterTime = new CounterTime();
     public CounterTime count => counterTime;
     
     public Transform indicatorPoint;
     public TargetIndicator targetIndicator;
-    public int score = 1;
+    public int score;
     private string currentAnim;
     public string nameCharacter;
     public override void OnInit()
     {
         //SetData();
         IsWeapon = true;
+        score = 0;
+        attackRange = 3f;
         targetIndicator.setScore(score);
         
     }
 
-    public override void OnDeath()
-    {
+    //public override void OnDeath()
+    //{
 
-    }
+    //}
 
     public void SetData()
     {
-        sphere.radius = 3.6f;
+        
     }
 
 
 
-   public override void OnAttack()
+    public virtual void OnAttack()
     {
 
     }
@@ -74,8 +75,8 @@ public class Character : AbsCharacter
     {
         score += addScore;
         targetIndicator.setScore(score);
-        sphere.radius++;
-        this.transform.localScale = new Vector3(1f + (score - 1) * 0.3f, 1f + (score - 1) * 0.3f, 1f + (score - 1) * 0.3f);
+        attackRange++;
+        this.transform.localScale = Vector3.one + Vector3.one * (score * 0.2f);
 
     }
     //public void UpSize(int levelAdd)
@@ -86,44 +87,24 @@ public class Character : AbsCharacter
     //}
 
 
-    //public void AddTarget(Character target)
-    //{
-    //    targets.Add(target);
-    //}
-    //public void RemoveTarget(Character target)
-    //{
-    //    //Debug.Log(gameObject.name);
-    //    targets.Remove(target);
-    //    target = null;
-    //}
-
-    //public Character GetTarget()
-    //{
-    //    if(targets.Count > 0)
-    //    {
-    //        target = targets[UnityEngine.Random.Range(0, targets.Count)];
-    //        if (target != null)
-    //        {
-    //            return target;
-    //        }
-    //        return target;
-    //    }
-    //    return null;
-    //}
     public void GetTargetIndicator()
     {
         this.nameCharacter = Name.GetName();
-        targetIndicator = EasyObjectPool.instance.GetObjectFromPool("Indicator", transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
-        targetIndicator.OnInit(this.indicatorPoint, this.nameCharacter);        
+        targetIndicator = SimplePool.Spawn<TargetIndicator>(PoolType.Indicator);
+        targetIndicator.target = this.indicatorPoint;
+        targetIndicator.textName.text = this.nameCharacter;
+        targetIndicator.OnInit();
     }
     public void ThrowWeapon()
     {
         WeaponImg.OnDisable();
-        ThrowWeapon bullet = EasyObjectPool.instance.GetObjectFromPool("Candy", transform.position  + transform.forward*1f, transform.rotation).GetComponent<ThrowWeapon>();
+        ThrowWeapon bullet = SimplePool.Spawn<ThrowWeapon>(typeWeapon, transform.position + Vector3.up*1f,transform.rotation);
         if (bullet != null)
         {
-            bullet.gameObject.SetActive(true);
-            bullet.OnInit(this, target.transform);
+            bullet.character = this;
+            bullet.target = this.target.transform;
+            bullet.OnInit();
+            
         }
     }
     public void RotateTarget()

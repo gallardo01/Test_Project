@@ -11,12 +11,12 @@ public class DeadState : IState<Bot>
     {
        
         bot.SetDestionation(bot.transform.position);
-        EasyObjectPool.instance.ReturnObjectToPool(bot.targetIndicator.gameObject);
+        bot.targetIndicator.OnDespawn();
         bot.ChangAnim(Constants.ANIM_DIE);
         bot.count.Start(Dead, 0.8f);
          void Dead()
         {
-            EasyObjectPool.instance.ReturnObjectToPool(bot.gameObject);
+            bot.OnDespawn();
         }
 
 

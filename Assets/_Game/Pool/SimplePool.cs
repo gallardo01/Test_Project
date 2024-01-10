@@ -318,7 +318,9 @@ public class PoolAmount
 public enum PoolType
 {
     Bot,
+    Indicator,
+    Candy,
     Axe,
-    Arrow,
-    Candy
+    Hammer
+
 }

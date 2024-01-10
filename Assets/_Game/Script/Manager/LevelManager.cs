@@ -24,11 +24,11 @@ public class LevelManager : Singleton<LevelManager>
 
     }
     // Start is called before the first frame update
-    void Start()
-    {
-        OnInit();
-        
-    }
+    //void Start()
+    //{
+    //    OnInit();
+
+    //}
 
     public void OnInit()
     {
@@ -55,7 +55,7 @@ public class LevelManager : Singleton<LevelManager>
         weapon.Victim.collider.enabled = false;
         this.SpawnEnemyInGame();
         weapon.Victim.changState(weapon.Victim.dead);
-        weapon.Remove();
+        weapon.OnDespawn();
 
     }
     public Vector3 GetRandomPointOnNavMesh()
@@ -79,17 +79,16 @@ public class LevelManager : Singleton<LevelManager>
     {
         //Debug.Log("spawn");
         Vector3 pos = GetRandomPointOnNavMesh();
-        Bot bot = EasyObjectPool.instance.GetObjectFromPool(EasyObjectPool.instance.poolType[0],pos,Quaternion.identity).GetComponent<Bot>();
+        Bot bot = SimplePool.Spawn<Bot>(PoolType.Bot);
         if(bot != null)
         {
+            bot.TF.position = pos;
             bot.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
             bot.collider.enabled = true;
-            if(bot.targetIndicator == null)
-            {
-                bot.GetTargetIndicator();
-            }
-            bots.Add(bot);
+            bot.GetTargetIndicator();
             bot.OnInit();
+            bots.Add(bot);
+            
             bot.changState(new MoveState());
             CountBot++;
         }

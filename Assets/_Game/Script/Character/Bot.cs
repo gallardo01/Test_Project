@@ -18,11 +18,11 @@ public class Bot : Character
 
     IState<Bot> currentState;
     // Start is called before the first frame update
-    void Start()
-    {
-        OnInit();
-        ChangAnim(Constants.ANIM_IDLE);
-    }
+    //void Start()
+    //{
+    //    OnInit();
+    //    ChangAnim(Constants.ANIM_IDLE);
+    //}
 
     // Update is called once per frame
     void Update()
@@ -53,23 +53,16 @@ public class Bot : Character
         agent.SetDestination(destionation);
 
     }
-    //public override void OnAttack()
-    //{
-    //    base.OnAttack();
-    //    count.Start(ThrowWeapon, 0.4f);
-    //    //ChangAnim(Constants.ANIM_IDLE);
 
-    //}
-    //public void SpawnNewWayPoint()
-    //{
-
-    //    wayPoint = EasyObjectPool.instance.GetObjectFromPool("WayPoint", this.transform.position, Quaternion.identity).GetComponent<WayPoint>();
-    //    wayPoint.target = this.transform;
-    //    wayPoint.color.color = skinColor.material.color;
-    //}
     public override void OnInit()
     {
         base.OnInit();
 
+    }
+
+    public override void OnDespawn()
+    {
+        base.OnDespawn();
+        SimplePool.Despawn(this);
     }
 }

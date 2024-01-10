@@ -323,9 +323,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cecc56f5300f9af478daa8bd118946c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolType: 1
   target: {fileID: 0}
-  textScore: {fileID: 344508833770803622}
   textName: {fileID: 3019166321597255318}
+  textScore: {fileID: 344508833770803622}
   rect: {fileID: 344508834843133403}
   icon: {fileID: 344508834917690570}
   arrow: {fileID: 5810789265846996760}

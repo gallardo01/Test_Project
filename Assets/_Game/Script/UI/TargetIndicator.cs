@@ -6,11 +6,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.PlayerSettings;
 
-public class TargetIndicator : MonoBehaviour
+public class TargetIndicator : GameUnit
 {
-    [SerializeField] private Transform target;
+    public Transform target;
+    public TextMeshProUGUI textName;
     [SerializeField] private TextMeshProUGUI textScore;
-    [SerializeField] private TextMeshProUGUI textName;
+    
     [SerializeField] private RectTransform rect;
     [SerializeField] private Image icon;
     [SerializeField] private Image arrow;
@@ -22,7 +23,7 @@ public class TargetIndicator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.transform.SetParent(CanvasGame.Instance.canvasTranForm().transform);
+        
     }
 
     // Update is called once per frame
@@ -31,13 +32,13 @@ public class TargetIndicator : MonoBehaviour
         float minX = rect.rect.width / 2;
         float maxX = Screen.width - minX;
 
-        float minY = rect.rect.width / 2;
+        float minY = rect.rect.height / 2;
         float maxY = Screen.height - minY;
 
         Vector3 pos = Camera.main.WorldToScreenPoint(target.transform.position);
         Vector2 direction = (Vector2)pos - new Vector2(Screen.width / 2, Screen.height / 2);
         float angle = Vector2.Angle(direction, Vector3.right);
-        if (direction.y <= 0) angle = 360 - angle;
+        if (direction.y <= 0) angle = 360- angle;
 
         pos.x = Mathf.Clamp(pos.x, minX, maxX);
         pos.y = Mathf.Clamp(pos.y, minY, maxY);
@@ -60,12 +61,16 @@ public class TargetIndicator : MonoBehaviour
     {
         textScore.text = score.ToSafeString();
     }
-    public void OnInit(Transform target, string name) {
-        this.target = target;  
+    public override void OnInit() {
+        
         Color color = new Color(Random.value, Random.value, Random.value, 1);
         icon.color = color;
         textName.color = color;
-        textName.text = name;
+        
+    }
+    public override void OnDespawn()
+    {
+        SimplePool.Despawn(this);
     }
 }
 

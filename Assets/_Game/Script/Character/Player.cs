@@ -19,64 +19,52 @@ public class Player : Character
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (GameManager.IsState(GameState.GamePlay))
         {
-            count.Cancel();
-            IsWeapon = true;
-        }
-        if (Input.GetMouseButton(0) && JoystickControl.direct != Vector3.zero)
-        {
-            rb.MovePosition(rb.position + JoystickControl.direct * speed * Time.deltaTime);
-            transform.position = rb.position;
-            transform.forward = JoystickControl.direct;
-            ChangAnim(Constants.ANIM_RUN);
-        }
-        else
-        {
-            count.Excute();
-        }
-
-        //if (Input.GetMouseButtonUp(0))
-        //{
-
-
-        //    if (checkTarget() && IsWeapon )
-        //    {
-        //        RotateTarget();
-        //        ChangAnim(Constants.ANIM_ATTACK);
-        //        OnAttack();
-        //    }
-        //    else
-        //    {                
-        //        ChangAnim(Constants.ANIM_IDLE);
-        //    }
-        //}
-        if (Input.GetMouseButtonUp(0))
-        {
-            ChangAnim(Constants.ANIM_IDLE);
-        }
-        if (!Input.GetMouseButton(0))
-        {
-            if(checkTarget() && IsWeapon )
+            if (Input.GetMouseButtonDown(0))
             {
-                RotateTarget();
-                ChangAnim(Constants.ANIM_ATTACK);
-                OnAttack();
-            }           
+                count.Cancel();
+                IsWeapon = true;
+            }
+            if (Input.GetMouseButton(0) && JoystickControl.direct != Vector3.zero)
+            {
+                rb.MovePosition(rb.position + JoystickControl.direct * speed * Time.deltaTime);
+                transform.position = rb.position;
+                transform.forward = JoystickControl.direct;
+                ChangAnim(Constants.ANIM_RUN);
+            }
+            else
+            {
+                count.Excute();
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                ChangAnim(Constants.ANIM_IDLE);
+            }
+            if (!Input.GetMouseButton(0))
+            {
+                if (checkTarget() && IsWeapon)
+                {
+                    RotateTarget();
+                    ChangAnim(Constants.ANIM_ATTACK);
+                    OnAttack();
+                }
+            }
         }
     }
 
     public override void OnInit()
     {
         nameCharacter = "you";
-        targetIndicator = EasyObjectPool.instance.GetObjectFromPool("Indicator", transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
-        targetIndicator.gameObject.SetActive(true);
-        targetIndicator.OnInit(this.indicatorPoint, this.nameCharacter);
+        targetIndicator = SimplePool.Spawn<TargetIndicator>(PoolType.Indicator);
+        targetIndicator.target = this.indicatorPoint;
+        targetIndicator.textName.text = this.nameCharacter;
+        targetIndicator.OnInit();
         base.OnInit();
     }
     public override void OnAttack()
     {
-        //Debug.Log("attack");
+        
         base.OnAttack();
         IsWeapon = false;
         count.Start(ThrowWeapon, 0.4f);
@@ -86,6 +74,6 @@ public class Player : Character
     public override void UpScore(int addScore)
     {
         base.UpScore(addScore);
-        circleAttack.transform.localScale = new Vector3(sphere.radius / 3, sphere.radius / 3, sphere.radius / 3);
+        
     }
 }

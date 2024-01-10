@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &274452091983298607
 Transform:
   m_ObjectHideFlags: 0
@@ -202,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4652cb34660d4f840b34b33b0808b054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolType: 0
   anim: {fileID: 2900243075797681570}
   characterLayer:
     serializedVersion: 2
@@ -210,14 +211,18 @@ MonoBehaviour:
   sphere: {fileID: 274452092307703653}
   skinColor: {fileID: 327050317558322472}
   collider: {fileID: 274452093079449031}
+  attackRange: 0
   direct: {x: 0, y: 0, z: 0}
   targets: []
   positionTarget: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
   WeaponImg: {fileID: 6128432151785027624}
   IsWeapon: 0
+  typeWeapon: 2
   indicatorPoint: {fileID: 3405816666805222077}
   targetIndicator: {fileID: 0}
+  score: 1
+  nameCharacter: 
   agent: {fileID: 8058550175627950711}
 --- !u!195 &8058550175627950711
 NavMeshAgent:
