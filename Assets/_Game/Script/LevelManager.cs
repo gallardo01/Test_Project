@@ -20,7 +20,7 @@ public class LevelManager : Singleton<LevelManager>
     void Start()
     {
         totalCharacterAlive = TotalCharacter;
-        OnInit();
+        //OnInit();
     }
 
     public void OnInit()

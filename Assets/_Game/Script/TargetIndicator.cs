@@ -24,7 +24,7 @@ public class TargetIndicator : MonoBehaviour
     void Update()
     {
         viewPoint = Camera.main.WorldToScreenPoint(target.position) - screenHalf;   
-        rect.anchoredPosition = viewPoint;    
+        rect.anchoredPosition = viewPoint / (Screen.width / 1080f);    
     }
 
     public void OnInit(Transform target)
