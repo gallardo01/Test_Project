@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6875377686717003178}
   - component: {fileID: 8563865313719367120}
   - component: {fileID: 411947189417952572}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dual Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,8 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 12
-  price: 0
-  speed: 9
+  weaponName: Still An Axe But Bigger
+  price: 200
+  attackSpeed: 0
   collider: {fileID: 411947189417952572}
   rotateSpeed: 720
 --- !u!65 &411947189417952572

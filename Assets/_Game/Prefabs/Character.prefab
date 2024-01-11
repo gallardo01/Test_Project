@@ -1413,7 +1413,7 @@ GameObject:
   - component: {fileID: 5461311520569519444}
   - component: {fileID: 8534611529028748258}
   m_Layer: 0
-  m_Name: AttackRange
+  m_Name: Attack Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1549,6 +1549,7 @@ MonoBehaviour:
   sprayTransform: {fileID: 3667910819302672959}
   speed: 8
   targetDecoration: {fileID: 5374750994553706402, guid: c140402ce34b3d744b962ce3671d90cb, type: 3}
+  attackCircle: {fileID: 5461311520569519451}
 --- !u!65 &5461311522226908317
 BoxCollider:
   m_ObjectHideFlags: 0

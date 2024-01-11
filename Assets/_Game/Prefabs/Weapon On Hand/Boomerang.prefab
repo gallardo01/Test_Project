@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7294609367029726737}
   - component: {fileID: 5105146511293095087}
   - component: {fileID: -3762536588283936154}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Boomerang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,8 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 12
-  price: 0
-  speed: 9
+  weaponName: Boomerang
+  price: 150
+  attackSpeed: 0
   collider: {fileID: -3762536588283936154}
   rotateSpeed: 720
 --- !u!65 &-3762536588283936154

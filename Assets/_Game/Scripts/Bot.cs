@@ -13,11 +13,9 @@ public class Bot : Player
 
     private Vector3 destination;
     private IState<Bot> currentState;
-    private CounterTime counter;
     private Transform character;
     private GameObject arrow;
     private Pool<Bot> pool;
-
 
     public CounterTime Counter => counter;
     public bool IsDestination => Vector3.Distance(transform.position, destination) < 0.34f;
@@ -25,12 +23,17 @@ public class Bot : Player
     public GameObject Arrow { set => arrow = value; }
     public Pool<Bot> Pool { set => pool = value; }
 
-    private void Start()
-    {
-        counter = new CounterTime();
-        ChangeState(new PatrolState());
+    protected override void OnInit() {
+        base.OnInit();
         canAttack = false;
-        Invoke(nameof(EnableAttack), 10);
+        ChangeState(new PatrolState());
+
+        // Can be duplicate in less than 5 seconds if player pause and restart immediately -> release all bot when game ends
+        Invoke(nameof(EnableAttack), 5);
+    }
+
+    private void OnDisable() {
+        CancelInvoke();
     }
 
     private void EnableAttack()

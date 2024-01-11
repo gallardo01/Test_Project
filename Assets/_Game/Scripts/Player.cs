@@ -30,6 +30,12 @@ public class Player : MonoBehaviour
     protected GameObject scoreObject;
     protected TextMeshProUGUI scoreText;
 
+    protected CounterTime counter;
+
+    private void Start() {
+        counter = new CounterTime();
+    }
+
     public void SetScoreText(GameObject score) {
         scoreObject = score;
         scoreText = scoreObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
@@ -64,7 +70,7 @@ public class Player : MonoBehaviour
         OnInit();
     }
 
-    protected void OnInit()
+    protected virtual void OnInit()
     {
         cameraFollow = FindObjectOfType<CameraFollow>();
         score = 0;
@@ -102,6 +108,10 @@ public class Player : MonoBehaviour
     public virtual void OnKill()
     {
         UpSize();
+
+        // Increase y axis so player not overlap with score
+        scoreOffset += Vector3.up * scoreOffset.y * 0.1f;
+
         score++;
         if (scoreText) scoreText.SetText(score.ToString());
     }
@@ -127,7 +137,7 @@ public class Player : MonoBehaviour
         attackRange *= 1.025f;
     }
 
-    protected void ChangeWeapon(int index)
+    public void ChangeWeapon(int index)
     {
         Destroy(weapon.gameObject);
         weapon =  Instantiate(weaponList.GetWeapon(index), hand);

@@ -7,13 +7,25 @@ public class Character : Player
 
     [SerializeField] private float speed;
     [SerializeField] private GameObject targetDecoration;
+    [SerializeField] private GameObject attackCircle;
 
     private Vector3 direction;
     private GameObject decoration;
 
-    private void Start()
+    private void OnDisable() {
+        attackCircle.SetActive(false);
+        canAttack = false;
+
+        // When end playing, decoration might be disabled already due to no enemy in range
+        if (decoration) decoration.SetActive(false);
+    }
+
+    protected override void OnInit()
     {
-        decoration = Instantiate(targetDecoration, Vector3.zero + Vector3.up * 0.3f, Quaternion.Euler(new Vector3(90, 0, 0)));
+        base.OnInit();
+        if (!decoration) decoration = Instantiate(targetDecoration, Vector3.zero + Vector3.up * 0.3f, Quaternion.Euler(new Vector3(90, 0, 0)));
+        decoration.SetActive(true);
+        attackCircle.SetActive(true);
     }
 
     // Update is called once per frame
@@ -36,14 +48,13 @@ public class Character : Player
         {
             ChangeAnim(Constants.RUN_ANIM);
             player.LookAt(direction + player.position);
+            canAttack = true;
+            // When move, enable attack -> cancel invoke of AttackReady to prevent duplicate
+            CancelInvoke();
         }
         else if (currentAnim != Constants.ATTACK_ANIM) ChangeAnim(Constants.IDLE_ANIM);
 
         player.Translate(direction * speed * Time.deltaTime, Space.World);
-
-        if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeWeapon(0);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(1);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeWeapon(2);
     }
 
     public override void OnDespawn()

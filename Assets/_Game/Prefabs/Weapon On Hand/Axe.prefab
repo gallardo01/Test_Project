@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5825986355381239375}
   - component: {fileID: 1353108077280194130}
   - component: {fileID: 7677552583954117714}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,8 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 12
-  price: 0
-  speed: 9
+  weaponName: An Axe
+  price: 100
+  attackSpeed: 0
   collider: {fileID: 7677552583954117714}
   rotateSpeed: 720
 --- !u!65 &7677552583954117714

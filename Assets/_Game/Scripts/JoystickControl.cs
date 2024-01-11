@@ -62,4 +62,8 @@ public class JoystickControl : MonoBehaviour
     {
         direct = Vector3.zero;
     }
+
+    private void Start() {
+        enabled = false;
+    }
 }

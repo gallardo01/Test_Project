@@ -21,6 +21,7 @@ public class LevelManager : MonoBehaviour
 
     public static LevelManager Instance { get; private set; }
     public List<Bot> Bots => bots;
+    public Character MainCharacter => mainCharacter;
 
     private void Awake()
     {
@@ -36,6 +37,7 @@ public class LevelManager : MonoBehaviour
 
         // Create Character
         mainCharacter = Instantiate(character, Vector3.zero, Quaternion.identity, null);
+        mainCharacter.enabled = false;
         mainCharacter.SetScoreText(Instantiate(score, scoreParent));
 
         // Create Bots
@@ -69,6 +71,13 @@ public class LevelManager : MonoBehaviour
             bots.Add(bot);
             remainingBotCount++;
         }
+    }
+
+    public void OnPlay() {
+        foreach (Bot bot in bots) {
+            bot.enabled = true;
+        }
+        mainCharacter.enabled = true;
     }
 
 }

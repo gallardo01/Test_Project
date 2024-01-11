@@ -5,6 +5,9 @@ using UnityEngine;
 public static class Constants
 {
 
+    // WEAPON
+    public static float WEAPON_SPEED = 15;
+
     // ANIMATION TRIGGER
     public static string ATTACK_ANIM = "IsAttack";
     public static string RUN_ANIM = "IsRun";
