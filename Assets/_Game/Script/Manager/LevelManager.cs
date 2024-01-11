@@ -5,15 +5,21 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-
+public struct BasePoint
+{
+    public int Score;
+    public float Scale;
+     public int DeadScore;
+}
 public class LevelManager : Singleton<LevelManager>
 {
-
+    public List<Weapon> weapons = new List<Weapon>();
     [SerializeField] private Player player;
     [SerializeField] private NavMeshData navMeshData;
+    public List<BasePoint> basePoints = new List<BasePoint>();
     public List<Bot> bots = new List<Bot>();    
     public int MaxBot = 3;
-
+    
     public int CountBotCurrent = 3;
     public int CountBot = 0;
 
@@ -33,6 +39,7 @@ public class LevelManager : Singleton<LevelManager>
     public void OnInit()
     {
         Name.RandomIndex();
+        InitPointScale();
         NavMesh.RemoveAllNavMeshData();
         NavMesh.AddNavMeshData(navMeshData);
         player.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
@@ -48,12 +55,14 @@ public class LevelManager : Singleton<LevelManager>
 
         if (bots.Contains(weapon.Victim))
         {
-            //Debug.Log("remove");
             this.bots.Remove(weapon.Victim);
         }
         this.PostEvent(EventID.UpdateAlive, this);
         weapon.Victim.collider.enabled = false;
         this.SpawnEnemyInGame();
+        weapon.character.UpdateScore(weapon.Victim.deadScore);
+        weapon.character.GrowthCharacter();
+        
         weapon.Victim.changState(weapon.Victim.dead);
         weapon.OnDespawn();
 
@@ -75,6 +84,12 @@ public class LevelManager : Singleton<LevelManager>
         return (MaxBot - CountBot + bots.Count).ToString();
     }
 
+    public int RandomPoint()
+    {
+        int point = Random.Range(player.score - 3, player.score + 3);
+        if (point <= 0) point = 1;
+        return point;
+    }
     public void SpawnBot()
     {
         //Debug.Log("spawn");
@@ -102,12 +117,23 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
-
-
-
-    // Update is called once per frame
-    void Update()
+    public PoolType RandomWeapon()
     {
+        return (PoolType)Random.Range(2, 6);
+    }
+
+
+    private void InitPointScale()
+    {
+        basePoints.Add(new BasePoint { Score = 1, Scale = 1f, DeadScore = 1 });
+        basePoints.Add(new BasePoint { Score = 2, Scale = 1.2f, DeadScore = 2 });
+        basePoints.Add(new BasePoint { Score = 5, Scale = 1.8f, DeadScore = 3 });
+        basePoints.Add(new BasePoint { Score = 10, Scale = 2f, DeadScore = 4 });
+        basePoints.Add(new BasePoint { Score = 15, Scale = 2.2f, DeadScore = 5 });
+        basePoints.Add(new BasePoint { Score = 25, Scale = 2.5f, DeadScore = 7 });
         
     }
+
+
+
 }

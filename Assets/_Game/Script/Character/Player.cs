@@ -1,7 +1,7 @@
 using MarchingBytes;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Rendering.Universal;
 
 public class Player : Character
 { 
@@ -9,10 +9,31 @@ public class Player : Character
     [SerializeField] private float speed;
     [SerializeField] private GameObject circleAttack;
     private bool isRun;
+    private float defaultAttackRange;
+    private float defaultSpeed;
     // Start is called before the first frame update
     void Start() 
     {
         OnInit();
+        
+    }
+    public override void OnInit()
+    {
+        base.OnInit();
+        defaultAttackRange = 5f;
+        defaultSpeed = 5f;
+        speed = defaultSpeed;
+        attackRange = defaultAttackRange;
+        score = 1;
+        deadScore = 1;
+        currentScale = 1;
+        nameCharacter = "you";
+        //targetIndicator = SimplePool.Spawn<TargetIndicator>(PoolType.Indicator);
+        //targetIndicator.target = this.indicatorPoint;
+        targetIndicator.textName.text = this.nameCharacter;
+        this.typeWeapon = LevelManager.Instance.RandomWeapon();
+        this.ChangeWeaponImg();
+        targetIndicator.OnInit();
         
     }
 
@@ -45,6 +66,7 @@ public class Player : Character
             {
                 if (checkTarget() && IsWeapon)
                 {
+                ChangAnim(Constants.ANIM_IDLE);
                     RotateTarget();
                     ChangAnim(Constants.ANIM_ATTACK);
                     OnAttack();
@@ -53,23 +75,21 @@ public class Player : Character
         }
     }
 
-    public override void OnInit()
-    {
-        nameCharacter = "you";
-        targetIndicator = SimplePool.Spawn<TargetIndicator>(PoolType.Indicator);
-        targetIndicator.target = this.indicatorPoint;
-        targetIndicator.textName.text = this.nameCharacter;
-        targetIndicator.OnInit();
-        base.OnInit();
-    }
+
     public override void OnAttack()
     {
         
         base.OnAttack();
         IsWeapon = false;
-        count.Start(ThrowWeapon, 0.4f);
+        count.Start(ThrowWeapon, 0.35f);
         //ChangAnim(Constants.ANIM_IDLE);
   
+    }
+    public override void GrowthCharacter()
+    {
+        base.GrowthCharacter();
+        attackRange = defaultAttackRange * currentScale;
+        speed = defaultSpeed * currentScale;
     }
     public override void UpScore(int addScore)
     {

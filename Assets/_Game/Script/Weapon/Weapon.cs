@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private GameObject child;
 
-    
+    public PoolType weaponType;
     public void OnEnable()
     {
         child.SetActive(true);

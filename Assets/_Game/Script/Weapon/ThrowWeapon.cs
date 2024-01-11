@@ -1,40 +1,28 @@
 using MarchingBytes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class ThrowWeapon : GameUnit
 {
     public Transform target;
-    private Vector3 direct;
     public Character character;
     public Bot Victim;
     public Vector3 startPoint;
     public float speed = 8f;
-    [SerializeField] private Transform child;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] protected Transform child;
+
     
     public override void OnInit()
     {
-        
+        this.TF.localScale = Vector3.one * character.currentScale;
+        speed = this.character.attackRange * 1.2f;
         transform.forward = (target.position - transform.position + Vector3.up*1f).normalized;
         startPoint = this.character.transform.position;
     }
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
-        child.Rotate(Vector3.up * -6, Space.Self);
-        if (Vector3.Distance(this.transform.position, startPoint) > this.character.attackRange)
-        {
-            OnDespawn();
-        }
-    }
+
 
     public override void OnDespawn()
     {
@@ -47,23 +35,26 @@ public class ThrowWeapon : GameUnit
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.CompareTag(Constants.TAG_BOT) && this.character.gameObject != other.gameObject)
-        {
+        //if (other.CompareTag(Constants.TAG_BOT) && this.character.gameObject != other.gameObject)
+        //{
 
-            Bot bot = other.GetComponent<Bot>();
-            this.Victim = bot;
-            this.character.UpScore(Victim.score);
-            this.PostEvent(EventID.OnEnemyDead, this);
+        //    Bot bot = other.GetComponent<Bot>();
+        //    this.Victim = bot;
+        //    this.PostEvent(EventID.OnEnemyDead, this);
 
-        }
-        if (other.CompareTag(Constants.TAG_PLAYER) && this.character.gameObject != other.gameObject)
-        {
-            Debug.Log(this.character.name);
-            Player player = other.GetComponent<Player>();
-            OnDespawn();
-            player.collider.enabled = false;
-            player.gameObject.SetActive(false);
-        }
+        //}
+        //if (other.CompareTag(Constants.TAG_PLAYER) && this.character.gameObject != other.gameObject)
+        //{
+        //    Player player = other.GetComponent<Player>();
+        //    OnDespawn();
+        //    player.collider.enabled = false;
+        //    player.gameObject.SetActive(false);
+        //}
+    }
+    protected void Rotate()
+    {
+        int speed = 500;
+        TF.Rotate(0f, speed * Time.deltaTime, 0f, Space.World);
     }
 
 }

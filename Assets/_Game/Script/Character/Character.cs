@@ -2,13 +2,14 @@ using MarchingBytes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Character : GameUnit 
 {
-
+    
     [SerializeField] private Animator anim;
     [SerializeField] internal LayerMask characterLayer;
     [SerializeField] protected GameObject playerSkin;
@@ -20,6 +21,7 @@ public class Character : GameUnit
     public Vector3 positionTarget;
     public Character target;
     public Weapon WeaponImg;
+    public Transform WeaponPoint;
     public bool IsWeapon;
     public PoolType typeWeapon;
     private CounterTime counterTime = new CounterTime();
@@ -28,15 +30,15 @@ public class Character : GameUnit
     public Transform indicatorPoint;
     public TargetIndicator targetIndicator;
     public int score;
+    public int deadScore;
+    public float currentScale;
     private string currentAnim;
     public string nameCharacter;
     public override void OnInit()
     {
-        //SetData();
+
         IsWeapon = true;
-        score = 0;
-        attackRange = 3f;
-        targetIndicator.setScore(score);
+        
         
     }
 
@@ -98,7 +100,7 @@ public class Character : GameUnit
     public void ThrowWeapon()
     {
         WeaponImg.OnDisable();
-        ThrowWeapon bullet = SimplePool.Spawn<ThrowWeapon>(typeWeapon, transform.position + Vector3.up*1f,transform.rotation);
+        ThrowWeapon bullet = SimplePool.Spawn<ThrowWeapon>(typeWeapon, transform.position + Vector3.up*1f + transform.forward*1f,transform.rotation);
         if (bullet != null)
         {
             bullet.character = this;
@@ -129,6 +131,44 @@ public class Character : GameUnit
         }
         return colliders.Length > 1;
 
+    }
+    public void ChangeWeaponImg()
+    {
+        for (int i = 0; i <LevelManager.Instance.weapons.Count; i++)
+        {
+            if (LevelManager.Instance.weapons[i].weaponType == typeWeapon)
+            {
+                WeaponImg = Instantiate(LevelManager.Instance.weapons[i]);
+               
+                WeaponImg.transform.SetParent(WeaponPoint);
+                WeaponImg.transform.localPosition = Vector3.zero;
+                WeaponImg.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+            }
+        }
+    }
+    public virtual void GrowthCharacter()
+    {
+        for (int i = 0; i < LevelManager.Instance.basePoints.Count - 1; i++)
+        {
+            if (score >= LevelManager.Instance.basePoints[i].Score && score < LevelManager.Instance.basePoints[i + 1].Score)
+            {
+                currentScale = LevelManager.Instance.basePoints[i].Scale;
+                deadScore = LevelManager.Instance.basePoints[i].DeadScore;
+            }
+            if (score >= LevelManager.Instance.basePoints.Last().Score)
+            {
+                currentScale = LevelManager.Instance.basePoints[^1].Scale;
+                deadScore = LevelManager.Instance.basePoints.Last().DeadScore;
+            }
+        }
+        this.TF.localScale = Vector3.one * currentScale;
+    }
+
+    public void UpdateScore(int score)
+    {
+        this.score += score;
+        targetIndicator.setScore(this.score);
     }
 }
 

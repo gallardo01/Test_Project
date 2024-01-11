@@ -17,12 +17,24 @@ public class Bot : Character
     private Vector3 destionation;
 
     IState<Bot> currentState;
-    // Start is called before the first frame update
-    //void Start()
-    //{
-    //    OnInit();
-    //    ChangAnim(Constants.ANIM_IDLE);
-    //}
+
+
+    public override void OnInit()
+    {
+        base.OnInit();
+        attackRange = 5f;
+        score = LevelManager.Instance.RandomPoint();
+        deadScore = 1;
+        currentScale = 1;
+        this.agent.speed = 5f;
+        this.GrowthCharacter();
+        this.typeWeapon = LevelManager.Instance.RandomWeapon();
+        this.ChangeWeaponImg();
+        if (targetIndicator != null )
+        {
+            targetIndicator.setScore(score);
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -54,15 +66,18 @@ public class Bot : Character
 
     }
 
-    public override void OnInit()
-    {
-        base.OnInit();
 
-    }
 
     public override void OnDespawn()
     {
         base.OnDespawn();
         SimplePool.Despawn(this);
+    }
+
+    public override void GrowthCharacter()
+    {
+        base.GrowthCharacter();
+        attackRange = 5f * currentScale;
+        agent.speed = 5F * currentScale;
     }
 }
