@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -10,6 +12,8 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] GameObject ShopSkin;
     [SerializeField] GameObject Setting;
     [SerializeField] GameObject PauseGame;
+    [SerializeField] GameObject EndGame;
+    [SerializeField] EndGame EndGameState;
 
     public Dictionary<GameState, GameObject> dictStateGameObject = new Dictionary<GameState, GameObject>();
 
@@ -20,6 +24,8 @@ public class UIManager : Singleton<UIManager>
     {
         this.AddStates();
         this.OpenMainMenu();
+        this.RegisterListener(EventID.Win, (param) => ChangeStateEndGame());
+        this.RegisterListener(EventID.Lose, (param) => ChangeStateEndGame());
     }
     private void Start()
     {
@@ -33,7 +39,10 @@ public class UIManager : Singleton<UIManager>
         }
        
     }
-
+    public void ChangeStateEndGame()
+    {
+        this.OpenCanvasUI(GameState.EndGame);
+    }
     public GameObject GetCurrentWeapon(int index)
     {
         return weapons[index];   
@@ -78,9 +87,38 @@ public class UIManager : Singleton<UIManager>
         dictStateGameObject.Add(GameState.ShopWeapon, ShopWeapon);
         dictStateGameObject.Add(GameState.ShopSkin, ShopSkin);
         dictStateGameObject.Add(GameState.PauseGame, PauseGame);
+        dictStateGameObject.Add(GameState.EndGame, EndGame);
+        dictStateGameObject.Add(GameState.Setting, Setting);
 
+    }
+    public void FillCanvas()
+    {
+        MainMenu = GameObject.Find("MainMenu");
+        Play = GameObject.Find("Play");
+        ShopWeapon = GameObject.Find("ShopWeapon");
+        ShopSkin = GameObject.Find("ShopSkin");
+        Setting = GameObject.Find("Setting");
+        PauseGame = GameObject.Find("PauseGame");
+        EndGame = GameObject.Find("EndGame");
     }
 
 
-
 }
+#if UNITY_EDITOR
+[CustomEditor(typeof(UIManager))]
+public class UIManagerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        UIManager fillCanvas = (UIManager)target;
+
+        if (GUILayout.Button("Fill Canvas"))
+        {
+            fillCanvas.FillCanvas();
+        }
+    }
+}
+#endif
+

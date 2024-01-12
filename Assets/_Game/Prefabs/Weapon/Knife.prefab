@@ -131,3 +131,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   child: {fileID: 6707249299204838651}
   weaponType: 5
+  weaponData: {fileID: 11400000, guid: 82364018467089645996d1206010da2e, type: 2}

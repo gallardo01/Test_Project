@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour
     {
         Play.onClick.AddListener(() => OnPlay());
         Weapon.onClick.AddListener(() => UIManager.Instance.OpenCanvasUI(GameState.ShopWeapon));
-
+        
     }
     
     private void OnPlay()

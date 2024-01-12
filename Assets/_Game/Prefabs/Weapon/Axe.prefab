@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   child: {fileID: 2834322186551577942}
   weaponType: 3
+  weaponData: {fileID: 11400000, guid: 290671f3c0203ff48a1ad23dd3c2e9b3, type: 2}
 --- !u!1 &2834322186551577942
 GameObject:
   m_ObjectHideFlags: 0

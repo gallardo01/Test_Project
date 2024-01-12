@@ -5,5 +5,7 @@ public enum EventID
     None = 0,
     OnPlay,
     OnEnemyDead,
-    UpdateAlive
+    UpdateAlive,
+    Win,
+    Lose
 }

@@ -60,7 +60,8 @@ public class Character : GameUnit
     }
     public override void OnDespawn()
     {
-        
+        this.collider.enabled = false;
+        this.ChangAnim(Constants.ANIM_DIE);
     }
     public void ChangAnim(string animName)
     {
@@ -134,8 +135,13 @@ public class Character : GameUnit
     }
     public void ChangeWeaponImg()
     {
+        foreach (Transform child in WeaponPoint)
+        {
+            Destroy(child.gameObject);
+        }
         for (int i = 0; i <LevelManager.Instance.weapons.Count; i++)
         {
+            
             if (LevelManager.Instance.weapons[i].weaponType == typeWeapon)
             {
                 WeaponImg = Instantiate(LevelManager.Instance.weapons[i]);

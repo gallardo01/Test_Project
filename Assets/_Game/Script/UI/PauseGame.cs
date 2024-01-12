@@ -17,5 +17,6 @@ public class PauseGame : MonoBehaviour
     {
         SimplePool.CollectAll();
         UIManager.Instance.OpenMainMenu();
+        LevelManager.Instance.player.ChangAnim(Constants.ANIM_IDLE);
     }
 }

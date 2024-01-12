@@ -14,7 +14,7 @@ public struct BasePoint
 public class LevelManager : Singleton<LevelManager>
 {
     public List<Weapon> weapons = new List<Weapon>();
-    [SerializeField] private Player player;
+    public Player player;
     [SerializeField] private NavMeshData navMeshData;
     public List<BasePoint> basePoints = new List<BasePoint>();
     public List<Bot> bots = new List<Bot>();    
@@ -38,6 +38,9 @@ public class LevelManager : Singleton<LevelManager>
 
     public void OnInit()
     {
+        bots.Clear();
+        CountBot = 0;
+        player.OnInit();
         Name.RandomIndex();
         InitPointScale();
         NavMesh.RemoveAllNavMeshData();
@@ -61,11 +64,13 @@ public class LevelManager : Singleton<LevelManager>
         weapon.Victim.collider.enabled = false;
         this.SpawnEnemyInGame();
         weapon.character.UpdateScore(weapon.Victim.deadScore);
-        weapon.character.GrowthCharacter();
-        
+        weapon.character.GrowthCharacter();       
         weapon.Victim.changState(weapon.Victim.dead);
         weapon.OnDespawn();
-
+        if (bots.Count == 0)
+        {
+            this.PostEvent(EventID.Win);
+        }
     }
     public Vector3 GetRandomPointOnNavMesh()
     {
@@ -81,7 +86,11 @@ public class LevelManager : Singleton<LevelManager>
 
     public string GetCountAlive()
     {
-        return (MaxBot - CountBot + bots.Count).ToString();
+        return (MaxBot - CountBot + bots.Count + 1).ToString();
+    }
+    public int GetRank()
+    {
+        return (MaxBot - CountBot + bots.Count +1);
     }
 
     public int RandomPoint()
@@ -122,6 +131,11 @@ public class LevelManager : Singleton<LevelManager>
         return (PoolType)Random.Range(2, 6);
     }
 
+    public void changWeaponPlayer(GameObject weapon)
+    {
+        player.typeWeapon = weapon.GetComponent<Weapon>().weaponType;
+        player.ChangeWeaponImg();
+    }
 
     private void InitPointScale()
     {

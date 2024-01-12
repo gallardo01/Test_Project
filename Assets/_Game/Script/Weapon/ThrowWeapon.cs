@@ -35,21 +35,21 @@ public class ThrowWeapon : GameUnit
     private void OnTriggerEnter(Collider other)
     {
 
-        //if (other.CompareTag(Constants.TAG_BOT) && this.character.gameObject != other.gameObject)
-        //{
+        if (other.CompareTag(Constants.TAG_BOT) && this.character.gameObject != other.gameObject)
+        {
 
-        //    Bot bot = other.GetComponent<Bot>();
-        //    this.Victim = bot;
-        //    this.PostEvent(EventID.OnEnemyDead, this);
+            Bot bot = other.GetComponent<Bot>();
+            this.Victim = bot;
+            this.PostEvent(EventID.OnEnemyDead, this);
 
-        //}
-        //if (other.CompareTag(Constants.TAG_PLAYER) && this.character.gameObject != other.gameObject)
-        //{
-        //    Player player = other.GetComponent<Player>();
-        //    OnDespawn();
-        //    player.collider.enabled = false;
-        //    player.gameObject.SetActive(false);
-        //}
+        }
+        if (other.CompareTag(Constants.TAG_PLAYER) && this.character.gameObject != other.gameObject)
+        {
+            Player player = other.GetComponent<Player>();
+            OnDespawn();
+            player.OnDespawn();
+            this.PostEvent(EventID.Lose, this.character);
+        }
     }
     protected void Rotate()
     {

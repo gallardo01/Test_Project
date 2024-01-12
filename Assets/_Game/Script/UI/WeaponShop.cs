@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
+
 
 public class WeaponShop : MonoBehaviour
 {
@@ -11,12 +12,15 @@ public class WeaponShop : MonoBehaviour
     [SerializeField] Button Select;
     [SerializeField] Button Buy;
     [SerializeField] Button Exit;
+    [SerializeField] TextMeshProUGUI NameWeapon;
+    [SerializeField] TextMeshProUGUI Desciption;
+    [SerializeField] TextMeshProUGUI Price;
 
     [SerializeField] Transform WeaponParent;
 
     private int weapon_index = 0;
     private int total_weapon = 0;
-    private GameObject weapon;
+    private Weapon weapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +30,7 @@ public class WeaponShop : MonoBehaviour
         Back.onClick.AddListener(() => PreviousWeapon());
         Next.onClick.AddListener(() => NextWeapon());
         Exit.onClick.AddListener(() => UIManager.Instance.OpenCanvasUI(GameState.MainMenu));
+        Select.onClick.AddListener(() => LevelManager.Instance.changWeaponPlayer(UIManager.Instance.GetCurrentWeapon(weapon_index)));
         
     }
 
@@ -35,8 +40,19 @@ public class WeaponShop : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        weapon = Instantiate(UIManager.Instance.GetCurrentWeapon(weapon_index), WeaponParent.position, Quaternion.identity, WeaponParent);
+        weapon = Instantiate(UIManager.Instance.GetCurrentWeapon(weapon_index), WeaponParent.position, Quaternion.identity, WeaponParent).GetComponent<Weapon>();
         weapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        NameWeapon.text = weapon.weaponData.NameWeapon;
+        Desciption.text = weapon.weaponData.Description;
+        if(weapon.weaponData.Price == 0)
+        {
+            Price.text = "Select";
+        }
+        else
+        {
+            Price.text = weapon.weaponData.Price.ToString();
+        }
+
     }
 
     private void NextWeapon()

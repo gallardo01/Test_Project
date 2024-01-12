@@ -20,6 +20,7 @@ public class Player : Character
     public override void OnInit()
     {
         base.OnInit();
+        this.collider.enabled = true;
         defaultAttackRange = 5f;
         defaultSpeed = 5f;
         speed = defaultSpeed;
@@ -28,8 +29,6 @@ public class Player : Character
         deadScore = 1;
         currentScale = 1;
         nameCharacter = "you";
-        //targetIndicator = SimplePool.Spawn<TargetIndicator>(PoolType.Indicator);
-        //targetIndicator.target = this.indicatorPoint;
         targetIndicator.textName.text = this.nameCharacter;
         this.typeWeapon = LevelManager.Instance.RandomWeapon();
         this.ChangeWeaponImg();
