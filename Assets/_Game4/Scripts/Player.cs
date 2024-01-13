@@ -6,7 +6,12 @@ public class Player : Character
 {
     [SerializeField] private Transform player;
     [SerializeField] private GameObject body;
+    public bool isDeath = false;
     
+    void Start()
+    {
+        OnInit();
+    }
 
     // Update is called once per frame
     void Update()
@@ -16,15 +21,24 @@ public class Player : Character
 
     void Moving()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !isDeath)
         {
             JoyStickControl();
             // body.GetComponent<Rigidbody>().useGravity = true;
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && !isDeath)
         {
             OnAttack(State.all);
         }
+    }
+
+    public override void OnInit(){
+        base.OnInit();
+    }
+
+    public override void OnDeath(){
+        base.OnDeath();
+        isDeath = true;
     }
 
     void JoyStickControl()

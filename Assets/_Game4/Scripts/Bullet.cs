@@ -58,7 +58,7 @@ public class Bullet : MonoBehaviour
     public void OnShoot()
     {   
         // Debug.Log("OnShoot");
-        transform.position = Vector3.MoveTowards(transform.position, destination + transform.forward * 10f, 0.02f);
+        transform.position = Vector3.MoveTowards(transform.position, destination + transform.forward * 10f, 0.1f);
     }
 
     public void SetDestination(Vector3 target)

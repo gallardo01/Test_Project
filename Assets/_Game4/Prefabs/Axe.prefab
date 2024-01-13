@@ -131,7 +131,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {x: 0, y: 0, z: 0}
-  range: {fileID: 0}
 --- !u!65 &368757567326687325
 BoxCollider:
   m_ObjectHideFlags: 0

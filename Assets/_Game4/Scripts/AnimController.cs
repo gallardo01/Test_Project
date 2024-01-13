@@ -24,4 +24,10 @@ public class AnimController : MonoBehaviour
         Vector3 point = new Vector3();
         character.Attack(point);
     }
+
+    public void EndShoot(){
+        Debug.Log("EndShoot");
+        character.isAttack = false;
+    }
+
 }

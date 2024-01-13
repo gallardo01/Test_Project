@@ -7,7 +7,7 @@ using MarchingBytes;
 public class Bot : Character
 {
     public NavMeshAgent agent;
-    private Vector3 destination;
+    public Vector3 destination;
 
     public bool IsDestination => (Mathf.Abs(destination.x - transform.position.x) + Mathf.Abs(destination.z - transform.position.z)) < 0.05f;
     // public int targetBrick;
@@ -20,6 +20,7 @@ public class Bot : Character
         // destination = transform.position;
         ChangeAnim(Anim.idleAnim);
         ChangeState(new PatrolState());
+        OnInit();
     }
 
     // Update is called once per frame
@@ -29,6 +30,10 @@ public class Bot : Character
     //     // transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
     //     OnAttack();
     // }
+
+    public override void OnInit(){
+        base.OnInit();
+    }
 
     public void SetDestination(Vector3 position)
     {  
@@ -43,25 +48,26 @@ public class Bot : Character
     public override void Attack(Vector3 point){
         Debug.Log("Bot Attack");
         base.Attack(point);
-        SetDestination(transform.position);
+        // SetDestination(transform.position);
         agent.enabled = false;
+    }
+
+    public override void Rotate(){
+        base.Rotate();
         ChangeState(new AttackState());
     }
 
-    // public override void OnAttack()
-    // {
-    //     if(Random.Range(0, 2) == 0)
-    //     {  
-    //         base.OnAttack();
-    //     }
-    // }
+    public override void OnDeath(){
+        base.OnDeath();
+        EasyObjectPool.instance.ReturnObjectToPool(gameObject);
+    }
 
     IState<Bot> currentState;
     private void Update(){
         if(currentState != null){
             currentState.OnExecute(this);
         }
-        OnAttack(State.half);
+        // OnAttack(State.half);
     }
 
     public void ChangeState(IState<Bot> state){

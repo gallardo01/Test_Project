@@ -15,9 +15,11 @@ public class Character : AbstractCharacter
     [SerializeField] public Range range;
     public bool isDead = false;
     private int score = 0;
-    [SerializeField] GameObject indicatorPrefabs;
-    protected TargetIndicator targetIndicator;
+    
+    public Transform indicatorPoint;
+    public TargetIndicator targetIndicator;
     int frameCount = 0;
+    public bool isAttack = false;
     //[SerializeField] protected GameObject bulletPrefab;
 
     // Start is called before the first frame update
@@ -34,8 +36,9 @@ public class Character : AbstractCharacter
 
     public override void OnInit()
     {
-        targetIndicator = Instantiate(indicatorPrefabs, transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
-
+        // targetIndicator = Instantiate(indicatorPrefabs, transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
+        // targetIndicator.OnInit(indicatorPoint);
+        targetIndicator = LevelManager.Instance.CreateIndicatorPanel(indicatorPoint);
     }
 
     public override void OnDespawn()
@@ -76,45 +79,50 @@ public class Character : AbstractCharacter
 
     public override void OnDeath() //-------------------------------------------------------------------
     {
-        if (!isDead) // isDead khong can thiet
-        {
-            Debug.Log("Die Bitch!!");
-            // ChangeAnim(Anim.deadAnim);
-            EasyObjectPool.instance.ReturnObjectToPool(gameObject);
-            // Destroy(gameObject);
-        }
+        // if (!isDead) // isDead khong can thiet
+        // {
+        //     Debug.Log("Die Bitch!!");
+        //     // ChangeAnim(Anim.deadAnim);
+        //     EasyObjectPool.instance.ReturnObjectToPool(gameObject);
+        //     // Destroy(gameObject);
+        // }
+        targetIndicator.gameObject.SetActive(false);
+        ChangeAnim(Anim.deadAnim);
+        // LevelManager.Instance.
     }
 
-    public void Rotate() //-------------------------------------------------------------------
+    public virtual void Rotate() //-------------------------------------------------------------------
     {
-        Vector3 directionToTarget = range.target - transform.position;
+        Vector3 directionToTarget = (Vector3)range.target - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0f, directionToTarget.z));
         transform.rotation = lookRotation;
     }
 
     public virtual void Attack(Vector3 point) //-------------------------------------------------------------------
     {
-        Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", rightHand.position, transform.rotation).GetComponent<Bullet>();
-        bullet.OnInit(this);
-        bullet.SetDestination(range.target);
+        if(range.target != null){
+            Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", rightHand.position, transform.rotation).GetComponent<Bullet>();
+            bullet.OnInit(this);
+            bullet.SetDestination((Vector3)range.target);
+        }
     }
 
     public virtual void OnAttack(int percent)
     {
-        if(percent == State.half && frameCount == 100)
-        {
-            frameCount = 0;
-            percent = Random.Range(0, 2);
+        // if(percent == State.half && frameCount == 100)
+        // {
+        //     frameCount = 0;
+        //     percent = Random.Range(0, 2);
 
-            if(percent == 0)
-            {
-                percent = State.half;
-            }
-            if (percent == 1)
-            {
-                percent = State.all;
-            }
-        }
+        //     if(percent == 0)
+        //     {
+        //         percent = State.half;
+        //     }
+        //     if (percent == 1)
+        //     {
+        //         percent = State.all;
+        //     }
+        // }
 
         if(percent == State.all)
         {
