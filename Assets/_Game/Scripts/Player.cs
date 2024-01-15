@@ -74,6 +74,7 @@ public class Player : MonoBehaviour
     {
         cameraFollow = FindObjectOfType<CameraFollow>();
         score = 0;
+        // Causing error due to no weapon assign initially
         weapon.OnInit(this);
         targets = new Collider[LevelManager.Instance.botCount + 1];
         currentAnim = Constants.IDLE_ANIM;
