@@ -1538,6 +1538,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hand: {fileID: 1766916960083885180}
   attackRange: 12
+  hat: {fileID: 3679738329639199759}
+  pant: {fileID: 0}
+  accessory: {fileID: 0}
   animator: {fileID: 6934082089086342757}
   player: {fileID: 5461311522226908387}
   weapon: {fileID: 0}
@@ -1943,7 +1946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3679738329639199759}
   m_Layer: 0
-  m_Name: Hair
+  m_Name: Hat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

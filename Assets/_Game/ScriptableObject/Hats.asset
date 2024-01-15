@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Hats
+  m_EditorClassIdentifier: Assembly-CSharp::SingleSkinList
+  items:
+  - {fileID: 2554272780189195292, guid: 84a5c6e650f203f47b0df7fb6838e711, type: 3}
+  - {fileID: 3527835187600082663, guid: af034a00933ca1b4a8f41e76400b9a48, type: 3}
+  - {fileID: 6697707654575170854, guid: 462475f25e8225141b980e65af5fa940, type: 3}
+  - {fileID: -6566398008772373317, guid: 50af1f6eef8103d42a7553620dc26e58, type: 3}
+  - {fileID: -6718471955388172914, guid: 10af0eb35e4540c44804c2222687bfb6, type: 3}
+  - {fileID: 847579949556337288, guid: 237fc1d09bcdf024287d348722ef5b68, type: 3}
+  - {fileID: -8421158995828609879, guid: 7e71f1ef0940c9a4f911a5d318ed6e49, type: 3}
+  - {fileID: 8482345650999326243, guid: a7bc3fc8eeef906408d87e1b10182c50, type: 3}

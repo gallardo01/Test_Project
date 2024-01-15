@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
 {
     public Transform hand;
     public float attackRange;
+    public Transform hat;
+    public Transform pant;
+    public Transform accessory;
 
     [SerializeField] protected Animator animator;
     [SerializeField] protected Transform player;

@@ -1,41 +1,16 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
 
-    // enum
-    private enum SkinType
-    {
-        Hat = 0,
-        Pant = 1,
-        Shield = 2,
-        Set = 3
-    }
-
-    public static UIManager Instance { get; private set; }
-    private void Awake()
-    {
-        // If there is an instance, and it's not me, delete myself.
-
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
-
     // Panel
     [Header("Panel")]
     [SerializeField] private GameObject decoration;
-    [SerializeField] private GameObject weaponShop;
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject ingame;
 
@@ -52,6 +27,7 @@ public class UIManager : MonoBehaviour
 
     // Weapon Shop
     [Header("Weapon Shop")]
+    [SerializeField] private GameObject weaponShop;
     [SerializeField] private Button nextItem;
     [SerializeField] private Button previousItem;
     [SerializeField] private Transform itemPlace;
@@ -65,16 +41,16 @@ public class UIManager : MonoBehaviour
 
     // Skin Shop
     [Header("Skin Shop")]
+    [SerializeField] private GameObject skinShop;
     [SerializeField] private Color backgroundColor;
     [SerializeField] private Color disableColor;
     [SerializeField] private Color activeColor;
-    [SerializeField] private RectTransform itemPanel;
-    [SerializeField] private GameObject skinItem;
     [SerializeField] private List<Button> topButtons;
+    [SerializeField] private GameObject[] skinPage;
+    [SerializeField] private SkinList skinList;
+    [SerializeField] private Button closeSkinShopButton;
 
-    private int currentSkinPage = 0;
-    private List<Button>[] buttonGroups;
-
+    private int currentSkinPage;
 
     // In Game
     [Header("In Game")]
@@ -115,6 +91,36 @@ public class UIManager : MonoBehaviour
         weaponButton.onClick.AddListener(OnWeaponShop);
         weaponButton.onClick.AddListener(OpenWeaponShop);
 
+        // Skin Shop
+        for (int i = 0; i < topButtons.Count; i++)
+        {
+            int n = i;
+            topButtons[i].onClick.AddListener(delegate { ChangeSkinPanel(n); });
+        }
+
+        Button[] skinButtons;
+
+        for (int i = 0; i < skinPage.Length; i++)
+        {
+            skinButtons = skinPage[i].transform.GetComponentsInChildren<Button>();
+
+            for (int j = 0; j < skinButtons.Length; j++)
+            {
+                int page = i, index = j;
+                skinButtons[j].onClick.AddListener(delegate { GetSkin(page, index); });
+            }
+
+            skinPage[i].SetActive(false);
+        }
+
+        closeSkinShopButton.onClick.AddListener(CloseSkinShop);
+
+        skinShop.SetActive(false);
+    }
+
+    private void CloseSkinShop() {
+        skinShop.SetActive(false);
+        UnHideMenuButton();
     }
 
     private void Update()
@@ -126,42 +132,33 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Load assets using addressable
-    public void ChangeSkinPanel(int index)
+    private void GetSkin(int page, int index)
     {
-        foreach (Button button in buttonGroups[currentSkinPage])
-        {
-            button.gameObject.SetActive(false);
-        }
+        skinList.GetSkin(page, index).Equip();
+    }
 
-        if (buttonGroups[index].Count == 0)
-        {
-            buttonGroups[(int)SkinType.Hat].Add(Instantiate(skinItem, itemPanel).GetComponent<Button>());
-        }
-        else
-        {
-            foreach (Button button in buttonGroups[index])
-            {
-                button.gameObject.SetActive(true);
-            }
-        }
+    // Load assets using addressable
+    private void ChangeSkinPanel(int index)
+    {
+        skinPage[currentSkinPage].SetActive(false);
 
+        currentSkinPage = index;
+
+        skinPage[currentSkinPage].SetActive(true);
     }
 
     private void OnSkinShop()
     {
         HideButton();
-        if (buttonGroups[(int)SkinType.Hat].Count == 0)
-        {
-            buttonGroups[(int)SkinType.Hat].Add(Instantiate(skinItem, itemPanel).GetComponent<Button>());
-        }
+        skinShop.SetActive(true);
         currentSkinPage = 0;
+        skinPage[currentSkinPage].SetActive(true);
     }
 
     private void CloseWeaponShop()
     {
         weaponShop.SetActive(false);
-        UnHideButton();
+        UnHideMenuButton();
     }
 
     private void BuyWeapon()
@@ -194,7 +191,7 @@ public class UIManager : MonoBehaviour
         playButton.transform.DOMove(playShiftTransform.position, shiftTime);
     }
 
-    private void UnHideButton()
+    private void UnHideMenuButton()
     {
         weaponButton.transform.DOMove(originalWeaponButtonPosition, shiftTime);
         skinButton.transform.DOMove(originalSkinButtonPosition, shiftTime);

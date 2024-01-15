@@ -208,6 +208,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hand: {fileID: 6225228117283911964}
   attackRange: 12
+  hat: {fileID: 0}
+  pant: {fileID: 0}
+  accessory: {fileID: 0}
   animator: {fileID: 3376543633887023877}
   player: {fileID: 372483222787303811}
   weapon: {fileID: 2587260542702308182}
