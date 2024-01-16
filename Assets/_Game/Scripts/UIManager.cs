@@ -42,15 +42,19 @@ public class UIManager : MonoBehaviour
     // Skin Shop
     [Header("Skin Shop")]
     [SerializeField] private GameObject skinShop;
-    [SerializeField] private Color backgroundColor;
-    [SerializeField] private Color disableColor;
-    [SerializeField] private Color activeColor;
+    [SerializeField] private Color activeBackgroundColor;
+    [SerializeField] private Color disableBackgroundColor;
+    [SerializeField] private Color activeIconColor;
+    [SerializeField] private Color disableIconColor;
     [SerializeField] private List<Button> topButtons;
     [SerializeField] private GameObject[] skinPage;
     [SerializeField] private SkinList skinList;
     [SerializeField] private Button closeSkinShopButton;
 
+    private Image[] backgroundImages;
+    private Image[] iconImages;
     private int currentSkinPage;
+    private int currentTopButton;
 
     // In Game
     [Header("In Game")]
@@ -115,6 +119,14 @@ public class UIManager : MonoBehaviour
 
         closeSkinShopButton.onClick.AddListener(CloseSkinShop);
 
+        backgroundImages = new Image[topButtons.Count];
+        iconImages = new Image[topButtons.Count];
+
+        for (int i = 0; i < topButtons.Count; i++) {
+            backgroundImages[i] = topButtons[i].GetComponent<Image>();
+            iconImages[i] = topButtons[i].transform.GetChild(0).GetComponent<Image>();
+        }
+
         skinShop.SetActive(false);
     }
 
@@ -132,6 +144,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void OnSelectSkin(int page, int index) {
+        
+    }
+
     private void GetSkin(int page, int index)
     {
         skinList.GetSkin(page, index).Equip();
@@ -144,15 +160,33 @@ public class UIManager : MonoBehaviour
 
         currentSkinPage = index;
 
+        DisableTopButton();
+        currentTopButton = index;
+        ActiveTopButton();
+
         skinPage[currentSkinPage].SetActive(true);
     }
 
     private void OnSkinShop()
     {
         HideButton();
+        currentTopButton = 0;
+        
+        ActiveTopButton();
+
         skinShop.SetActive(true);
         currentSkinPage = 0;
         skinPage[currentSkinPage].SetActive(true);
+    }
+
+    private void DisableTopButton() {
+        backgroundImages[currentTopButton].color = disableBackgroundColor;
+        iconImages[currentTopButton].color = disableIconColor;
+    }
+
+    private void ActiveTopButton() {
+        backgroundImages[currentTopButton].color = activeBackgroundColor;
+        iconImages[currentTopButton].color = activeIconColor;
     }
 
     private void CloseWeaponShop()

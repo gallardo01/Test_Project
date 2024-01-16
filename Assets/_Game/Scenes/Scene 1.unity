@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -332,9 +332,10 @@ MonoBehaviour:
   closeWeaponShopButton: {fileID: 845128581}
   weaponRotateSpeed: 180
   skinShop: {fileID: 392398167}
-  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-  disableColor: {r: 0, g: 0, b: 0, a: 0}
-  activeColor: {r: 0, g: 0, b: 0, a: 0}
+  activeBackgroundColor: {r: 0.48235297, g: 0.5019608, b: 0.58431375, a: 1}
+  disableBackgroundColor: {r: 0.21960786, g: 0.23137257, b: 0.26666668, a: 1}
+  activeIconColor: {r: 1, g: 1, b: 1, a: 1}
+  disableIconColor: {r: 1, g: 1, b: 1, a: 1}
   topButtons:
   - {fileID: 1195705216}
   - {fileID: 765508116}
