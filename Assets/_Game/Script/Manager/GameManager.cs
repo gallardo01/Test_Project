@@ -7,9 +7,18 @@ public enum GameState { MainMenu, GamePlay,PauseGame, EndGame, ShopWeapon,ShopSk
 public class GameManager : Singleton<GameManager>
 {
     private static GameState gameState;
+    public int Coin;
     private void Awake()
     {
         gameState = GameState.MainMenu;
+        if (!PlayerPrefs.HasKey("Coin"))
+        {
+            PlayerPrefs.SetInt("Coin", 0);
+        }
+        else
+        {
+            Coin = PlayerPrefs.GetInt("Coin");
+        }
     }
 
     public static void ChangeState(GameState state)
@@ -18,4 +27,10 @@ public class GameManager : Singleton<GameManager>
     }
 
     public static bool IsState(GameState state) => gameState == state;
+
+    public void UpdateCoin(int coin)
+    {
+        this.Coin += coin;
+        PlayerPrefs.SetInt("Coin", this.Coin);
+    }
 }

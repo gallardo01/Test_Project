@@ -40,7 +40,6 @@ public class LevelManager : Singleton<LevelManager>
     {
         bots.Clear();
         CountBot = 0;
-        player.OnInit();
         Name.RandomIndex();
         InitPointScale();
         NavMesh.RemoveAllNavMeshData();

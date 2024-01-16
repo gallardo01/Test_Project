@@ -20,10 +20,8 @@ public class Character : GameUnit
     public List<Character> targets = new List<Character>();
     public Vector3 positionTarget;
     public Character target;
-    public Weapon WeaponImg;
-    public Transform WeaponPoint;
-    public bool IsWeapon;
-    public PoolType typeWeapon;
+
+    private string currentAnim;
     private CounterTime counterTime = new CounterTime();
     public CounterTime count => counterTime;
     
@@ -32,8 +30,16 @@ public class Character : GameUnit
     public int score;
     public int deadScore;
     public float currentScale;
-    private string currentAnim;
+    
     public string nameCharacter;
+    public Weapon WeaponImg;
+    public Transform WeaponPoint;
+    public bool IsWeapon;
+    public PoolType typeWeapon;
+
+    public Transform HatPoint;
+    public Transform ShieldPoint;
+    public Renderer PanType;
     public override void OnInit()
     {
 
@@ -107,7 +113,7 @@ public class Character : GameUnit
             bullet.character = this;
             bullet.target = this.target.transform;
             bullet.OnInit();
-            
+            this.PostEvent(EventID.ThrowWeapon);
         }
     }
     public void RotateTarget()
@@ -133,8 +139,9 @@ public class Character : GameUnit
         return colliders.Length > 1;
 
     }
-    public void ChangeWeaponImg()
+    public  virtual void  ChangeWeaponImg()
     {
+        
         foreach (Transform child in WeaponPoint)
         {
             Destroy(child.gameObject);

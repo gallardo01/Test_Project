@@ -15,6 +15,7 @@ public class WeaponShop : MonoBehaviour
     [SerializeField] TextMeshProUGUI NameWeapon;
     [SerializeField] TextMeshProUGUI Desciption;
     [SerializeField] TextMeshProUGUI Price;
+    [SerializeField] TextMeshProUGUI State;
 
     [SerializeField] Transform WeaponParent;
 
@@ -30,7 +31,7 @@ public class WeaponShop : MonoBehaviour
         Back.onClick.AddListener(() => PreviousWeapon());
         Next.onClick.AddListener(() => NextWeapon());
         Exit.onClick.AddListener(() => UIManager.Instance.OpenCanvasUI(GameState.MainMenu));
-        Select.onClick.AddListener(() => LevelManager.Instance.changWeaponPlayer(UIManager.Instance.GetCurrentWeapon(weapon_index)));
+        Select.onClick.AddListener(() => ChangWeaponInShop());
         
     }
 
@@ -44,17 +45,32 @@ public class WeaponShop : MonoBehaviour
         weapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
         NameWeapon.text = weapon.weaponData.NameWeapon;
         Desciption.text = weapon.weaponData.Description;
-        if(weapon.weaponData.Price == 0)
+        OnButton(weapon);
+
+    }
+    public void OnButton(Weapon weapon)
+    {
+        if(weapon.weaponData.Price > 0)
         {
-            Price.text = "Select";
+            Buy.gameObject.SetActive(true);
+            Select.gameObject.SetActive(false);
+            Price.text = weapon.weaponData.Price.ToString();
         }
         else
         {
-            Price.text = weapon.weaponData.Price.ToString();
+            Buy.gameObject.SetActive(false);
+            Select.gameObject.SetActive(true);
+            State.text = LevelManager.Instance.player.typeWeapon == weapon.weaponType ? "Equiped" : "Select"; 
         }
 
     }
-
+    private void ChangWeaponInShop()
+    {
+        
+        State.text = "Equiped";
+        PlayerPrefs.SetInt("Weapon", weapon_index);       
+        LevelManager.Instance.player.ChangeWeaponImg();
+    }
     private void NextWeapon()
     {
        
@@ -64,6 +80,7 @@ public class WeaponShop : MonoBehaviour
             weapon_index = 0;
         }
         InitWeapon(weapon_index);
+        
     }
 
     private void PreviousWeapon()
@@ -75,5 +92,6 @@ public class WeaponShop : MonoBehaviour
             weapon_index = total_weapon - 1;
         }
         InitWeapon(weapon_index);
+        
     }
 }

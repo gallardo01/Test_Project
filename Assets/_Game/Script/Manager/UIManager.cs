@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using static UnityEngine.GraphicsBuffer;
 
 public class UIManager : Singleton<UIManager>
@@ -26,6 +27,8 @@ public class UIManager : Singleton<UIManager>
         this.OpenMainMenu();
         this.RegisterListener(EventID.Win, (param) => ChangeStateEndGame());
         this.RegisterListener(EventID.Lose, (param) => ChangeStateEndGame());
+        EndGameState.RegisterListener();
+
     }
     private void Start()
     {
@@ -38,11 +41,13 @@ public class UIManager : Singleton<UIManager>
             weapon_index = PlayerPrefs.GetInt("Weapon");
         }
        
-    }
+    } 
     public void ChangeStateEndGame()
     {
         this.OpenCanvasUI(GameState.EndGame);
     }
+
+
     public GameObject GetCurrentWeapon(int index)
     {
         return weapons[index];   
@@ -79,6 +84,11 @@ public class UIManager : Singleton<UIManager>
                 state.Value.SetActive(false);
             }
         }
+    }
+
+    public void UpdateCoin()
+    {
+
     }
     private void AddStates()
     {

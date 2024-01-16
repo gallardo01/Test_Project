@@ -7,5 +7,6 @@ public enum EventID
     OnEnemyDead,
     UpdateAlive,
     Win,
-    Lose
+    Lose, 
+    ThrowWeapon
 }

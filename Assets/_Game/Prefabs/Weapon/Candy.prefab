@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4237858520364764575}
   - component: {fileID: 6252012416896209369}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Candy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 1580054311022292035}
   - component: {fileID: 7269945875558387790}
   - component: {fileID: 6519192479462778927}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: candy_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

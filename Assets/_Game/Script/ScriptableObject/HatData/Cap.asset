@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83708e8cb951ca48bac6b82c8c6a275, type: 3}
+  m_Name: Cap
+  m_EditorClassIdentifier: 
+  Prefabs: {fileID: 2544065266195777876, guid: 9fc49ebce2941da4fbe8ed3cf12b1856, type: 3}
+  Description: +2 Range
+  Price: 200
+  Image: {fileID: 21300000, guid: 1cbb565e6302e234e82c3d5766667afd, type: 3}
+  Material: {fileID: 0}
+  Speed: 0
+  AttackRange: 2

@@ -30,9 +30,10 @@ public class Player : Character
         currentScale = 1;
         nameCharacter = "you";
         targetIndicator.textName.text = this.nameCharacter;
-        this.typeWeapon = LevelManager.Instance.RandomWeapon();
+        GrowthCharacter();
         this.ChangeWeaponImg();
         targetIndicator.OnInit();
+         targetIndicator.setScore(score);
         
     }
 
@@ -94,5 +95,12 @@ public class Player : Character
     {
         base.UpScore(addScore);
         
+    }
+
+    public override void ChangeWeaponImg()
+    {
+        int index = PlayerPrefs.GetInt("Weapon");
+        this.typeWeapon = UIManager.Instance.GetCurrentWeapon(index).GetComponent<Weapon>().weaponType;
+        base.ChangeWeaponImg();
     }
 }

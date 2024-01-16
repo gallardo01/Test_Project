@@ -13,11 +13,17 @@ public class EndGame : MonoBehaviour
     [SerializeField] GameObject Lose;
     [SerializeField] Button Touch;
 
-    private void Awake()
+
+    //public void OnEnable()
+    //{
+    //    this.RegisterListener(EventID.Win, (param) => EnterWin());
+    //    this.RegisterListener(EventID.Lose, (param) => EnterLose((string)param));
+    //}
+
+    public void RegisterListener()
     {
         this.RegisterListener(EventID.Win, (param) => EnterWin());
         this.RegisterListener(EventID.Lose, (param) => EnterLose((Character)param));
-        
     }
     private void Start()
     {
@@ -28,27 +34,34 @@ public class EndGame : MonoBehaviour
         SimplePool.CollectAll();
         UIManager.Instance.OpenMainMenu();
         LevelManager.Instance.player.ChangAnim(Constants.ANIM_IDLE);
+        LevelManager.Instance.player.count.Cancel();
+        LevelManager.Instance.player.OnInit();
     }
     public void EnterWin()
     {
         UIManager.Instance.OpenCanvasUI(GameState.EndGame);
         Rank.text = "#1";
-        Coin.text = LevelManager.Instance.player.score.ToString();
+        int score = LevelManager.Instance.player.score;
+        Coin.text = score.ToString();
         Win.SetActive(true);
         Lose.SetActive(false);
-
         LevelManager.Instance.player.ChangAnim(Constants.ANIM_IDLE);
+        LevelManager.Instance.player.OnInit();
+        GameManager.Instance.UpdateCoin(score);
     }
 
-    public void EnterLose(Character killer)
+    public void EnterLose(Character character)
     {
         UIManager.Instance.OpenCanvasUI(GameState.EndGame);
         Rank.text = "#" + LevelManager.Instance.GetCountAlive();
-        Coin.text = LevelManager.Instance.player.score.ToString();
-        Killer.text = killer.nameCharacter;
+        int score = LevelManager.Instance.player.score;
+        Coin.text = score.ToString();
+        Killer.text = character.nameCharacter;
         Win.SetActive(false);
         Lose.SetActive(true);
-        
+        GameManager.Instance.UpdateCoin(score);
+
+
 
     }
 }
