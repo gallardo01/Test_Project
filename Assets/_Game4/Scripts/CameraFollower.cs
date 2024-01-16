@@ -8,6 +8,7 @@ public class CameraFollower : MonoBehaviour
     public Transform playerTF;
 
     [SerializeField] Vector3 offset;
+    [SerializeField] float speed = 5f;
 
     // Start is called before the first frame update
 
@@ -15,6 +16,6 @@ public class CameraFollower : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        TF.position = Vector3.Lerp(TF.position, playerTF.position + offset, Time.deltaTime * 5f);
+        TF.position = Vector3.Lerp(TF.position, playerTF.position + offset, Time.deltaTime * speed);
     }
 }

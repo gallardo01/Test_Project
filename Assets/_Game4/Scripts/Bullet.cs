@@ -58,12 +58,13 @@ public class Bullet : MonoBehaviour
     public void OnShoot()
     {   
         // Debug.Log("OnShoot");
-        transform.position = Vector3.MoveTowards(transform.position, destination + transform.forward * 10f, 0.1f);
+        transform.position = Vector3.MoveTowards(transform.position, destination + transform.forward * 10f, 0.05f);
     }
 
     public void SetDestination(Vector3 target)
     {
         destination = target;
+        destination = new Vector3(target.x, character.midPoint.transform.position.y, target.z);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -24,17 +24,16 @@ public class TargetIndicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        viewPoint = Camera.main.WorldToScreenPoint(target.position) - screenHalf;   
-        rect.anchoredPosition = viewPoint;
+        Follow();
     }
 
     public void OnInit(Transform target, Range circle)
     {
-        
         this.target = target;
         Color color = new Color(Random.value, Random.value, Random.value, 1);
         iconLevel.color = color;
         nameText.color = color;
+        circle.GetComponent<SpriteRenderer>().color = color;
     }
 
     public void SetInformation(string name){

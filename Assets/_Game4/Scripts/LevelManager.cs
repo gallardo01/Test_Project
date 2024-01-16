@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using MarchingBytes;
-using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : Singleton<LevelManager>
 {
@@ -13,7 +12,7 @@ public class LevelManager : Singleton<LevelManager>
     public int totalBot;
     [SerializeField] GameObject indicatorPrefabs;
     [SerializeField] private GameObject canvasIndicator;
-    private static string[] randomName = {"ABC1","ABC2","ABC3","ABC4","ABC5","ABC6","ABC7","ABC8","ABC9","ABC10","ABC11","ABC12"};
+    private static string[] randomName = { "ABC1", "ABC2", "ABC3", "ABC4", "ABC5", "ABC6", "ABC7", "ABC8", "ABC9", "ABC10", "ABC11", "ABC12" };
     [SerializeField] private TextMeshProUGUI aliveText;
     private int TotalCharacter => totalBot + 1;
 
@@ -24,11 +23,20 @@ public class LevelManager : Singleton<LevelManager>
         UpdateUi();
     }
 
-    public TargetIndicator CreateIndicatorPanel(Transform target){
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+
+    public TargetIndicator CreateIndicatorPanel(Transform target, Range range)
+    {
         TargetIndicator targetIndicator = Instantiate(indicatorPrefabs, target.transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
         targetIndicator.transform.SetParent(canvasIndicator.transform);
-        targetIndicator.OnInit(target.transform);
-        targetIndicator.SetInformation(randomName[Random.Range(0,12)]);
+        targetIndicator.OnInit(target.transform, range);
+        targetIndicator.SetInformation(randomName[Random.Range(0, 12)]);
         return targetIndicator;
     }
 
@@ -47,7 +55,8 @@ public class LevelManager : Singleton<LevelManager>
         Bot botSpawn = EasyObjectPool.instance.GetObjectFromPool("Bot", RandomPoint(), transform.rotation).GetComponent<Bot>();
     }
 
-    public void UpdateUi(){
+    public void UpdateUi()
+    {
         aliveText.text = $"Alive: {TotalCharacter}";
     }
 

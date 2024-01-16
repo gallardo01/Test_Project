@@ -45,7 +45,7 @@ public class Player : Character
     {
         Vector3 nextPoint = player.position + JoystickControl.direct * speed * Time.deltaTime;
 
-        if (CanMove(nextPoint))
+        if (CanMove(nextPoint) && JoystickControl.direct != Vector3.zero)
         {
             // Debug.Log("Acess CanMove");
             ChangeAnim(Anim.runAnim);

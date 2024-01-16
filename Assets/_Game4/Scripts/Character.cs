@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEngine;
 using MarchingBytes;
-using Unity.VisualScripting;
+using UnityEngine;
 
 public class Character : AbstractCharacter
 {
+    [SerializeField] public GameObject midPoint;
     [SerializeField] protected Transform rightHand;
     [SerializeField] protected int speed;
     [SerializeField] protected LayerMask groundLayer;
@@ -15,7 +12,7 @@ public class Character : AbstractCharacter
     [SerializeField] public Range range;
     public bool isDead = false;
     private int score = 0;
-    
+
     public Transform indicatorPoint;
     public TargetIndicator targetIndicator;
     int frameCount = 0;
@@ -38,12 +35,12 @@ public class Character : AbstractCharacter
     {
         // targetIndicator = Instantiate(indicatorPrefabs, transform.position, Quaternion.identity).GetComponent<TargetIndicator>();
         // targetIndicator.OnInit(indicatorPoint);
-        targetIndicator = LevelManager.Instance.CreateIndicatorPanel(indicatorPoint);
+        targetIndicator = LevelManager.Instance.CreateIndicatorPanel(indicatorPoint, range);
     }
 
     public override void OnDespawn()
     {
-        
+
     }
 
     public bool CanMove(Vector3 point)
@@ -105,7 +102,8 @@ public class Character : AbstractCharacter
 
     public virtual void Attack(Vector3 point) //-------------------------------------------------------------------
     {
-        if(range.target != null){
+        if (range.target != null)
+        {
             Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", rightHand.position, transform.rotation).GetComponent<Bullet>();
             bullet.OnInit(this);
             bullet.SetDestination((Vector3)range.target);
@@ -129,14 +127,14 @@ public class Character : AbstractCharacter
         //     }
         // }
 
-        if(percent == State.all)
+        if (percent == State.all)
         {
-            if(range.onTarget)
+            if (range.onTarget)
             {
                 Rotate();
                 ChangeAnim(Anim.attackAnim);
             }
-            if(!range.onTarget)
+            if (!range.onTarget)
             {
                 ChangeAnim(Anim.idleAnim);
             }
