@@ -87,15 +87,20 @@ public class Character : AbstractCharacter
         //     // Destroy(gameObject);
         // }
         targetIndicator.gameObject.SetActive(false);
+        gameObject.GetComponent<CapsuleCollider>().enabled = false;
         ChangeAnim(Anim.deadAnim);
-        // LevelManager.Instance.
+        LevelManager.Instance.totalBot--;
+        LevelManager.Instance.UpdateUi();
     }
 
     public virtual void Rotate() //-------------------------------------------------------------------
     {
-        Vector3 directionToTarget = (Vector3)range.target - transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0f, directionToTarget.z));
-        transform.rotation = lookRotation;
+        if (range.onTarget)
+        {
+            Vector3 directionToTarget = (Vector3)range.target - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0f, directionToTarget.z));
+            transform.rotation = lookRotation;
+        }
     }
 
     public virtual void Attack(Vector3 point) //-------------------------------------------------------------------

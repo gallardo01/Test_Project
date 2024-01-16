@@ -59,6 +59,9 @@ public class Bot : Character
 
     public override void OnDeath(){
         base.OnDeath();
+    }
+
+    public void ReturnPool(){
         EasyObjectPool.instance.ReturnObjectToPool(gameObject);
     }
 

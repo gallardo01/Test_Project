@@ -25,11 +25,12 @@ public class TargetIndicator : MonoBehaviour
     void Update()
     {
         viewPoint = Camera.main.WorldToScreenPoint(target.position) - screenHalf;   
-        rect.anchoredPosition = viewPoint;    
+        rect.anchoredPosition = viewPoint;
     }
 
-    public void OnInit(Transform target)
+    public void OnInit(Transform target, Range circle)
     {
+        
         this.target = target;
         Color color = new Color(Random.value, Random.value, Random.value, 1);
         iconLevel.color = color;
@@ -40,4 +41,9 @@ public class TargetIndicator : MonoBehaviour
         nameText.text = name;
     }
 
+    public void Follow()
+    {
+        viewPoint = Camera.main.WorldToScreenPoint(target.position) - screenHalf;   
+        rect.anchoredPosition = viewPoint;
+    }
 }

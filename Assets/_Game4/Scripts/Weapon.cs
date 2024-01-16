@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [SerializeField] GameObject child;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +15,16 @@ public class Weapon : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void OnEnable()
+    {
+        child.SetActive(true);
+    }
+
+    public void Throw()
+    {
+        child.SetActive(false);
+        Invoke(nameof(OnEnable), 1f);
     }
 }

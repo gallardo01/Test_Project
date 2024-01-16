@@ -70,8 +70,6 @@ public class Bullet : MonoBehaviour
     {
         if(other.tag == Tag.characterTag)
         {
-            Debug.Log("Bullet Hit");
-            // other.gameObject.tag = Tag.botTag;
             other.gameObject.GetComponent<Character>().OnDeath();
             // Destroy(other.gameObject);
             EasyObjectPool.instance.ReturnObjectToPool(gameObject);

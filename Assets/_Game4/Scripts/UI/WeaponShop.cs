@@ -11,6 +11,7 @@ public class WeaponShop : MonoBehaviour
     [SerializeField] Button pick;
     [SerializeField] Button back;
     [SerializeField] Transform parent;
+    [SerializeField] private GameObject mainMenu;
 
     private int weapon_index = 0;
     private int total_weapon = 0;
@@ -23,6 +24,7 @@ public class WeaponShop : MonoBehaviour
         InitWeapon(weapon_index);
         next.onClick.AddListener(() => NextWeapon());
         previous.onClick.AddListener(() => PreviousWeapon());
+        back.onClick.AddListener(() => BackWeapon());
     }
 
     private void InitWeapon(int index)
@@ -54,4 +56,10 @@ public class WeaponShop : MonoBehaviour
         }
         InitWeapon(weapon_index);
     }
+
+    private void BackWeapon(){
+        gameObject.SetActive(false);
+        mainMenu.SetActive(true);
+    }
+
 }

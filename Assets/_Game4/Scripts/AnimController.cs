@@ -30,4 +30,11 @@ public class AnimController : MonoBehaviour
         character.isAttack = false;
     }
 
+    public void Disable(){
+        if (character.GetComponent<Bot>() != null)
+        {
+            character.GetComponent<Bot>().ReturnPool();
+        }
+    }
+
 }
