@@ -221,6 +221,7 @@ MonoBehaviour:
   weaponList: {fileID: 11400000, guid: fd00162092265084599d8c616550a43f, type: 2}
   scoreOffset: {x: 0, y: 8, z: 0}
   sprayTransform: {fileID: 4797342630707629524}
+  moveRange: 15
   agent: {fileID: 3969957677044433309}
 --- !u!195 &3969957677044433309
 NavMeshAgent:

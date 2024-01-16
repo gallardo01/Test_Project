@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 public class Bot : Player
 {
-
+    public float moveRange = 10f;
     public NavMeshAgent agent;
 
     private Vector3 destination;

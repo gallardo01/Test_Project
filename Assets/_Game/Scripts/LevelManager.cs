@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Character character;
     [SerializeField] private float radius;
     [SerializeField] private GameObject score;
+    [SerializeField] private WeaponList weaponList;
 
     public Transform scoreParent;
     public Transform hintParent;
@@ -39,6 +40,7 @@ public class LevelManager : MonoBehaviour
         mainCharacter = Instantiate(character, Vector3.zero, Quaternion.identity, null);
         mainCharacter.enabled = false;
         mainCharacter.SetScoreText(Instantiate(score, scoreParent));
+        mainCharacter.ChangeWeapon(Random.Range(0, weaponList.Size));
 
         // Create Bots
         bots = new List<Bot>();
@@ -66,6 +68,8 @@ public class LevelManager : MonoBehaviour
             positions[1] = new Vector3(Random.Range(bot.attackRange + x, radius), 0, Random.Range(bot.attackRange + z, radius));
             positions[2] = new Vector3(Random.Range(bot.attackRange + x, radius), 0, Random.Range(-(bot.attackRange + z), -radius));
             positions[3] = new Vector3(Random.Range(-radius, -(bot.attackRange + x)), 0, Random.Range(-(bot.attackRange + z), -radius));
+
+            bot.ChangeWeapon(Random.Range(0, weaponList.Size));
 
             bot.transform.position = positions[Random.Range(0, 4)];
             bots.Add(bot);

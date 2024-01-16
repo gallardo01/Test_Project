@@ -48,13 +48,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Color disableIconColor;
     [SerializeField] private List<Button> topButtons;
     [SerializeField] private GameObject[] skinPage;
-    [SerializeField] private SkinList skinList;
+    [SerializeField] private SkinList skinData;
     [SerializeField] private Button closeSkinShopButton;
+    [SerializeField] private TextMeshProUGUI skinPrice;
+    [SerializeField] private TextMeshProUGUI skinEffect;
+    [SerializeField] private Button buySkinButton;
 
     private Image[] backgroundImages;
     private Image[] iconImages;
     private int currentSkinPage;
     private int currentTopButton;
+    private SkinItem currentSkinItem;
 
     // In Game
     [Header("In Game")]
@@ -96,25 +100,24 @@ public class UIManager : MonoBehaviour
         weaponButton.onClick.AddListener(OpenWeaponShop);
 
         // Skin Shop
+
+        for (int i = 0; i < skinData.SkinLists.Length; i++) {
+            for (int j = 0; j < skinData.SkinLists[i].Items.Length; j++) {
+                int page = i, index = j;
+
+                GameObject skinItemButton = new GameObject("Skin Item Button");
+                skinItemButton.transform.SetParent(skinPage[i].transform);
+                skinItemButton.AddComponent<Button>().onClick.AddListener(delegate { OnSelectSkin(page, index); } );
+                skinItemButton.AddComponent<Image>().sprite = skinData.SkinLists[i].Items[j].sprite;
+            }
+
+            skinPage[0].SetActive(false);
+        }
+
         for (int i = 0; i < topButtons.Count; i++)
         {
             int n = i;
             topButtons[i].onClick.AddListener(delegate { ChangeSkinPanel(n); });
-        }
-
-        Button[] skinButtons;
-
-        for (int i = 0; i < skinPage.Length; i++)
-        {
-            skinButtons = skinPage[i].transform.GetComponentsInChildren<Button>();
-
-            for (int j = 0; j < skinButtons.Length; j++)
-            {
-                int page = i, index = j;
-                skinButtons[j].onClick.AddListener(delegate { GetSkin(page, index); });
-            }
-
-            skinPage[i].SetActive(false);
         }
 
         closeSkinShopButton.onClick.AddListener(CloseSkinShop);
@@ -127,12 +130,13 @@ public class UIManager : MonoBehaviour
             iconImages[i] = topButtons[i].transform.GetChild(0).GetComponent<Image>();
         }
 
+        buySkinButton.onClick.AddListener(GetSkin);
+
         skinShop.SetActive(false);
     }
 
     private void CloseSkinShop() {
         skinShop.SetActive(false);
-        UnHideMenuButton();
     }
 
     private void Update()
@@ -145,12 +149,13 @@ public class UIManager : MonoBehaviour
     }
 
     private void OnSelectSkin(int page, int index) {
-        
+        currentSkinItem = skinData.GetSkin(page, index).prefab;
+        Debug.Log(page + " " + index);
     }
 
-    private void GetSkin(int page, int index)
+    private void GetSkin()
     {
-        skinList.GetSkin(page, index).Equip();
+        currentSkinItem.Equip();
     }
 
     // Load assets using addressable
@@ -171,7 +176,7 @@ public class UIManager : MonoBehaviour
     {
         HideButton();
         currentTopButton = 0;
-        
+
         ActiveTopButton();
 
         skinShop.SetActive(true);

@@ -74,6 +74,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9dce07d31ec8c488e1507d67369901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
+  effectValue: 55
   effect: 0
   cost: 0

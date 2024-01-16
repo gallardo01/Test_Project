@@ -32,7 +32,6 @@ public class Player : MonoBehaviour
     protected int targetCount;
     protected GameObject scoreObject;
     protected TextMeshProUGUI scoreText;
-
     protected CounterTime counter;
 
     private void Start() {
@@ -77,8 +76,6 @@ public class Player : MonoBehaviour
     {
         cameraFollow = FindObjectOfType<CameraFollow>();
         score = 0;
-        // Causing error due to no weapon assign initially
-        weapon.OnInit(this);
         targets = new Collider[LevelManager.Instance.botCount + 1];
         currentAnim = Constants.IDLE_ANIM;
         canAttack = true;
@@ -143,7 +140,7 @@ public class Player : MonoBehaviour
 
     public void ChangeWeapon(int index)
     {
-        Destroy(weapon.gameObject);
+        if (weapon) Destroy(weapon.gameObject);
         weapon =  Instantiate(weaponList.GetWeapon(index), hand);
         weapon.OnInit(this);
     }
