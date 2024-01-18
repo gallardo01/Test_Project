@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Bot : Character
 {
@@ -16,7 +17,7 @@ public class Bot : Character
     [SerializeField] private NavMeshAgent agent;
     private Vector3 destionation;
 
-    IState<Bot> currentState;
+   public IState<Bot> currentState;
 
 
     public override void OnInit()
@@ -66,7 +67,11 @@ public class Bot : Character
 
     }
 
-
+    public override bool checkTarget()
+    {
+        bool pos =  Camera.main.WorldToViewportPoint(this.transform.position).x < 1f && Camera.main.WorldToViewportPoint(this.transform.position).y < 1f;
+        return base.checkTarget()  && pos;
+    }
 
     public override void OnDespawn()
     {

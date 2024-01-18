@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EndGame : MonoBehaviour
+public class EndGame : CanvasAbs
 {
     [SerializeField] TextMeshProUGUI Rank;
     [SerializeField] TextMeshProUGUI Killer;
@@ -27,12 +27,12 @@ public class EndGame : MonoBehaviour
     }
     private void Start()
     {
-        Touch.onClick.AddListener(() => BackMenu());
+        Touch.onClick.AddListener(() => BackToMainMenu());
     }
-    public void BackMenu()
+    public override void BackToMainMenu()
     {
+        base.BackToMainMenu();
         SimplePool.CollectAll();
-        UIManager.Instance.OpenMainMenu();
         LevelManager.Instance.player.ChangAnim(Constants.ANIM_IDLE);
         LevelManager.Instance.player.count.Cancel();
         LevelManager.Instance.player.OnInit();

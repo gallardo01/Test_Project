@@ -128,7 +128,7 @@ public class Character : GameUnit
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 100f);
         }
     }
-    public bool checkTarget()
+    public virtual bool checkTarget()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
         colliders = colliders.OrderBy(c => Vector3.Distance(c.bounds.center, transform.position)).ToArray();

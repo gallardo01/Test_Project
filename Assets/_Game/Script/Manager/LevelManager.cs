@@ -44,7 +44,6 @@ public class LevelManager : Singleton<LevelManager>
         InitPointScale();
         NavMesh.RemoveAllNavMeshData();
         NavMesh.AddNavMeshData(navMeshData);
-        player.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
         // bot
         for (int i = 0; i < CountBotCurrent; i++)
         {
@@ -146,7 +145,10 @@ public class LevelManager : Singleton<LevelManager>
         basePoints.Add(new BasePoint { Score = 25, Scale = 2.5f, DeadScore = 7 });
         
     }
-
+    public Weapon GetCurrentWeapon(int index)
+    {
+        return weapons[index];
+    }
 
 
 }

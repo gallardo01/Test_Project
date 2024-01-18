@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,19 +18,14 @@ public enum ShopState
 }
 
 
-public class SkinShop : MonoBehaviour
+public class SkinShop : CanvasAbs
 {
     [SerializeField] GameObject ButtonPrefab;
     [SerializeField] Button Exit;
     [SerializeField] TextMeshProUGUI Description;
-    [SerializeField] Button Select;
-    [SerializeField] Button Equiped;
     [SerializeField] Button Buy;
     [SerializeField] TextMeshProUGUI Price;
-    [SerializeField] GameObject ChooseItem;
-
-
-
+    [SerializeField] GameObject FrameChooseItem;
 
     [SerializeField] List<Button> buttons;
     [SerializeField] List<GameObject> views; 
@@ -42,66 +38,87 @@ public class SkinShop : MonoBehaviour
     public RectTransform firstPant;
 
     public UnityAction<int> onButtonClicked;
-    private GameObject currentView;
-    private Button currentButton;
-
+    public GameObject currentView;
+    public Button currentButton;
+    public int currentIndex;
     public ShopState shopState;
-    public string[] nameShop  = { "Hat", "Pant", "Shield", "FullSet" };
+
+    public GameObject currentHat;
+    public Material currentPant;
+    private Player player;
+    public RectTransform PosShop;
     private void Awake()
-    { 
+    {
+        this.player = LevelManager.Instance.player;
         LoadShopHat();
-        LoadShopPan();
-        Exit.onClick.AddListener(() => UIManager.Instance.OpenCanvasUI(GameState.MainMenu));
-        Buy.onClick.AddListener(() => BuyItem());
-        Select.onClick.AddListener(() => SelectItem());
+        LoadShopPant();
+        Exit.onClick.AddListener(() => BackToMainMenu());
+        Buy.onClick.AddListener(() => BuyOrSelectItem());
     }
     void Start()
     { 
-        foreach (GameObject view in views)
-        {
-            view.SetActive(false);
-        }
         for (int i = 0; i < buttons.Count; i++)
         {
             int buttonIndex = i;
             buttons[i].GetComponent<Button>().onClick.AddListener(() => OnButtonClick(buttonIndex));
         }
         onButtonClicked += ChangeView;
-        shopState = ShopState.Hat;
-        ChangeView(0);
-    }
-    private void SelectItem()
-    {
-        
+
     }
 
-    private void BuyItem()
+    private void OnEnable()
     {
-        
+        //this.player.transform.SetParent(PosShop.transform, false);
+        ChangeView(0);
+    }
+    public override void BackToMainMenu()
+    {
+        base.BackToMainMenu();
+        ClearChoices();
+        //this.player.transform.SetParent(null, false);
+    }
+    private void ClearChoices()
+    {
+        player.PanType.material = player.pantCurrent;
+        if (player.hatCurrent != null) player.hatCurrent.SetActive(true);
+        Destroy(this.currentHat);
+
     }
     void OnButtonClick(int buttonIndex)
     {
         onButtonClicked?.Invoke(buttonIndex);
     }
 
-    void ChangeView(int buttonIndex)
+    void ChangeView(int index)
     {
         if(currentButton != null)
         {
             currentButton.image.enabled = false;
-            currentView.SetActive(false);
+            currentView.gameObject.SetActive(false);
         }
-        if (buttonIndex < views.Count)
+        if(index < buttons.Count)
         {
-            currentButton = buttons[buttonIndex];
+            currentButton = buttons[index];
             currentButton.image.enabled = true;
-            currentView = views[buttonIndex];
-            currentView.SetActive(true);
-            shopState = (ShopState)buttonIndex;
-            ChangFirstItem(buttonIndex);
+            currentView = views[index];
+            currentView.gameObject.SetActive(true);
+            shopState = (ShopState)index;
+            ClearOldItem(index);
+            ChangFirstItem(index);
         }
     }
 
+    private void ClearOldItem(int indexView)
+    {
+        if (player.pantCurrent != player.PanType.material) player.pantCurrent = player.PanType.material;
+        if (indexView != 0)
+        {
+            if (player.hatCurrent != null) player.hatCurrent.SetActive(true);
+            Destroy(this.currentHat);
+        }
+        if (indexView != 1) player.PanType.material = player.pantCurrent;
+
+    }
     private void ChangFirstItem(int index)
     {
         switch(index)
@@ -109,7 +126,7 @@ public class SkinShop : MonoBehaviour
             case 0:
                 ChangeHat(0, firstHat); break;
             case 1: 
-                ChangePant(1, firstPant); break;
+                ChangePant(0, firstPant); break;
 
             default: break;
         }
@@ -122,40 +139,43 @@ public class SkinShop : MonoBehaviour
         firstButton.GetComponent<ButtonCharSkin>().index = 0;
         firstButton.GetComponent<ButtonCharSkin>().action += ChangeHat;
         firstHat =(RectTransform)firstButton.gameObject.transform;
-        if (!PlayerPrefs.HasKey("Hat" + 0))
-        {
-            PlayerPrefs.SetInt("Hat" + 0, 0);
-        }
         for (int i = 1; i < count; i++)
         {
             GameObject myButton = Instantiate(ButtonPrefab, contentHat);
             myButton.GetComponent<Image>().sprite = DataManager.Instance.hatDatas[i].Image;
             myButton.GetComponent<ButtonCharSkin>().index = i;
-            myButton.GetComponent<ButtonCharSkin>().action += ChangeHat;
-            if (!PlayerPrefs.HasKey("Hat" + i))
-            {
-                PlayerPrefs.SetInt("Hat" + i, 0);
-            }            
+            myButton.GetComponent<ButtonCharSkin>().action += ChangeHat;           
         }
 
     }
 
+
+    // Mac thu
     private void ChangeHat(int index, RectTransform pos)
     {
-        //Debug.Log(index);
-        foreach (Transform child in LevelManager.Instance.player.HatPoint)
+        if(player.hatCurrent != null)
         {
-            child.gameObject.SetActive(false);
+            player.hatCurrent.SetActive(false);
         }
-        SkinData Hat = DataManager.Instance.hatDatas[index];
-        Instantiate(Hat.Prefabs, LevelManager.Instance.player.HatPoint);
-        Description.text = Hat.Description;
-        CheckStateItem(index, "Hat", Hat.Price);
-        ChooseItem.transform.SetParent(pos, false);
+        if(currentHat != null) { Destroy(currentHat); } 
+        currentIndex = index;
+        currentHat = Instantiate(DataManager.Instance.hatDatas[index].Prefabs, player.HatPoint);
+        Description.text = DataManager.Instance.hatDatas[index].Description;
+        FrameChooseItem.transform.SetParent(pos, false);
+        if (SaveManager.Instance.listBoughtHatID.Contains(index))
+        {
+            ChangeStateSelect();
+            return;
+        }
+        else
+        {
+            Price.text = DataManager.Instance.hatDatas[index].Price.ToString();
+        }
+        
 
 
     }
-    private void LoadShopPan()
+    private void LoadShopPant()
     {
         int count = DataManager.Instance.panDatas.Count;
         GameObject firstButton = Instantiate(ButtonPrefab, contentPan);
@@ -163,57 +183,118 @@ public class SkinShop : MonoBehaviour
         firstButton.GetComponent<ButtonCharSkin>().index = 0;
         firstButton.GetComponent<ButtonCharSkin>().action += ChangePant;
         firstPant = (RectTransform)firstButton.gameObject.transform;
-        if (!PlayerPrefs.HasKey("Pant" + 0))
-        {
-            PlayerPrefs.SetInt("Pant" + 0, 0);
-        }
         for (int i = 1; i < count; i++)
         {
             GameObject myButton = Instantiate(ButtonPrefab, contentPan);
             myButton.GetComponent<Image>().sprite = DataManager.Instance.panDatas[i].Image;
             myButton.GetComponent<ButtonCharSkin>().index = i;
             myButton.GetComponent<ButtonCharSkin>().action += ChangePant;
-            if (!PlayerPrefs.HasKey("Pant" + i))
-            {
-                PlayerPrefs.SetInt("Pant" + i, 0);
-            }
         }
 
     }
     private void ChangePant(int index, RectTransform pos)
     {
-       
+        currentIndex = index;
         SkinData Pant = DataManager.Instance.panDatas[index];
         LevelManager.Instance.player.PanType.material = DataManager.Instance.panDatas[index].Material;
         Description.text = Pant.Description;
-        CheckStateItem(index, "Hat", Pant.Price);
-        ChooseItem.transform.SetParent(pos, false);
+        FrameChooseItem.transform.SetParent(pos, false);
+        if (SaveManager.Instance.listBoughtPantID.Contains(index))
+        {
+            ChangeStateSelect();
+            return;
+        }
+        else
+        {
+            Price.text = Pant.Price.ToString();
+        }
     }
 
-    private void CheckStateItem(int index, string nameItem, int price)
+    private void BuyOrSelectItem()
     {
-        switch(PlayerPrefs.GetInt(nameItem + index))
+        if (string.Equals(Price.text, Constants.equipedStringBtn))
         {
-            case 0:
-                Select.gameObject.SetActive(false);
-                Equiped.gameObject.SetActive(false);
-                Buy.gameObject.SetActive(true);
-                Price.text = price.ToString();
+            return;
+        }
+        if (string.Equals(Price.text, Constants.selectStringBtn))
+        {
 
+            ChangeItem();
+            SaveIDItem();
+            ChangeStateSelect();
+            UpdateData();
+            return;
+        }
+        if (GameManager.Instance.Coin >= int.Parse(Price.text))
+        {
+            GameManager.Instance.UpdateCoin(-int.Parse(Price.text));
+            ChangeItem();
+            SaveIDItem();
+            AddNewItem();
+            ChangeStateSelect();
+            UpdateData();
+            UIManager.Instance.UpDateCoinText();
+
+        }
+    }
+
+
+    private void ChangeItem()
+    {
+        if(player.hatCurrent != null)
+        {
+            Destroy(player.hatCurrent);
+        }
+        if(currentHat != null)
+        {
+            player.hatCurrent = Instantiate(currentHat, player.HatPoint);
+            Destroy(currentHat);
+        }
+
+    }
+    private void ChangeStateSelect()
+    {
+
+        switch (shopState)
+        {
+            case ShopState.Hat:
+                Price.text = SaveManager.Instance.currentHat == currentIndex ? "Equiped" : "Select";
                 break;
-            case 1:
-                Select.gameObject.SetActive(true);
-                Buy.gameObject.SetActive(false);
-                Equiped.gameObject.SetActive(false);
-                break;
-            case 2:
-                Select.gameObject.SetActive(false);
-                Buy.gameObject.SetActive(false);
-                Equiped.gameObject.SetActive(true);
+            case ShopState.Pant:
+                Price.text = SaveManager.Instance.currentPant == currentIndex ? "Equiped" : "Select";
                 break;
             default:
                 break;
         }
     }
-
+    private void SaveIDItem()
+    {
+        switch (shopState)
+        {
+            case ShopState.Hat:
+                SaveManager.Instance.currentHat = currentIndex;
+                break;
+            case ShopState.Pant:
+                SaveManager.Instance.currentPant = currentIndex;
+                break;
+            
+        }
+    }
+    private void AddNewItem()
+    {
+        switch (shopState)
+        {
+            case ShopState.Hat:
+                SaveManager.Instance.listBoughtHatID.Add(currentIndex);
+                break;
+            case ShopState.Pant:
+                SaveManager.Instance.listBoughtPantID.Add(currentIndex);
+                break;
+            
+        }
+    }
+    private void UpdateData()
+    {
+        player.ResetData();
+    }
 }

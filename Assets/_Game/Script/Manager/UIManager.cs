@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
@@ -14,45 +15,45 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] GameObject Setting;
     [SerializeField] GameObject PauseGame;
     [SerializeField] GameObject EndGame;
+    [SerializeField] GameObject Coin;
     [SerializeField] EndGame EndGameState;
+    [SerializeField] TextMeshProUGUI text_Coin;
+
+
 
     public Dictionary<GameState, GameObject> dictStateGameObject = new Dictionary<GameState, GameObject>();
-
-    [SerializeField] GameObject[] weapons;
-    private int weapon_index = 0;
-    public int total_weapon => weapons.Length;
     private void Awake()
     {
         this.AddStates();
-        this.OpenMainMenu();
         this.RegisterListener(EventID.Win, (param) => ChangeStateEndGame());
         this.RegisterListener(EventID.Lose, (param) => ChangeStateEndGame());
         EndGameState.RegisterListener();
-
+        this.OpenMainMenu();
+        TurnOnCoinCanvas();
     }
     private void Start()
     {
-        if (!PlayerPrefs.HasKey("Weapon"))
-        {
-            PlayerPrefs.SetInt("Weapom", 0);
-        }
-        else
-        {
-            weapon_index = PlayerPrefs.GetInt("Weapon");
-        }
-       
+        
+
     } 
     public void ChangeStateEndGame()
     {
         this.OpenCanvasUI(GameState.EndGame);
     }
 
-
-    public GameObject GetCurrentWeapon(int index)
+    public void TurnOnCoinCanvas()
     {
-        return weapons[index];   
+        Coin.SetActive(true);
+        UpDateCoinText();
     }
-
+    public void TurnOffCoinCanvas()
+    {
+        Coin.SetActive(false);
+    }
+    public void UpDateCoinText()
+    {
+        text_Coin.text = GameManager.Instance.Coin.ToString();
+    }
     public void OpenCanvasUI(GameState nextGameState)
     {
         if (GameManager.IsState(nextGameState)) return;
@@ -110,6 +111,7 @@ public class UIManager : Singleton<UIManager>
         Setting = GameObject.Find("Setting");
         PauseGame = GameObject.Find("PauseGame");
         EndGame = GameObject.Find("EndGame");
+        Coin = GameObject.Find("Coin");
     }
 
 

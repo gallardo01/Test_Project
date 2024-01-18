@@ -1,42 +1,46 @@
 using MarchingBytes;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 public class Player : Character
 { 
     [SerializeField] Rigidbody rb;
-    [SerializeField] private float speed;
+    [SerializeField] public float speed;
     [SerializeField] private GameObject circleAttack;
     private bool isRun;
-    private float defaultAttackRange;
-    private float defaultSpeed;
+    //private float defaultAttackRange =5f;
+    //private float defaultSpeed = 5f;
+
+    public GameObject hatCurrent;
+    public Material pantCurrent;
     // Start is called before the first frame update
     void Start() 
     {
-        OnInit();
-        
+        OnInit();        
     }
     public override void OnInit()
     {
         base.OnInit();
         this.collider.enabled = true;
-        defaultAttackRange = 5f;
-        defaultSpeed = 5f;
-        speed = defaultSpeed;
-        attackRange = defaultAttackRange;
+        ResetData();
         score = 1;
         deadScore = 1;
         currentScale = 1;
         nameCharacter = "you";
         targetIndicator.textName.text = this.nameCharacter;
         GrowthCharacter();
-        this.ChangeWeaponImg();
+        this.ChangeSaveItem();
         targetIndicator.OnInit();
          targetIndicator.setScore(score);
         
     }
-
+    public void ResetData()
+    {
+        this.speed = 5f;
+        this.attackRange = 5f;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -66,7 +70,8 @@ public class Player : Character
             {
                 if (checkTarget() && IsWeapon)
                 {
-                ChangAnim(Constants.ANIM_IDLE);
+                    //Debug.Log("attack");
+                    ChangAnim(Constants.ANIM_IDLE);
                     RotateTarget();
                     ChangAnim(Constants.ANIM_ATTACK);
                     OnAttack();
@@ -88,8 +93,8 @@ public class Player : Character
     public override void GrowthCharacter()
     {
         base.GrowthCharacter();
-        attackRange = defaultAttackRange * currentScale;
-        speed = defaultSpeed * currentScale;
+        attackRange = 5f * currentScale;
+        speed = 5f * currentScale;
     }
     public override void UpScore(int addScore)
     {
@@ -97,10 +102,24 @@ public class Player : Character
         
     }
 
-    public override void ChangeWeaponImg()
+    public void ChangeSaveItem()
     {
-        int index = PlayerPrefs.GetInt("Weapon");
-        this.typeWeapon = UIManager.Instance.GetCurrentWeapon(index).GetComponent<Weapon>().weaponType;
+        //Debug.Log("getSave");
+        if (SaveManager.Instance.currentHat != -1)
+        {
+            hatCurrent = Instantiate(DataManager.Instance.hatDatas[SaveManager.Instance.currentHat].Prefabs, HatPoint);
+            attackRange += DataManager.Instance.hatDatas[SaveManager.Instance.currentHat].AttackRange*0.1f;
+        }
+        if (SaveManager.Instance.currentPant != -1)
+        {
+            pantCurrent = DataManager.Instance.panDatas[SaveManager.Instance.currentPant].Material;
+            PanType.material = pantCurrent;
+            speed += DataManager.Instance.panDatas[SaveManager.Instance.currentPant].Speed*0.2f;
+        }
+        int index = SaveManager.Instance.currentWeapon;
+        this.typeWeapon = LevelManager.Instance.GetCurrentWeapon(index).weaponType;
+        this.attackRange += LevelManager.Instance.weapons[SaveManager.Instance.currentWeapon].weaponData.AttackRange * 0.1f;
+        this.speed += LevelManager.Instance.weapons[SaveManager.Instance.currentWeapon].weaponData.Speed * 0.2f;
         base.ChangeWeaponImg();
     }
 }

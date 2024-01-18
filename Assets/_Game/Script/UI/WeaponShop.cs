@@ -1,75 +1,99 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
 
-public class WeaponShop : MonoBehaviour
+public class WeaponShop : CanvasAbs
 {
     [SerializeField] Button Back;
     [SerializeField] Button Next;
-    [SerializeField] Button Select;
-    [SerializeField] Button Buy;
+
     [SerializeField] Button Exit;
     [SerializeField] TextMeshProUGUI NameWeapon;
     [SerializeField] TextMeshProUGUI Desciption;
+    [SerializeField] Button Select;
     [SerializeField] TextMeshProUGUI Price;
-    [SerializeField] TextMeshProUGUI State;
 
     [SerializeField] Transform WeaponParent;
 
-    private int weapon_index = 0;
+    private int weapon_index;
     private int total_weapon = 0;
-    private Weapon weapon;
+    public Weapon weapon;
+    private Player player;
     // Start is called before the first frame update
     void Start()
     {
-        weapon_index = PlayerPrefs.GetInt("Weapon");
-        total_weapon = UIManager.Instance.total_weapon;
+        this.player = LevelManager.Instance.player;
+        weapon_index = SaveManager.Instance.currentWeapon;
+        total_weapon = LevelManager.Instance.weapons.Count;
         InitWeapon(weapon_index);
         Back.onClick.AddListener(() => PreviousWeapon());
         Next.onClick.AddListener(() => NextWeapon());
-        Exit.onClick.AddListener(() => UIManager.Instance.OpenCanvasUI(GameState.MainMenu));
-        Select.onClick.AddListener(() => ChangWeaponInShop());
+        Exit.onClick.AddListener(() => BackToMainMenu());
+        Select.onClick.AddListener(() => SelectOrBuyWeapon());
         
     }
 
+    public override void BackToMainMenu()
+    {
+        base.BackToMainMenu();
+    }
     private void InitWeapon(int index)
     {
         foreach (Transform child in WeaponParent)
         {
             Destroy(child.gameObject);
         }
-        weapon = Instantiate(UIManager.Instance.GetCurrentWeapon(weapon_index), WeaponParent.position, Quaternion.identity, WeaponParent).GetComponent<Weapon>();
+        weapon = Instantiate(LevelManager.Instance.GetCurrentWeapon(weapon_index), WeaponParent.position, Quaternion.identity, WeaponParent).GetComponent<Weapon>();
         weapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
         NameWeapon.text = weapon.weaponData.NameWeapon;
         Desciption.text = weapon.weaponData.Description;
-        OnButton(weapon);
+        if (SaveManager.Instance.listBoughtWeaponID.Contains(index))
+        {
+            ChangeStateSelect(index);
+            return;
+        }
+        Price.text = weapon.weaponData.Price.ToString();
+
 
     }
-    public void OnButton(Weapon weapon)
-    {
-        if(weapon.weaponData.Price > 0)
-        {
-            Buy.gameObject.SetActive(true);
-            Select.gameObject.SetActive(false);
-            Price.text = weapon.weaponData.Price.ToString();
-        }
-        else
-        {
-            Buy.gameObject.SetActive(false);
-            Select.gameObject.SetActive(true);
-            State.text = LevelManager.Instance.player.typeWeapon == weapon.weaponType ? "Equiped" : "Select"; 
-        }
 
-    }
-    private void ChangWeaponInShop()
+    private void SelectOrBuyWeapon()
     {
-        
-        State.text = "Equiped";
-        PlayerPrefs.SetInt("Weapon", weapon_index);       
-        LevelManager.Instance.player.ChangeWeaponImg();
+        if(string.Equals(Price.text, Constants.equipedStringBtn)){
+            return;
+        }
+        if (string.Equals(Price.text, Constants.selectStringBtn))
+        {
+
+            SaveManager.Instance.currentWeapon = weapon_index;
+            UpdateDataWeapon();
+            ChangeStateSelect(weapon_index);
+            return;
+        }
+        if (GameManager.Instance.Coin >= int.Parse(Price.text))
+        {
+            GameManager.Instance.UpdateCoin(-int.Parse(Price.text));
+            SaveManager.Instance.currentWeapon = weapon_index;
+            UpdateDataWeapon();
+            ChangeStateSelect(weapon_index);
+            SaveManager.Instance.listBoughtWeaponID.Add(weapon_index);
+            UIManager.Instance.UpDateCoinText();
+
+        }
+    }
+    private void UpdateDataWeapon()
+    {
+        this.player.typeWeapon = LevelManager.Instance.weapons[weapon_index].weaponType;
+        this.player.ResetData();
+    }
+    private void ChangeStateSelect(int index)
+    {
+        Price.text = SaveManager.Instance.currentWeapon == index ? "Equiped" : "Select";
     }
     private void NextWeapon()
     {

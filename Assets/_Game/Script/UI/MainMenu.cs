@@ -4,35 +4,64 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : CanvasAbs
 {
 
     [SerializeField] Button Play;
     [SerializeField] Button Weapon;
     [SerializeField] Button Skin;
     [SerializeField] Button Setting;
-    [SerializeField] TextMeshProUGUI CoinText;
+    [SerializeField] Button Volume;
     [SerializeField] RectTransform PosShop;
+    [SerializeField] Image Sound;
+    [SerializeField] Image Mute;
+
 
     private void Start()
     {
         Play.onClick.AddListener(() => OnPlay());
-        Weapon.onClick.AddListener(() => UIManager.Instance.OpenCanvasUI(GameState.ShopWeapon));
-        Skin.onClick.AddListener(() => OpenShop());
+        Weapon.onClick.AddListener(() => OpenShopWeapon());
+        Skin.onClick.AddListener(() => OpenShopSkin());
+        Volume.onClick.AddListener(() => ChangVolume());
         
     }
     private void OnEnable()
     {
-        CoinText.text = PlayerPrefs.GetInt("Coin").ToString();
+        ChangeImage();
     }
     private void OnPlay()
     {
+        UIManager.Instance.TurnOffCoinCanvas();
         UIManager.Instance.OpenCanvasUI(GameState.GamePlay);
         LevelManager.Instance.OnInit();
     }
-    private void OpenShop()
+    private void OpenShopWeapon()
     {
-        UIManager.Instance.OpenCanvasUI(GameState.ShopSkin);
-        //LevelManager.Instance.player.transform.SetParent(PosShop, false);
+        UIManager.Instance.TurnOnCoinCanvas();
+        UIManager.Instance.OpenCanvasUI(GameState.ShopWeapon);
     }
+    private void OpenShopSkin()
+    {
+        UIManager.Instance.TurnOnCoinCanvas();
+        UIManager.Instance.OpenCanvasUI(GameState.ShopSkin);
+    }
+    public override void ChangVolume()
+    {
+        base.ChangVolume();
+        ChangeImage();
+    }
+    private void ChangeImage()
+    {
+        if (SoundManager.Instance.IsMuted())
+        {
+            Sound.gameObject.SetActive(false);
+            Mute.gameObject.SetActive(true);
+        }
+        else
+        {
+            Sound.gameObject.SetActive(true);
+            Mute.gameObject.SetActive(false);
+        }
+    }
+
 }
