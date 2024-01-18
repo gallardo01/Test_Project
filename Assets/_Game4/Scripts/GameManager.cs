@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -8,6 +10,10 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject gameCanvas;
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject weaponCanvas;
+    [SerializeField] private Canvas endGame;
+    [SerializeField] private TextMeshProUGUI endGameText;
+
+
     [SerializeField] GameObject[] weapons;
     private int weapon_index = 0;
     public int total_weapon => weapons.Length;
@@ -39,5 +45,20 @@ public class GameManager : Singleton<GameManager>
         gameCanvas.SetActive(false);
         mainMenuCanvas.SetActive(false);
         weaponCanvas.SetActive(true);
+    }
+
+    public void EndGame(bool status)
+    {
+        if (status == Status.win)
+        {
+            endGameText.text = PopUpText.win;
+        }
+        else
+        {
+            endGameText.text = PopUpText.lose;
+        }
+
+        endGame.gameObject.SetActive(true);
+        joyStick.SetActive(false);
     }
 }

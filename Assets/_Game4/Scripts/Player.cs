@@ -39,6 +39,7 @@ public class Player : Character
     public override void OnDeath(){
         base.OnDeath();
         isDeath = true;
+        GameManager.Instance.EndGame(Status.lose);
     }
 
     void JoyStickControl()

@@ -28,5 +28,17 @@ public static class State
 {
     public const int half = 50;
     public const int all = 100;
+}
+
+public static class Status
+{
+    public const bool win = true;
+    public const bool lose = false;
+}
+
+public static class PopUpText
+{
+    public const string win = "You lucky bitch";
+    public const string lose = "Nice try";
 
 }
