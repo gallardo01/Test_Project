@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3343497598951257518}
   - component: {fileID: 4652496396048427539}
   - component: {fileID: 3340144066752191613}
-  m_Layer: 0
+  - component: {fileID: -6795166953959624513}
+  m_Layer: 7
   m_Name: Knife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,3 +85,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-6795166953959624513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860677054269591955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b902b9a1c1000a741b3c865e60c3fb76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 0
+  weaponName: Knife
+  price: 0
+  bullet: {fileID: 1860677054269591955, guid: a86344e6f33646744a26ae87607b37ea, type: 3}

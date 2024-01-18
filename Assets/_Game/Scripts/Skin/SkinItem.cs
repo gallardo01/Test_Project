@@ -27,8 +27,8 @@ public abstract class SkinItem : MonoBehaviour
     }
 
     // Change player stats based on the item
-    public abstract void ApplyEffect(Player player) {
-        for (stat )
+    public virtual void ApplyEffect(Player player) {
+        
     }
 
 }

@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: candy_0 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 77de8014aff37804f92ab58c8817cced, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 77de8014aff37804f92ab58c8817cced, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -73,3 +77,24 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ac7bd9d346da8c848ba4af2c277c61bb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77de8014aff37804f92ab58c8817cced, type: 3}
+--- !u!1 &3368689994569014743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 77de8014aff37804f92ab58c8817cced, type: 3}
+  m_PrefabInstance: {fileID: 3368689994569046903}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6360078919181584743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3368689994569014743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b902b9a1c1000a741b3c865e60c3fb76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 0
+  weaponName: Candy
+  price: 0
+  bullet: {fileID: 3368689994569014743, guid: 4854ee7a633a42740ab969a1597288b2, type: 3}

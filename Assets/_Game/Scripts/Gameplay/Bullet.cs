@@ -6,33 +6,36 @@ public class Bullet : MonoBehaviour
 {
 
     private Player owner;
-    private bool hit;
     private Vector3 target;
-    private Vector3 basePosition;
-    private Quaternion baseRotation;
+    private Weapon weapon;
 
     private void OnTriggerEnter(Collider other)
     {
         Player player = Cache.GetPlayer(other);
         if (player != owner)
         {
-            hit = true;
             owner.OnKill();
             player.OnDeath();
+            Deactivate();    
         }
     }
 
-    public void OnInit(Player owner, Vector3 target) {
-        this
+    public void OnInit(Player owner, Vector3 target, Weapon weapon) {
+        this.owner = owner;
+        this.target = target;
+        transform.rotation = Quaternion.Euler(Vector3.right * 90);
+        this.weapon = weapon;
     }
 
     private void Update() {
-        transform.rotation = Quaternion.Euler(Vector3.right * 90);
-        while (transform.position != target && !hit)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, target, Constants.WEAPON_SPEED * Time.deltaTime);
-            transform.Rotate(0, rotateSpeed * Time.deltaTime, 0, Space.World);
-        }
+        if (transform.position == target) Deactivate();
+        transform.position = Vector3.MoveTowards(transform.position, target, Constants.WEAPON_SPEED * Time.deltaTime);
+        transform.Rotate(0, Constants.rotateSpeed * Time.deltaTime, 0, Space.World);
+    }
+
+    private void Deactivate() {
+        Destroy(gameObject);
+        weapon.gameObject.SetActive(true);
     }
 
 }

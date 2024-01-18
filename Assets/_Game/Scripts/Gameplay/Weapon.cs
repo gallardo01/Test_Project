@@ -17,15 +17,11 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float range;
     [SerializeField] private string weaponName;
     [SerializeField] private float price;
-    [SerializeField] private float attackSpeed;
-    [SerializeField] private float rotateSpeed;
-
-    
+    [SerializeField] private GameObject bullet;
 
     public float Range => range;
     public float Price => price;
     public string WeaponName => weaponName;
-    public float AttackSpeed => attackSpeed;
 
     private Player owner;
 
@@ -36,14 +32,7 @@ public class Weapon : MonoBehaviour
 
     public void Throw(Vector3 target)
     {
-        (target - transform.position).normalized * owner.attackRange + transform.position;
-        StartCoroutine(Fly());
-    }
-
-    private void ReturnToHand()
-    {
-        transform.SetParent(owner.hand);
-        transform.localPosition = basePosition;
-        transform.localRotation = baseRotation;
+        gameObject.SetActive(false);
+        Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Bullet>().OnInit(owner, target, this);
     }
 }

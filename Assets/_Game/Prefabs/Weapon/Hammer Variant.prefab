@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hammer Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -65,3 +69,24 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9ee9fc737e9923b48a895b581fe7b4bb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
+--- !u!1 &2408923153600928741 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
+  m_PrefabInstance: {fileID: 2408923153600961861}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7114400898039445604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2408923153600928741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b902b9a1c1000a741b3c865e60c3fb76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 0
+  weaponName: Hammer
+  price: 0
+  bullet: {fileID: 2408923153600928741, guid: bd4e6655e93def447aa646a073e08903, type: 3}

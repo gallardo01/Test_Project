@@ -150,7 +150,6 @@ public class UIManager : MonoBehaviour
 
     private void OnSelectSkin(int page, int index) {
         currentSkinItem = skinData.GetSkin(page, index).prefab;
-        Debug.Log(page + " " + index);
     }
 
     private void GetSkin()

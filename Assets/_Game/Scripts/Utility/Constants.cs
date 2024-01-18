@@ -6,7 +6,8 @@ public static class Constants
 {
 
     // WEAPON
-    public static float WEAPON_SPEED = 15;
+    public static float WEAPON_SPEED = 10;
+    public static float rotateSpeed = 720; // Degrees
 
     // ANIMATION TRIGGER
     public static string ATTACK_ANIM = "IsAttack";

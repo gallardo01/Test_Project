@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7294609367029726738}
   - component: {fileID: 7294609367029726737}
   - component: {fileID: 5105146511293095087}
-  - component: {fileID: -3762536588283936154}
   m_Layer: 7
   m_Name: Boomerang
   m_TagString: Untagged
@@ -29,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 7294609367029726736}
   m_LocalRotation: {x: 0.3230011, y: 0.26764563, z: -0.897107, w: 0.13869086}
   m_LocalPosition: {x: -0.105, y: 0.379, z: 0.288}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,19 +99,4 @@ MonoBehaviour:
   range: 12
   weaponName: Boomerang
   price: 150
-  attackSpeed: 0
-  collider: {fileID: -3762536588283936154}
-  rotateSpeed: 720
---- !u!65 &-3762536588283936154
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7294609367029726736}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.1, z: 0.007876438}
-  m_Center: {x: 0.025, y: 0, z: 0}
+  bullet: {fileID: 7294609367029726736, guid: 4afa6cab169545a4988ab0b05993c591, type: 3}

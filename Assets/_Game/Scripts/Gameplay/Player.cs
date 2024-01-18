@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public Transform hand;
     public float attackRange;
     public Transform hat;
-    public Transform pant;
+    public Renderer pant;
     public Transform accessory;
 
     [SerializeField] protected Animator animator;
@@ -150,7 +150,9 @@ public class Player : MonoBehaviour
         canAttack = false;
         Invoke(nameof(AttackReady), 2);
 
-        weapon.Throw(currentTarget.position);
+        // Max range
+        Vector3 target = (currentTarget.position - transform.position).normalized * attackRange + transform.position;
+        weapon.Throw(target);
     }
 
     private void AttackReady()

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Pant : SkinItem
 {
+    [SerializeField] private Material material;
+
     public override void Equip()
     {
-        DoTheJob(LevelManager.Instance.MainCharacter.pant);
+        LevelManager.Instance.MainCharacter.pant.material = material;
     }
 }

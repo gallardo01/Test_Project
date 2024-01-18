@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6310387484532187059}
   - component: {fileID: 5825986355381239375}
   - component: {fileID: 1353108077280194130}
-  - component: {fileID: 7677552583954117714}
   m_Layer: 7
   m_Name: Axe
   m_TagString: Untagged
@@ -101,19 +100,4 @@ MonoBehaviour:
   range: 12
   weaponName: An Axe
   price: 100
-  attackSpeed: 0
-  collider: {fileID: 7677552583954117714}
-  rotateSpeed: 720
---- !u!65 &7677552583954117714
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5285615697278049010}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.02, y: 0.025, z: 0.01}
-  m_Center: {x: 0, y: 0, z: 0}
+  bullet: {fileID: 1517341974523540835, guid: 94195fea317777f4d9b28d59f40f90df, type: 3}
