@@ -13,23 +13,28 @@ MonoBehaviour:
   m_Name: Hats
   m_EditorClassIdentifier: Assembly-CSharp::SingleSkinList
   items:
-  - prefab: {fileID: 2554272780189195292, guid: 84a5c6e650f203f47b0df7fb6838e711, type: 3}
+  - skinItem: {fileID: 2554272780189195292, guid: 84a5c6e650f203f47b0df7fb6838e711, type: 3}
     stats: []
-    costs: 0
+    cost: 0
     sprite: {fileID: 21300000, guid: eb69cff6254433d4e9c38084ef04f590, type: 3}
-  - prefab: {fileID: 3527835187600082663, guid: af034a00933ca1b4a8f41e76400b9a48, type: 3}
+    skinName: Arrow Hair
+  - skinItem: {fileID: 3527835187600082663, guid: af034a00933ca1b4a8f41e76400b9a48, type: 3}
     stats: []
-    costs: 0
+    cost: 0
     sprite: {fileID: 21300000, guid: da18f161bc01907449ffa4e6f5b50614, type: 3}
-  - prefab: {fileID: -6718471955388172914, guid: 10af0eb35e4540c44804c2222687bfb6, type: 3}
+    skinName: Ear Hair
+  - skinItem: {fileID: -6718471955388172914, guid: 10af0eb35e4540c44804c2222687bfb6, type: 3}
     stats: []
-    costs: 0
+    cost: 0
     sprite: {fileID: 21300000, guid: 1cbb565e6302e234e82c3d5766667afd, type: 3}
-  - prefab: {fileID: 847579949556337288, guid: 237fc1d09bcdf024287d348722ef5b68, type: 3}
+    skinName: Cap Hair
+  - skinItem: {fileID: 847579949556337288, guid: 237fc1d09bcdf024287d348722ef5b68, type: 3}
     stats: []
-    costs: 0
+    cost: 0
     sprite: {fileID: 21300000, guid: 618234528de04654db5493d4d04dbbf2, type: 3}
-  - prefab: {fileID: -8421158995828609879, guid: 7e71f1ef0940c9a4f911a5d318ed6e49, type: 3}
+    skinName: PoliceCap Hair
+  - skinItem: {fileID: -8421158995828609879, guid: 7e71f1ef0940c9a4f911a5d318ed6e49, type: 3}
     stats: []
-    costs: 0
+    cost: 0
     sprite: {fileID: 21300000, guid: afbe2aeef5262db48ac8ac1124dfd412, type: 3}
+    skinName: Horn Hair

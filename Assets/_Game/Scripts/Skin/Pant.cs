@@ -10,4 +10,9 @@ public class Pant : SkinItem
     {
         LevelManager.Instance.MainCharacter.pant.material = material;
     }
+
+    public override void UnEquip()
+    {
+        LevelManager.Instance.MainCharacter.pant.material = new Material(Shader.Find("Diffuse"));
+    }
 }

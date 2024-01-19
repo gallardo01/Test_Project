@@ -6,10 +6,11 @@ using UnityEngine;
 [Serializable]
 public class SkinItemData
 {
-    [SerializeField] public SkinItem prefab;
+    [SerializeField] public SkinItem skinItem;
     [SerializeField] public Stat[] stats;
-    [SerializeField] public int costs;
+    [SerializeField] public int cost;
     [SerializeField] public Sprite sprite;
+    [SerializeField] public string skinName;
 
 }
 

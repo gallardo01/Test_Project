@@ -8,4 +8,9 @@ public class Accessory : SkinItem
     {
         DoTheJob(LevelManager.Instance.MainCharacter.accessory);
     }
+
+    public override void UnEquip()
+    {
+        UnEquip(LevelManager.Instance.MainCharacter.accessory);
+    }
 }

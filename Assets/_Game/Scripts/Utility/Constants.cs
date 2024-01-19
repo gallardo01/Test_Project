@@ -14,6 +14,7 @@ public static class Constants
     public static string RUN_ANIM = "IsRun";
     public static string IDLE_ANIM = "IsIdle";
     public static string DEATH_ANIM = "IsDeath";
+    public static string SKIN_DANCE_ANIM = "IsDanceSkin";
 
     // TAG
     public static string PLAYER_TAG = "Player";

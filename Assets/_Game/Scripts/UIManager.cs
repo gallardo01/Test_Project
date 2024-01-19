@@ -47,9 +47,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Color activeIconColor;
     [SerializeField] private Color disableIconColor;
     [SerializeField] private List<Button> topButtons;
-    [SerializeField] private GameObject[] skinPage;
+    [SerializeField] private RectTransform[] skinPage;
     [SerializeField] private SkinList skinData;
     [SerializeField] private Button closeSkinShopButton;
+    [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private TextMeshProUGUI skinPrice;
     [SerializeField] private TextMeshProUGUI skinEffect;
     [SerializeField] private Button buySkinButton;
@@ -59,6 +60,7 @@ public class UIManager : MonoBehaviour
     private int currentSkinPage;
     private int currentTopButton;
     private SkinItem currentSkinItem;
+    private SkinItemData data; // Data of skin currently viewed
 
     // In Game
     [Header("In Game")]
@@ -111,7 +113,7 @@ public class UIManager : MonoBehaviour
                 skinItemButton.AddComponent<Image>().sprite = skinData.SkinLists[i].Items[j].sprite;
             }
 
-            skinPage[0].SetActive(false);
+            skinPage[0].gameObject.SetActive(false);
         }
 
         for (int i = 0; i < topButtons.Count; i++)
@@ -137,6 +139,9 @@ public class UIManager : MonoBehaviour
 
     private void CloseSkinShop() {
         skinShop.SetActive(false);
+        UnHideMenuButton();
+        LevelManager.Instance.MainCharacter.ChangeAnim(Constants.IDLE_ANIM);
+        currentSkinItem.UnEquip();        
     }
 
     private void Update()
@@ -149,18 +154,25 @@ public class UIManager : MonoBehaviour
     }
 
     private void OnSelectSkin(int page, int index) {
-        currentSkinItem = skinData.GetSkin(page, index).prefab;
+        data = skinData.GetSkin(page, index);
+        currentSkinItem = data.skinItem;
+        if (PlayerPrefs.GetInt(data.skinName, 0) == 0) skinPrice.text = data.cost.ToString();
+        else skinPrice.text = (-1).ToString();
+        currentSkinItem.Equip();
     }
 
     private void GetSkin()
     {
+        PlayerPrefs.SetInt(data.skinName, 1);
+        skinPrice.text = (-1).ToString();
         currentSkinItem.Equip();
     }
 
     // Load assets using addressable
     private void ChangeSkinPanel(int index)
     {
-        skinPage[currentSkinPage].SetActive(false);
+        currentSkinItem.UnEquip();
+        skinPage[currentSkinPage].gameObject.SetActive(false);
 
         currentSkinPage = index;
 
@@ -168,7 +180,9 @@ public class UIManager : MonoBehaviour
         currentTopButton = index;
         ActiveTopButton();
 
-        skinPage[currentSkinPage].SetActive(true);
+        skinPage[currentSkinPage].gameObject.SetActive(true);
+        scrollRect.content = skinPage[currentSkinPage];
+        OnSelectSkin(currentSkinPage, 0);
     }
 
     private void OnSkinShop()
@@ -180,7 +194,9 @@ public class UIManager : MonoBehaviour
 
         skinShop.SetActive(true);
         currentSkinPage = 0;
-        skinPage[currentSkinPage].SetActive(true);
+        skinPage[currentSkinPage].gameObject.SetActive(true);
+        OnSelectSkin(0, 0);
+        LevelManager.Instance.MainCharacter.ChangeAnim(Constants.SKIN_DANCE_ANIM);
     }
 
     private void DisableTopButton() {

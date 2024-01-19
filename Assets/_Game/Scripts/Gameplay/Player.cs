@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     protected GameObject scoreObject;
     protected TextMeshProUGUI scoreText;
     protected CounterTime counter;
+    protected bool lockTarget;
 
     private void Start() {
         counter = new CounterTime();
@@ -44,8 +45,13 @@ public class Player : MonoBehaviour
         scoreText.SetText("0");
     }
 
+    // Check for nearby enemies
     protected void ToCallInUpdate()
     {
+        // When attacking, dont check for enemy so that target before attacking and after firing bullet remains the same
+        // Not running this -> wont check for nearby enemies -> constant target -> target decoration remains unchanged visually
+        if (lockTarget) return;
+
         targetCount = Physics.OverlapSphereNonAlloc(transform.position, attackRange, targets, playerMask);
         float minDistance = -1;
         for (int i = 0; i < targetCount; i++)
@@ -80,6 +86,7 @@ public class Player : MonoBehaviour
         currentAnim = Constants.IDLE_ANIM;
         canAttack = true;
         collider.enabled = true;
+        lockTarget = false;
     }
 
     // Remove
@@ -101,9 +108,10 @@ public class Player : MonoBehaviour
         spray.transform.localRotation = Quaternion.identity;
     }
 
+    // Save information of bought items into playerperf
     protected void SetData()
     {
-
+        // PlayerPrefs.SetInt("")
     }
 
     public virtual void OnKill()
@@ -127,6 +135,10 @@ public class Player : MonoBehaviour
     public void ChangeAnim(string newAnim)
     {
         if (newAnim == currentAnim || !collider.enabled) return;
+
+        // If attack, lock the target
+        lockTarget = newAnim == Constants.ATTACK_ANIM;
+
         animator.ResetTrigger(currentAnim);
         currentAnim = newAnim;
         animator.SetTrigger(newAnim);

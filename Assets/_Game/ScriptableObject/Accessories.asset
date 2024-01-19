@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Accessories
   m_EditorClassIdentifier: Assembly-CSharp::SingleSkinList
-  items: []
+  items:
+  - skinItem: {fileID: 4324835274906177234, guid: 83d630f40e90879458d7dc1d2ae7653e, type: 3}
+    stats: []
+    cost: 0
+    sprite: {fileID: 21300000, guid: eb6682d001bb93f4287b29952253cffc, type: 2}
+    skinName: Captain Shield
+  - skinItem: {fileID: -6184591153855510184, guid: 0e8a269caea66654381ddc81c9d6b275, type: 3}
+    stats: []
+    cost: 0
+    sprite: {fileID: 21300000, guid: 3dedbea6f56343249805bb0aee8693f9, type: 3}
+    skinName: Black Shield
