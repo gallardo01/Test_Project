@@ -5,6 +5,9 @@ using UnityEngine;
 public static class Constants
 {
 
+    // Player
+    public static float attackRange = 12;
+
     // WEAPON
     public static float WEAPON_SPEED = 10;
     public static float rotateSpeed = 720; // Degrees

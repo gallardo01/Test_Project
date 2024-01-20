@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
 
     public Transform scoreParent;
     public Transform hintParent;
-    
+
     public int remainingBotCount;
 
     private List<Bot> bots;
@@ -44,30 +44,31 @@ public class LevelManager : MonoBehaviour
 
         // Create Bots
         bots = new List<Bot>();
-        
+
         positions = new Vector3[4];
 
-        remainingBotCount = 1; // Including character
 
         Spawn();
     }
 
     private void Spawn()
     {
+        remainingBotCount = 1; // Including character
+
+        float x = mainCharacter.transform.position.x;
+        float z = mainCharacter.transform.position.z;
+
+        positions[0] = new Vector3(Random.Range(-radius, -(Constants.attackRange + x)), 0, Random.Range(Constants.attackRange + z, radius));
+        positions[1] = new Vector3(Random.Range(Constants.attackRange + x, radius), 0, Random.Range(Constants.attackRange + z, radius));
+        positions[2] = new Vector3(Random.Range(Constants.attackRange + x, radius), 0, Random.Range(-(Constants.attackRange + z), -radius));
+        positions[3] = new Vector3(Random.Range(-radius, -(Constants.attackRange + x)), 0, Random.Range(-(Constants.attackRange + z), -radius));
+
         for (int i = 0; i < botCount; i++)
         {
             Bot bot = Pools.botPool.Get();
             bot.Pool = Pools.botPool;
             bot.SetScoreText(Instantiate(score, scoreParent));
             bot.Character = mainCharacter.transform;
-
-            float x = mainCharacter.transform.position.x;
-            float z = mainCharacter.transform.position.z;
-
-            positions[0] = new Vector3(Random.Range(-radius, -(bot.attackRange + x)), 0, Random.Range(bot.attackRange + z, radius));
-            positions[1] = new Vector3(Random.Range(bot.attackRange + x, radius), 0, Random.Range(bot.attackRange + z, radius));
-            positions[2] = new Vector3(Random.Range(bot.attackRange + x, radius), 0, Random.Range(-(bot.attackRange + z), -radius));
-            positions[3] = new Vector3(Random.Range(-radius, -(bot.attackRange + x)), 0, Random.Range(-(bot.attackRange + z), -radius));
 
             bot.ChangeWeapon(Random.Range(0, weaponList.Size));
 
@@ -77,11 +78,20 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void OnPlay() {
-        foreach (Bot bot in bots) {
+    public void OnPlay()
+    {
+        foreach (Bot bot in bots)
+        {
             bot.enabled = true;
         }
         mainCharacter.enabled = true;
+    }
+    
+    public void OnRetry() {
+        foreach (Bot bot in bots) {
+            bot.OnDespawn();
+        }
+        Spawn();
     }
 
 }

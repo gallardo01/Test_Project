@@ -27,6 +27,7 @@ public class Bot : Player
         base.OnInit();
         canAttack = false;
         ChangeState(new PatrolState());
+        arrow.SetActive(true);
 
         // Can be duplicate in less than 5 seconds if player pause and restart immediately -> release all bot when game ends
         Invoke(nameof(EnableAttack), 5);
@@ -74,7 +75,8 @@ public class Bot : Player
         agent.ResetPath();
 
         // Pool later
-        Destroy(arrow);
+        // Destroy(arrow);
+        arrow.SetActive(false);
     }
 
     public void ChangeState(IState<Bot> state)

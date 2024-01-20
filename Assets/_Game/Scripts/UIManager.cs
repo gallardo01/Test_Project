@@ -68,8 +68,9 @@ public class UIManager : MonoBehaviour
 
     // Other
     [Header("Other")]
-    [SerializeField] JoystickControl joystickControl;
-    [SerializeField] float shiftTime;
+    [SerializeField] private JoystickControl joystickControl;
+    [SerializeField] private float shiftTime;
+    [SerializeField] private Button tryAgainButton;
 
     private int currentWeapon;
     private Weapon weapon;
@@ -135,13 +136,20 @@ public class UIManager : MonoBehaviour
         buySkinButton.onClick.AddListener(GetSkin);
 
         skinShop.SetActive(false);
+
+        // Other
+        tryAgainButton.onClick.AddListener(OnRetry);
+    }
+
+    private void OnRetry() {
+        LevelManager.Instance.OnRetry();
     }
 
     private void CloseSkinShop() {
         skinShop.SetActive(false);
         UnHideMenuButton();
         LevelManager.Instance.MainCharacter.ChangeAnim(Constants.IDLE_ANIM);
-        currentSkinItem.UnEquip();        
+        // currentSkinItem.UnEquip();        
     }
 
     private void Update()
@@ -171,7 +179,7 @@ public class UIManager : MonoBehaviour
     // Load assets using addressable
     private void ChangeSkinPanel(int index)
     {
-        currentSkinItem.UnEquip();
+        // currentSkinItem.UnEquip();
         skinPage[currentSkinPage].gameObject.SetActive(false);
 
         currentSkinPage = index;

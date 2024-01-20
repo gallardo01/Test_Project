@@ -9,7 +9,6 @@ using UnityEngine.Pool;
 public class Player : MonoBehaviour
 {
     public Transform hand;
-    public float attackRange;
     public Transform hat;
     public Renderer pant;
     public Transform accessory;
@@ -34,6 +33,7 @@ public class Player : MonoBehaviour
     protected TextMeshProUGUI scoreText;
     protected CounterTime counter;
     protected bool lockTarget;
+    protected float attackRange;
 
     private void Start() {
         counter = new CounterTime();
@@ -87,6 +87,7 @@ public class Player : MonoBehaviour
         canAttack = true;
         collider.enabled = true;
         lockTarget = false;
+        attackRange = Constants.attackRange;
     }
 
     // Remove
