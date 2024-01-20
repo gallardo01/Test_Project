@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -10,7 +11,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject gameCanvas;
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject weaponCanvas;
-    [SerializeField] private Canvas endGame;
+    [SerializeField] private Canvas endGameCanvas;
     [SerializeField] private TextMeshProUGUI endGameText;
 
 
@@ -58,7 +59,23 @@ public class GameManager : Singleton<GameManager>
             endGameText.text = PopUpText.lose;
         }
 
-        endGame.gameObject.SetActive(true);
+        endGameCanvas.gameObject.SetActive(true);
         joyStick.SetActive(false);
+    }
+
+    public void TryAgain()
+    {
+        gameCanvas.SetActive(true);
+        endGameCanvas.gameObject.SetActive(false);
+        mainMenuCanvas.SetActive(true);
+
+        // Reload current scene
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+    }
+
+    public void Next()
+    {
+        
     }
 }

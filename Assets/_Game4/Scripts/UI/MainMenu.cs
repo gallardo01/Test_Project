@@ -8,7 +8,6 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button startGame;
     [SerializeField] private Button changeWeapon;
     [SerializeField] private Button openShop;
-    [SerializeField] private Button reTry, next;
 
     // Start is called before the first frame update
     void Start()

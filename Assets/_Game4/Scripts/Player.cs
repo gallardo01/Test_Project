@@ -34,11 +34,13 @@ public class Player : Character
 
     public override void OnInit(){
         base.OnInit();
+        // if (WeaponShop.)
     }
 
     public override void OnDeath(){
         base.OnDeath();
         isDeath = true;
+        gameObject.GetComponent<Collider>().enabled = false;
         GameManager.Instance.EndGame(Status.lose);
     }
 

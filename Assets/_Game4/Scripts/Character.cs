@@ -112,21 +112,6 @@ public class Character : AbstractCharacter
 
     public virtual void OnAttack(int percent)
     {
-        // if(percent == State.half && frameCount == 100)
-        // {
-        //     frameCount = 0;
-        //     percent = Random.Range(0, 2);
-
-        //     if(percent == 0)
-        //     {
-        //         percent = State.half;
-        //     }
-        //     if (percent == 1)
-        //     {
-        //         percent = State.all;
-        //     }
-        // }
-
         if (percent == State.all)
         {
             if (range.onTarget)

@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class WeaponShop : MonoBehaviour
 {
     [SerializeField] Button next;
     [SerializeField] Button previous;
-    [SerializeField] Button equiped;
+    [SerializeField] Button equip;
+    [SerializeField] TextMeshProUGUI equipText;
+
     [SerializeField] Button pick;
     [SerializeField] Button back;
     [SerializeField] Transform parent;
@@ -15,7 +18,7 @@ public class WeaponShop : MonoBehaviour
 
     private int weapon_index = 0;
     private int total_weapon = 0;
-    private GameObject weapon;
+    public GameObject weapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +28,8 @@ public class WeaponShop : MonoBehaviour
         next.onClick.AddListener(() => NextWeapon());
         previous.onClick.AddListener(() => PreviousWeapon());
         back.onClick.AddListener(() => BackWeapon());
+        equip.onClick.AddListener(() => EquipWeapon());
+
     }
 
     private void InitWeapon(int index)
@@ -62,4 +67,10 @@ public class WeaponShop : MonoBehaviour
         mainMenu.SetActive(true);
     }
 
+    private void EquipWeapon()
+    {
+        equipText.text = "Equiped";
+        equip.GetComponent<Image>().color = new Color(0f, 255f, 0f);
+        // Them bien trang thai equip/unequip
+    }
 }
