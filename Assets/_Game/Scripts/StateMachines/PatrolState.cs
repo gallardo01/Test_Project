@@ -6,23 +6,31 @@ using UnityEngine.AI;
 public class PatrolState : IState<Bot>
 {
 
+    private Vector3 previousPosition;
+    private Vector3 direction;
+
+    private PatrolState(Vector3 direction)
+    {
+        this.direction = direction;
+    }
+
+    public PatrolState()
+    {
+        direction = -Vector3.one;
+    }
+
     public void OnEnter(Bot t)
     {
         t.ChangeAnim("IsRun");
         Vector3 destination;
-        NavMeshHit hit;
-        int count = 0;
-        do {
-            Vector3 direction = Random.insideUnitSphere;
-            destination = t.transform.position +  (direction - Vector3.up * direction.y) * t.moveRange;
-            if (NavMesh.SamplePosition(destination, out hit, 1.0f, NavMesh.AllAreas)) {
-                t.SetDestination(destination);
-                break;
-            }
-            count++;
-        } while (count < 30);
-
-        if (count == 30) t.ChangeState(new IdleState());
+        if (direction == -Vector3.one)
+        {
+            direction = Vector3.one * .1f + Random.insideUnitSphere;
+            direction -= Vector3.up * direction.y;
+        }
+        destination = t.transform.position + direction * t.moveRange;
+        t.SetDestination(destination);
+        previousPosition = destination;
     }
 
     public void OnExecute(Bot t)
@@ -31,7 +39,16 @@ public class PatrolState : IState<Bot>
         {
             t.ResetPath();
             t.ChangeState(new IdleState());
+        } else 
+
+        // renew destination if staying in the same position for 2 consecutive frames
+        if (previousPosition == t.transform.position)
+        {
+            t.ResetPath();
+            t.ChangeState(new PatrolState(-direction));
         }
+
+        previousPosition = t.transform.position;
     }
 
     public void OnExit(Bot t)

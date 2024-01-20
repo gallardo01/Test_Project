@@ -48,9 +48,6 @@ public class Character : Player
         {
             ChangeAnim(Constants.RUN_ANIM);
             player.LookAt(direction + player.position);
-            canAttack = true;
-            // When move, enable attack -> cancel invoke of AttackReady to prevent duplicate
-            CancelInvoke();
         }
         else if (currentAnim != Constants.ATTACK_ANIM) ChangeAnim(Constants.IDLE_ANIM);
 
@@ -60,6 +57,8 @@ public class Character : Player
     public override void OnDespawn()
     {
         base.OnDespawn();
+        UIManager.Instance.ShowEndGameUI();
+        gameObject.SetActive(false);
     }
 
     public override void OnKill() {

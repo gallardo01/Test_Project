@@ -22,4 +22,9 @@ public class AnimationEvent : MonoBehaviour
     public void EndRun() {
         player.ChangeAnim(Constants.IDLE_ANIM);
     }
+
+    // Can attack right after moving
+    public void StartRun() {
+        player.CanAttack();
+    }
 }

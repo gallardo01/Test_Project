@@ -94,7 +94,8 @@ public class Player : MonoBehaviour
     public virtual void OnDespawn()
     {
         // Need Pooling
-        Destroy(scoreObject);
+        // Destroy(scoreObject);
+        scoreObject.SetActive(false);
     }
 
     // Run Animation
@@ -102,11 +103,12 @@ public class Player : MonoBehaviour
     {
         ChangeAnim(Constants.DEATH_ANIM);
         collider.enabled = false;
-        LevelManager.Instance.remainingBotCount--;
+        LevelManager.Instance.remainingPlayerCount--;
         ParticleSystem spray = Pools.sprayPool.Get();
         spray.transform.SetParent(sprayTransform);
         spray.transform.localPosition = Vector3.zero;
         spray.transform.localRotation = Quaternion.identity;
+        enabled = false;
     }
 
     // Save information of bought items into playerperf
@@ -171,5 +173,11 @@ public class Player : MonoBehaviour
     private void AttackReady()
     {
         canAttack = true;
+    }
+
+    internal void CanAttack()
+    {
+        canAttack = true;
+        CancelInvoke();
     }
 }

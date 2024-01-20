@@ -207,7 +207,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hand: {fileID: 6225228117283911964}
-  attackRange: 12
   hat: {fileID: 0}
   pant: {fileID: 0}
   accessory: {fileID: 0}
@@ -221,7 +220,7 @@ MonoBehaviour:
   weaponList: {fileID: 11400000, guid: fd00162092265084599d8c616550a43f, type: 2}
   scoreOffset: {x: 0, y: 8, z: 0}
   sprayTransform: {fileID: 4797342630707629524}
-  moveRange: 15
+  moveRange: 20
   agent: {fileID: 3969957677044433309}
 --- !u!195 &3969957677044433309
 NavMeshAgent:
@@ -238,12 +237,12 @@ NavMeshAgent:
   avoidancePriority: 50
   m_AngularSpeed: 0
   m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 0
+  m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
-  m_AutoRepath: 0
+  m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 0
 --- !u!1 &376313973613542351
 GameObject:

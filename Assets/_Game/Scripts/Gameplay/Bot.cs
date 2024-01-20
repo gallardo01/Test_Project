@@ -13,13 +13,11 @@ public class Bot : Player
 
     private Vector3 destination;
     private IState<Bot> currentState;
-    private Transform character;
     private GameObject arrow;
     private Pool<Bot> pool;
 
     public CounterTime Counter => counter;
     public bool IsDestination => Vector3.Distance(transform.position, destination) < 0.34f;
-    public Transform Character { set => character = value; }
     public GameObject Arrow { set => arrow = value; }
     public Pool<Bot> Pool { set => pool = value; }
 
@@ -28,18 +26,15 @@ public class Bot : Player
         canAttack = false;
         ChangeState(new PatrolState());
         arrow.SetActive(true);
-
-        // Can be duplicate in less than 5 seconds if player pause and restart immediately -> release all bot when game ends
-        Invoke(nameof(EnableAttack), 5);
     }
 
     private void OnDisable() {
         CancelInvoke();
-    }
+        agent.ResetPath();
 
-    private void EnableAttack()
-    {
-        canAttack = true;
+        // Null reference when close scene, dont know why 
+        if (arrow) arrow.SetActive(false);
+        ChangeState(null);
     }
 
     private void Update()
@@ -58,14 +53,15 @@ public class Bot : Player
     {
         destination = position;
         agent.SetDestination(destination);
-
         transform.LookAt(destination);
     }
 
     public override void OnDespawn()
     {
         base.OnDespawn();
-        pool.Release(this);
+
+        // Bot death -> active = false -> fail to release
+        if (gameObject.activeInHierarchy) pool.Release(this);
     }
 
     public override void OnDeath()

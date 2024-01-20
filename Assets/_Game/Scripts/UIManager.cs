@@ -7,6 +7,20 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance { get; private set; }
+    private void Awake()
+    {
+        // If there is an instance, and it's not me, delete myself.
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     // Panel
     [Header("Panel")]
@@ -104,13 +118,15 @@ public class UIManager : MonoBehaviour
 
         // Skin Shop
 
-        for (int i = 0; i < skinData.SkinLists.Length; i++) {
-            for (int j = 0; j < skinData.SkinLists[i].Items.Length; j++) {
+        for (int i = 0; i < skinData.SkinLists.Length; i++)
+        {
+            for (int j = 0; j < skinData.SkinLists[i].Items.Length; j++)
+            {
                 int page = i, index = j;
 
                 GameObject skinItemButton = new GameObject("Skin Item Button");
                 skinItemButton.transform.SetParent(skinPage[i].transform);
-                skinItemButton.AddComponent<Button>().onClick.AddListener(delegate { OnSelectSkin(page, index); } );
+                skinItemButton.AddComponent<Button>().onClick.AddListener(delegate { OnSelectSkin(page, index); });
                 skinItemButton.AddComponent<Image>().sprite = skinData.SkinLists[i].Items[j].sprite;
             }
 
@@ -128,7 +144,8 @@ public class UIManager : MonoBehaviour
         backgroundImages = new Image[topButtons.Count];
         iconImages = new Image[topButtons.Count];
 
-        for (int i = 0; i < topButtons.Count; i++) {
+        for (int i = 0; i < topButtons.Count; i++)
+        {
             backgroundImages[i] = topButtons[i].GetComponent<Image>();
             iconImages[i] = topButtons[i].transform.GetChild(0).GetComponent<Image>();
         }
@@ -141,11 +158,14 @@ public class UIManager : MonoBehaviour
         tryAgainButton.onClick.AddListener(OnRetry);
     }
 
-    private void OnRetry() {
+    private void OnRetry()
+    {
         LevelManager.Instance.OnRetry();
+        tryAgainButton.gameObject.SetActive(false);
     }
 
-    private void CloseSkinShop() {
+    private void CloseSkinShop()
+    {
         skinShop.SetActive(false);
         UnHideMenuButton();
         LevelManager.Instance.MainCharacter.ChangeAnim(Constants.IDLE_ANIM);
@@ -154,14 +174,15 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (remainingCount) remainingCount.SetText("Count: " + LevelManager.Instance.remainingBotCount);
+        if (remainingCount) remainingCount.SetText("Count: " + LevelManager.Instance.remainingPlayerCount);
         if (weaponShop.activeInHierarchy)
         {
             weapon.transform.Rotate(new Vector3(0, weaponRotateSpeed * Time.deltaTime, 0), Space.Self);
         }
     }
 
-    private void OnSelectSkin(int page, int index) {
+    private void OnSelectSkin(int page, int index)
+    {
         data = skinData.GetSkin(page, index);
         currentSkinItem = data.skinItem;
         if (PlayerPrefs.GetInt(data.skinName, 0) == 0) skinPrice.text = data.cost.ToString();
@@ -207,12 +228,14 @@ public class UIManager : MonoBehaviour
         LevelManager.Instance.MainCharacter.ChangeAnim(Constants.SKIN_DANCE_ANIM);
     }
 
-    private void DisableTopButton() {
+    private void DisableTopButton()
+    {
         backgroundImages[currentTopButton].color = disableBackgroundColor;
         iconImages[currentTopButton].color = disableIconColor;
     }
 
-    private void ActiveTopButton() {
+    private void ActiveTopButton()
+    {
         backgroundImages[currentTopButton].color = activeBackgroundColor;
         iconImages[currentTopButton].color = activeIconColor;
     }
@@ -287,5 +310,10 @@ public class UIManager : MonoBehaviour
     private void OpenWeaponShop()
     {
         weaponShop.SetActive(true);
+    }
+
+    public void ShowEndGameUI()
+    {
+        tryAgainButton.gameObject.SetActive(true);
     }
 }

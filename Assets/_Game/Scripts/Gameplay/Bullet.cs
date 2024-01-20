@@ -35,7 +35,9 @@ public class Bullet : MonoBehaviour
 
     private void Deactivate() {
         Destroy(gameObject);
-        weapon.gameObject.SetActive(true);
+
+        // Change Weapon cause the previously assigned weapon on the bullet become null (destroyed) 
+        if (weapon) weapon.gameObject.SetActive(true);
     }
 
 }
