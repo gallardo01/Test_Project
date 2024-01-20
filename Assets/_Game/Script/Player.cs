@@ -50,6 +50,7 @@ public class Player : Character
 
     public override void OnInit()
     {
+        ChangeWeapon(PlayerPrefs.GetInt("Weapon"));
         base.OnInit();
     }
 

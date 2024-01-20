@@ -15,6 +15,10 @@ public class TargetIndicator : MonoBehaviour
     Transform target;
     Vector3 viewPoint;
     Vector3 screenHalf = new Vector2(Screen.width, Screen.height) / 2;
+
+    bool viewState = true;
+    Vector3 positionVector = new Vector3(0f, 0f, 0f);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,10 +27,26 @@ public class TargetIndicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        viewPoint = Camera.main.WorldToScreenPoint(target.position) - screenHalf;   
-        rect.anchoredPosition = viewPoint / (Screen.width / 1080f);    
+        if (viewState)
+        {
+            viewPoint = Camera.main.WorldToScreenPoint(target.position) - screenHalf;
+            rect.anchoredPosition = viewPoint / (Screen.width / 1080f);
+        } else
+        {
+
+        }
     }
 
+    public void OutOfRange(bool state, Vector3 vector)
+    {
+        viewState = state;
+        positionVector = vector;
+    }
+
+    public void OutOfRange(bool state)
+    {
+        viewState = state;
+    }
     public void OnInit(Transform target)
     {
         this.target = target;

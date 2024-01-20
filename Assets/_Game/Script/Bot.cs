@@ -15,7 +15,7 @@ public class Bot : Character
     public CounterTime Counter => counter;
 
     public bool isDead = false;
-
+    private bool outOfRange = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,10 +41,16 @@ public class Bot : Character
             currentState.OnExecute(this);
         }
         counter.Execute();
+        if (outOfRange !=  Camera.main.WorldToViewportPoint(transform.position).x < 1f && Camera.main.WorldToViewportPoint(transform.position).y < 1f)
+        {
+            outOfRange = !outOfRange;
+        }
     }
 
     public override void OnInit()
     {
+        int totalWeapon = GameController.Ins.total_weapon;
+        ChangeWeapon(Random.Range(0, totalWeapon));
         base.OnInit();
     }
     public void ChangeState(IState<Bot> state)

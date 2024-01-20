@@ -8,7 +8,6 @@ public class GameController : Singleton<GameController>
     [SerializeField] GameObject gameCanvas;
     [SerializeField] GameObject mainMenuCanvas;
     [SerializeField] GameObject weaponCanvas;
-
     [SerializeField] GameObject[] weapons;
     private int weapon_index = 0;
     public int total_weapon => weapons.Length;

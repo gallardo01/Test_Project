@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -47,6 +48,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Player") && other.gameObject != character.gameObject)
         {
+            SoundManager.Ins.PlayOneShot(0);
             character.UpdatePoints();
             other.GetComponent<Character>().OnDeath();
             character.RemoveTarget(target.GetComponent<Character>());

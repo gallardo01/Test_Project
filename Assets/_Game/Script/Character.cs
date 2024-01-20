@@ -16,13 +16,19 @@ public class Character : AbsCharacter
     // Start is called before the first frame update
     private int score = 1;
     [SerializeField] GameObject indicatorPoint;
-    protected TargetIndicator targetIndicator;
+    public TargetIndicator targetIndicator;
+    public Skin skin;
 
     void Start()
     {
 
     }
 
+    public void ChangeWeapon(int index)
+    {
+        // set bullet weapon = ...
+        weapon = skin.ChangeWeapon(index);
+    }
     public void Throw()
     {
         //weapon.SetActive(false);
