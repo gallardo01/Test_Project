@@ -83,11 +83,13 @@ public class Character : AbstractCharacter
         //     EasyObjectPool.instance.ReturnObjectToPool(gameObject);
         //     // Destroy(gameObject);
         // }
+        isDead = true;
         targetIndicator.gameObject.SetActive(false);
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         ChangeAnim(Anim.deadAnim);
         LevelManager.Instance.totalBot--;
         LevelManager.Instance.UpdateUi();
+        Coin coin = EasyObjectPool.instance.GetObjectFromPool("Coin", transform.position, transform.rotation).GetComponent<Coin>();
     }
 
     public virtual void Rotate() //-------------------------------------------------------------------

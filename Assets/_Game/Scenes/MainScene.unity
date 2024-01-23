@@ -2001,7 +2001,6 @@ RectTransform:
   - {fileID: 1098538440}
   - {fileID: 1924574609}
   - {fileID: 629934223}
-  - {fileID: 628666248}
   m_Father: {fileID: 1272554278}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2578,7 +2577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &613506412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2693,6 +2692,7 @@ GameObject:
   - component: {fileID: 628666248}
   - component: {fileID: 628666250}
   - component: {fileID: 628666249}
+  - component: {fileID: 628666251}
   m_Layer: 5
   m_Name: Coin
   m_TagString: Untagged
@@ -2707,20 +2707,20 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628666247}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2103953423}
   - {fileID: 606563007}
-  m_Father: {fileID: 500529340}
-  m_RootOrder: 3
+  m_Father: {fileID: 1272554278}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -304, y: -111}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchoredPosition: {x: -354, y: -111}
+  m_SizeDelta: {x: 500, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &628666249
 MonoBehaviour:
@@ -2760,6 +2760,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628666247}
   m_CullTransparentMesh: 1
+--- !u!114 &628666251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628666247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6ff39aa08836f458497ce99814109a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 606563008}
 --- !u!1 &629934222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3489,7 +3502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4039,7 +4052,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 82e60aadb45bb134e99833bbc38f6516, type: 2}
+  - {fileID: 2100000, guid: a8d5cf19fc59ab243a505d508ddb7ae2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4434,6 +4447,7 @@ RectTransform:
   - {fileID: 500529340}
   - {fileID: 613506415}
   - {fileID: 1246910067}
+  - {fileID: 628666248}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4509,8 +4523,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -74}
-  m_SizeDelta: {x: 300, y: 100}
+  m_AnchoredPosition: {x: -336.25, y: -117}
+  m_SizeDelta: {x: 500, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1394325290
 MonoBehaviour:
@@ -4814,7 +4828,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.9
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5257,6 +5271,10 @@ MonoBehaviour:
     fixedSize: 0
   - poolName: Bot
     prefab: {fileID: 4076267533330242749, guid: ea6095910e737bf4ab8623f83333fb53, type: 3}
+    poolSize: 1
+    fixedSize: 0
+  - poolName: Coin
+    prefab: {fileID: 2249412962171485050, guid: 15eb79cf3bbeb5b4abf9047f778ceea8, type: 3}
     poolSize: 1
     fixedSize: 0
 --- !u!1 &1759242054

@@ -67,7 +67,7 @@ public class Bot : Character
 
     IState<Bot> currentState;
     private void Update(){
-        if(currentState != null){
+        if(currentState != null && !isDead){
             currentState.OnExecute(this);
         }
         // OnAttack(State.half);
@@ -77,9 +77,12 @@ public class Bot : Character
         if(currentState != null){
             currentState.OnExit(this);
         }
-        currentState = state;
-        if(currentState != null){
-            currentState.OnEnter(this);
+        if(!isDead)
+        {
+            currentState = state;
+            if(currentState != null){
+                currentState.OnEnter(this);
+            }
         }
     }
 
