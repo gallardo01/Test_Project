@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MarchingBytes;
 
 public class Player : Character
 {
@@ -17,6 +18,12 @@ public class Player : Character
     void Update()
     {
         Moving();
+
+        // Cai thien: Moi lan goi OnDeath() moi goi cai phia duoi
+        // if (LevelManager.Instance.TotalCharacter == 1 && !isDead)
+        // {
+        //     GameManager.Instance.EndGame(Status.win);
+        // }
     }
 
     void Moving()
@@ -38,12 +45,20 @@ public class Player : Character
     }
 
     public override void OnDeath(){
-        base.OnDeath();
         isDeath = true;
+        base.OnDeath();
         gameObject.GetComponent<Collider>().enabled = false;
         GameManager.Instance.EndGame(Status.lose);
     }
 
+    public void PlayerStatus()
+    {
+        if (!isDeath)
+        {
+            GameManager.Instance.EndGame(Status.win);
+        }
+    }
+    
     void JoyStickControl()
     {
         Vector3 nextPoint = player.position + JoystickControl.direct * speed * Time.deltaTime;

@@ -17,6 +17,7 @@ public class Character : AbstractCharacter
     public TargetIndicator targetIndicator;
     int frameCount = 0;
     public bool isAttack = false;
+    Player player;
     //[SerializeField] protected GameObject bulletPrefab;
 
     // Start is called before the first frame update
@@ -90,6 +91,13 @@ public class Character : AbstractCharacter
         LevelManager.Instance.totalBot--;
         LevelManager.Instance.UpdateUi();
         Coin coin = EasyObjectPool.instance.GetObjectFromPool("Coin", transform.position, transform.rotation).GetComponent<Coin>();
+
+        // Check & Catch victory event
+        if (LevelManager.Instance.TotalCharacter == 1 && !player.isDeath)
+        {
+            // player.PlayerStatus();
+            GameManager.Instance.EndGame(Status.win);
+        }
     }
 
     public virtual void Rotate() //-------------------------------------------------------------------

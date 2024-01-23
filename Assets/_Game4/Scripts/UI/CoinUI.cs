@@ -12,9 +12,10 @@ public class CoinUI : Singleton<CoinUI>
     {
         if (!PlayerPrefs.HasKey("Coin"))
         {
-            PlayerPrefs.SetInt("Coin", 0);
+            PlayerPrefs.SetInt("Coin", coinCounter);
         }
         coinCounter = PlayerPrefs.GetInt("Coin");
+        text.text = coinCounter.ToString();
     }
 
     public void UpdateCoinUI()

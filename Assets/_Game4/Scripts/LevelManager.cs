@@ -14,7 +14,7 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private GameObject canvasIndicator;
     private static string[] randomName = { "ABC1", "ABC2", "ABC3", "ABC4", "ABC5", "ABC6", "ABC7", "ABC8", "ABC9", "ABC10", "ABC11", "ABC12" };
     [SerializeField] private TextMeshProUGUI aliveText;
-    private int TotalCharacter => totalBot + 1;
+    public int TotalCharacter => totalBot + 1;
 
     void Start()
     {

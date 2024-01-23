@@ -2773,6 +2773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 606563008}
+  coinCounter: 0
 --- !u!1 &629934222
 GameObject:
   m_ObjectHideFlags: 0

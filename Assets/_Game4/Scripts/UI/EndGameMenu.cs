@@ -11,17 +11,19 @@ public class EndGameMenu : MonoBehaviour
     void Start()
     {
         retry.onClick.AddListener(() => TryAgain());
-        next.onClick.AddListener(() => TryAgain());
+        next.onClick.AddListener(() => Next());
 
     }
 
     void TryAgain()
     {
-        GameManager.Instance.TryAgain();
+        GameManager.Instance.LoadScene();
+        GameManager.Instance.PlayGame();
+        LevelManager.Instance.OnInit();
     }
 
     void Next()
     {
-        GameManager.Instance.Next();
+        GameManager.Instance.LoadScene();
     }
 }

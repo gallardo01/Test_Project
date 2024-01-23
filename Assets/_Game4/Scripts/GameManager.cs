@@ -36,6 +36,7 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     public void PlayGame()
     {
+        Debug.Log("PlayGame");
         joyStick.SetActive(true);
         gameCanvas.SetActive(true);
         mainMenuCanvas.SetActive(false);
@@ -63,19 +64,26 @@ public class GameManager : Singleton<GameManager>
         joyStick.SetActive(false);
     }
 
-    public void TryAgain()
+    public void LoadScene()
     {
-        gameCanvas.SetActive(true);
-        endGameCanvas.gameObject.SetActive(false);
-        mainMenuCanvas.SetActive(true);
-
-        // Reload current scene
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
-
-    public void Next()
+    
+    public void TryAgain()
     {
+        LoadScene();
         
+        // endGameCanvas.gameObject.SetActive(false);
+        mainMenuCanvas.SetActive(false);
+        gameCanvas.SetActive(true);
+
+        // PlayGame();
+
+        // joyStick.SetActive(true);
+        // gameCanvas.SetActive(true);
+        // mainMenuCanvas.SetActive(false);
+
+        LevelManager.Instance.OnInit();
     }
 }
