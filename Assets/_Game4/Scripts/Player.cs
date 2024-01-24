@@ -5,7 +5,7 @@ using MarchingBytes;
 
 public class Player : Character
 {
-    [SerializeField] private Transform player;
+    [SerializeField] private Transform mainCharacter;
     [SerializeField] private GameObject body;
     public bool isDeath = false;
     
@@ -50,30 +50,22 @@ public class Player : Character
         gameObject.GetComponent<Collider>().enabled = false;
         GameManager.Instance.EndGame(Status.lose);
     }
-
-    public void PlayerStatus()
-    {
-        if (!isDeath)
-        {
-            GameManager.Instance.EndGame(Status.win);
-        }
-    }
     
     void JoyStickControl()
     {
-        Vector3 nextPoint = player.position + JoystickControl.direct * speed * Time.deltaTime;
+        Vector3 nextPoint = mainCharacter.position + JoystickControl.direct * speed * Time.deltaTime;
 
         if (CanMove(nextPoint) && JoystickControl.direct != Vector3.zero)
         {
             // Debug.Log("Acess CanMove");
             ChangeAnim(Anim.runAnim);
-            player.position = nextPoint;
+            mainCharacter.position = nextPoint;
         }
 
         if (JoystickControl.direct != Vector3.zero)
         {
             // Debug.Log("Acess Diff");
-            player.forward = JoystickControl.direct;
+            mainCharacter.forward = JoystickControl.direct;
         }  
     }
 }

@@ -3,27 +3,29 @@ using UnityEngine;
 
 public class Character : AbstractCharacter
 {
-    [SerializeField] public GameObject midPoint;
+    public GameObject midPoint;
     [SerializeField] protected Transform rightHand;
     [SerializeField] protected int speed;
     [SerializeField] protected LayerMask groundLayer;
     protected string currentAnim;
     [SerializeField] private Animator playerAnim;
-    [SerializeField] public Range range;
+    public Range range;
     public bool isDead = false;
-    private int score = 0;
+    // private int score = 0;
 
     public Transform indicatorPoint;
     public TargetIndicator targetIndicator;
     int frameCount = 0;
     public bool isAttack = false;
-    Player player;
+    public Player playerStatus;
     //[SerializeField] protected GameObject bulletPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
         ChangeAnim(Anim.idleAnim);
+        // assign player in hierarchy into player variable in this script
+        // playerStatus = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -91,13 +93,6 @@ public class Character : AbstractCharacter
         LevelManager.Instance.totalBot--;
         LevelManager.Instance.UpdateUi();
         Coin coin = EasyObjectPool.instance.GetObjectFromPool("Coin", transform.position, transform.rotation).GetComponent<Coin>();
-
-        // Check & Catch victory event
-        if (LevelManager.Instance.TotalCharacter == 1 && !player.isDeath)
-        {
-            // player.PlayerStatus();
-            GameManager.Instance.EndGame(Status.win);
-        }
     }
 
     public virtual void Rotate() //-------------------------------------------------------------------

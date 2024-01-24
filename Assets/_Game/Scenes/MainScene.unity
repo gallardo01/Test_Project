@@ -3967,7 +3967,8 @@ MonoBehaviour:
   indicatorPoint: {fileID: 1497994361}
   targetIndicator: {fileID: 0}
   isAttack: 0
-  player: {fileID: 1105816266}
+  playerStatus: {fileID: 0}
+  mainCharacter: {fileID: 1105816266}
   body: {fileID: 8296172668342972806}
   isDeath: 0
 --- !u!136 &1105816268

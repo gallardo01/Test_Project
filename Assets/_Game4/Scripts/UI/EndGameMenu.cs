@@ -15,15 +15,21 @@ public class EndGameMenu : MonoBehaviour
 
     }
 
-    void TryAgain()
+    void StartGame()
     {
-        GameManager.Instance.LoadScene();
         GameManager.Instance.PlayGame();
         LevelManager.Instance.OnInit();
+    }
+    void TryAgain()
+    {
+        PlayerPrefs.SetInt("Start Mode", 1);
+        GameManager.Instance.LoadScene();
+        // Invoke(nameof(StartGame), 1f);
     }
 
     void Next()
     {
+        PlayerPrefs.SetInt("Start Mode", 0);
         GameManager.Instance.LoadScene();
     }
 }

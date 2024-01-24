@@ -6,14 +6,14 @@ public class PatrolState : IState<Bot>
 {
     public void OnEnter(Bot t)
     {
-        Debug.Log("Patrol Enter");
+        // Debug.Log("Patrol Enter");
         t.ChangeAnim(Anim.runAnim);
         SeekTarget(t);
     }
 
     public void OnExecute(Bot t)
     {
-        Debug.Log("Patrol Execute");
+        // Debug.Log("Patrol Execute");
         if(t.IsDestination)
         {
             t.ChangeState(new IdleState());
@@ -22,7 +22,7 @@ public class PatrolState : IState<Bot>
 
     public void OnExit(Bot t)
     {
-        Debug.Log("Patrol Exit");
+        // Debug.Log("Patrol Exit");
     }
 
     private void SeekTarget(Bot t)

@@ -59,6 +59,11 @@ public class Bot : Character
 
     public override void OnDeath(){
         base.OnDeath();
+        // Check & Catch victory event
+        if (LevelManager.Instance.TotalCharacter == 1)
+        {
+            GameManager.Instance.EndGame(Status.win);
+        }
     }
 
     public void ReturnPool(){

@@ -12,6 +12,14 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!PlayerPrefs.HasKey("Start Mode"))
+        {
+            PlayerPrefs.SetInt("Start Mode", 0);
+        }
+        if (PlayerPrefs.GetInt("Start Mode") == 1)
+        {
+            Invoke(nameof(StartGame), 1f);
+        }
         startGame.onClick.AddListener(() => StartGame());
         changeWeapon.onClick.AddListener(() => ChangeWeapon());
     }
