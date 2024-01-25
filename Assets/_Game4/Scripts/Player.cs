@@ -47,8 +47,14 @@ public class Player : Character
     public override void OnDeath(){
         isDeath = true;
         base.OnDeath();
-        gameObject.GetComponent<Collider>().enabled = false;
+        gameObject.GetComponent<Collider>().enabled = false; // chua hoat dong a?
         GameManager.Instance.EndGame(Status.lose);
+        Invoke(nameof(DestroyGameObject), 2f);
+    }
+
+    void DestroyGameObject()
+    {
+        Destroy(gameObject);
     }
     
     void JoyStickControl()

@@ -42,3 +42,9 @@ public static class PopUpText
     public const string lose = "Nice try";
 
 }
+
+public static class GameTimer
+{
+    public const int pause = 0;
+    public const int resume = 1;
+}

@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("Start Mode") == 1)
         {
-            Invoke(nameof(StartGame), 1f);
+            Invoke(nameof(StartGame), 0.1f);
         }
         startGame.onClick.AddListener(() => StartGame());
         changeWeapon.onClick.AddListener(() => ChangeWeapon());

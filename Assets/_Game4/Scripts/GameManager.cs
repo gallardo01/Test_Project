@@ -13,7 +13,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject weaponCanvas;
     [SerializeField] private Canvas endGameCanvas;
     [SerializeField] private TextMeshProUGUI endGameText;
-
+    public bool gameStatus = true;
 
     [SerializeField] GameObject[] weapons;
     private int weapon_index = 0;
@@ -36,6 +36,7 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     public void PlayGame()
     {
+        // Pause(false);
         Debug.Log("PlayGame");
         joyStick.SetActive(true);
         gameCanvas.SetActive(true);
@@ -62,6 +63,8 @@ public class GameManager : Singleton<GameManager>
 
         endGameCanvas.gameObject.SetActive(true);
         joyStick.SetActive(false);
+        gameStatus = false;
+        Invoke(nameof(EndGameMenu.Next), 1f);
     }
 
     public void LoadScene()
@@ -85,5 +88,22 @@ public class GameManager : Singleton<GameManager>
         // mainMenuCanvas.SetActive(false);
 
         LevelManager.Instance.OnInit();
+    }
+
+    public void Pause(bool status)
+    {
+        if (status)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
+
+    public void JustPause()
+    {
+        Time.timeScale = 0;
     }
 }

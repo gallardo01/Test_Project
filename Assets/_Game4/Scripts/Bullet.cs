@@ -21,16 +21,24 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CanMove();
-
-        if (canMove)
+        if (!GameManager.Instance.gameStatus)
         {
-            // Debug.Log("canMove = true");
-            OnShoot();
-            if (transform.position == destination + transform.forward * 10f)
+            // gameObject.SetActive(false);
+            EasyObjectPool.instance.ReturnObjectToPool(gameObject);
+        }
+        if (GameManager.Instance.gameStatus)
+        {
+            CanMove();
+
+            if (canMove)
             {
-                canMove = false;
-                EasyObjectPool.instance.ReturnObjectToPool(gameObject);
+                // Debug.Log("canMove = true");
+                OnShoot();
+                if (transform.position == destination + transform.forward * 10f)
+                {
+                    canMove = false;
+                    EasyObjectPool.instance.ReturnObjectToPool(gameObject);
+                }
             }
         }
     }

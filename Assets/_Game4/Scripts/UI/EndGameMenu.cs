@@ -12,7 +12,6 @@ public class EndGameMenu : MonoBehaviour
     {
         retry.onClick.AddListener(() => TryAgain());
         next.onClick.AddListener(() => Next());
-
     }
 
     void StartGame()
@@ -27,7 +26,7 @@ public class EndGameMenu : MonoBehaviour
         // Invoke(nameof(StartGame), 1f);
     }
 
-    void Next()
+    public void Next()
     {
         PlayerPrefs.SetInt("Start Mode", 0);
         GameManager.Instance.LoadScene();
