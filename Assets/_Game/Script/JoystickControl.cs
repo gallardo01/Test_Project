@@ -27,7 +27,7 @@ public class JoystickControl : MonoBehaviour
 
         direct = Vector3.zero;
 
-        joystickPanel.SetActive(false);
+        //joystickPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -36,14 +36,14 @@ public class JoystickControl : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             startPoint = MousePosition;
-            joystickBG.anchoredPosition = startPoint;
-            joystickPanel.SetActive(true);
+            //joystickBG.anchoredPosition = startPoint;
+            //joystickPanel.SetActive(true);
         }
 
         if (Input.GetMouseButton(0))
         {
             updatePoint = MousePosition;
-            joystickControl.anchoredPosition = Vector3.ClampMagnitude((updatePoint - startPoint), magnitude) + startPoint;
+            //joystickControl.anchoredPosition = Vector3.ClampMagnitude((updatePoint - startPoint), magnitude) + startPoint;
 
             direct = (updatePoint - startPoint).normalized;
             direct.z = direct.y;
@@ -53,7 +53,7 @@ public class JoystickControl : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            joystickPanel.SetActive(false);
+            //joystickPanel.SetActive(false);
             direct = Vector3.zero;
         }
     }

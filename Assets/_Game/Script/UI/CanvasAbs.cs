@@ -9,6 +9,7 @@ public class CanvasAbs : MonoBehaviour
         SoundManager.Instance.StopSound();
         UIManager.Instance.TurnOnCoinCanvas();
         UIManager.Instance.OpenCanvasUI(GameState.MainMenu);
+        LevelManager.Instance.OffCircleAttack();
 
     }
 

@@ -16,7 +16,7 @@ public class DeadState : IState<Bot>
         bot.count.Start(Dead, 0.8f);
          void Dead()
         {
-            bot.OnDespawn();
+            SimplePool.Despawn(bot);
         }
 
 

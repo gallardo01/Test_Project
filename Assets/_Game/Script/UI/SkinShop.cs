@@ -20,6 +20,8 @@ public enum ShopState
 
 public class SkinShop : CanvasAbs
 {
+    private Player player;
+
     [SerializeField] GameObject ButtonPrefab;
     [SerializeField] Button Exit;
     [SerializeField] TextMeshProUGUI Description;
@@ -45,7 +47,6 @@ public class SkinShop : CanvasAbs
 
     public GameObject currentHat;
     public Material currentPant;
-    private Player player;
     public RectTransform PosShop;
     private void Awake()
     {
@@ -68,14 +69,14 @@ public class SkinShop : CanvasAbs
 
     private void OnEnable()
     {
-        //this.player.transform.SetParent(PosShop.transform, false);
+        this.player.ChangAnim(Constants.ANIM_DANCE);
         ChangeView(0);
     }
     public override void BackToMainMenu()
     {
         base.BackToMainMenu();
         ClearChoices();
-        //this.player.transform.SetParent(null, false);
+        this.player.ChangAnim(Constants.ANIM_IDLE);
     }
     private void ClearChoices()
     {
@@ -110,7 +111,7 @@ public class SkinShop : CanvasAbs
 
     private void ClearOldItem(int indexView)
     {
-        if (player.pantCurrent != player.PanType.material) player.pantCurrent = player.PanType.material;
+        if (player.pantCurrent != player.PanType.material) player.PanType.material = player.pantCurrent;
         if (indexView != 0)
         {
             if (player.hatCurrent != null) player.hatCurrent.SetActive(true);
@@ -196,7 +197,8 @@ public class SkinShop : CanvasAbs
     {
         currentIndex = index;
         SkinData Pant = DataManager.Instance.panDatas[index];
-        LevelManager.Instance.player.PanType.material = DataManager.Instance.panDatas[index].Material;
+        this.currentPant = Pant.Material;
+        player.PanType.material = Pant.Material;
         Description.text = Pant.Description;
         FrameChooseItem.transform.SetParent(pos, false);
         if (SaveManager.Instance.listBoughtPantID.Contains(index))
@@ -241,15 +243,23 @@ public class SkinShop : CanvasAbs
 
     private void ChangeItem()
     {
-        if(player.hatCurrent != null)
+        switch (shopState)
         {
-            Destroy(player.hatCurrent);
-        }
-        if(currentHat != null)
-        {
-            player.hatCurrent = Instantiate(currentHat, player.HatPoint);
-            Destroy(currentHat);
-        }
+            case ShopState.Pant:             
+                player.pantCurrent = this.currentPant;
+                break;
+            case ShopState.Hat:
+                if (player.hatCurrent != null)
+                    {
+                        Destroy(player.hatCurrent);
+                    }
+                if (currentHat != null)
+                    {
+                        player.hatCurrent = Instantiate(currentHat, player.HatPoint);
+                        Destroy(currentHat);
+                    }
+                break;
+    }
 
     }
     private void ChangeStateSelect()

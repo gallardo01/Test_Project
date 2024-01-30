@@ -33,9 +33,11 @@ public class EndGame : CanvasAbs
     {
         base.BackToMainMenu();
         SimplePool.CollectAll();
+        LevelManager.Instance.player.OnInit();
         LevelManager.Instance.player.ChangAnim(Constants.ANIM_IDLE);
         LevelManager.Instance.player.count.Cancel();
-        LevelManager.Instance.player.OnInit();
+        LevelManager.Instance.timAirDrop.Cancel(); 
+        LevelManager.Instance.OffAirDrop();
     }
     public void EnterWin()
     {

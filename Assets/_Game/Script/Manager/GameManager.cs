@@ -19,7 +19,7 @@ public class GameManager : Singleton<GameManager>
         {
             Coin = PlayerPrefs.GetInt("Coin");
         }
-        //UpdateCoin(4000);
+        UpdateCoin(4000);
     }
 
     public static void ChangeState(GameState state)

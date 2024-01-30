@@ -34,6 +34,7 @@ public class MainMenu : CanvasAbs
         UIManager.Instance.TurnOffCoinCanvas();
         UIManager.Instance.OpenCanvasUI(GameState.GamePlay);
         LevelManager.Instance.OnInit();
+        LevelManager.Instance.OnCircleAttack();
     }
     private void OpenShopWeapon()
     {

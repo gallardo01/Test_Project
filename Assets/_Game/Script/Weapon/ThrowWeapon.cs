@@ -9,7 +9,7 @@ public class ThrowWeapon : GameUnit
 {
     public Transform target;
     public Character character;
-    public Bot Victim;
+    public Character Victim;
     public Vector3 startPoint;
     public float speed = 8f;
     [SerializeField] protected Transform child;
@@ -37,14 +37,20 @@ public class ThrowWeapon : GameUnit
 
         if (other.CompareTag(Constants.TAG_BOT) && this.character.gameObject != other.gameObject)
         {
-
-            Bot bot = other.GetComponent<Bot>();
-            this.Victim = bot;
+            if (this.character.isUlti)
+            {
+                character.EndBuff();
+            }
+            this.Victim = Cache.GetScript(other);
             this.PostEvent(EventID.OnEnemyDead, this);
 
         }
         if (other.CompareTag(Constants.TAG_PLAYER) && this.character.gameObject != other.gameObject)
         {
+            if (character.isUlti)
+            {
+                character.EndBuff();
+            }
             Player player = other.GetComponent<Player>();
             OnDespawn();
             player.OnDespawn();

@@ -17,17 +17,17 @@ public class Bot : Character
     [SerializeField] private NavMeshAgent agent;
     private Vector3 destionation;
 
-   public IState<Bot> currentState;
+    [SerializeField] public bool IsDestintion;
+
+    public IState<Bot> currentState;
 
 
     public override void OnInit()
     {
         base.OnInit();
-        attackRange = 5f;
         score = LevelManager.Instance.RandomPoint();
         deadScore = 1;
         currentScale = 1;
-        this.agent.speed = 5f;
         this.GrowthCharacter();
         this.typeWeapon = LevelManager.Instance.RandomWeapon();
         this.ChangeWeaponImg();
@@ -35,6 +35,7 @@ public class Bot : Character
         {
             targetIndicator.setScore(score);
         }
+        this.ChangAnim(Constants.ANIM_IDLE);
     }
 
     // Update is called once per frame
@@ -43,6 +44,10 @@ public class Bot : Character
         if (currentState != null)
         {
             currentState.OnExecute(this);
+        }
+        if ((Mathf.Abs(destionation.x - transform.position.x) + Mathf.Abs(destionation.z - transform.position.z)) < 0.05f)
+        {
+            IsDestintion = true;
         }
     }
     public void changState(IState<Bot> state)
@@ -76,13 +81,16 @@ public class Bot : Character
     public override void OnDespawn()
     {
         base.OnDespawn();
-        SimplePool.Despawn(this);
+        this.collider.enabled = false;
+        this.changState(dead);
+
     }
 
     public override void GrowthCharacter()
     {
         base.GrowthCharacter();
-        attackRange = 5f * currentScale;
-        agent.speed = 5F * currentScale;
+        attackRange = 3f * currentScale;
+        agent.speed = 5f * currentScale;
     }
+
 }

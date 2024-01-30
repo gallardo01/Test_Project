@@ -40,6 +40,8 @@ public class Character : GameUnit
     public Transform HatPoint;
     public Transform ShieldPoint;
     public Renderer PanType;
+
+    public bool isUlti;
     public override void OnInit()
     {
 
@@ -48,26 +50,13 @@ public class Character : GameUnit
         
     }
 
-    //public override void OnDeath()
-    //{
-
-    //}
-
-    public void SetData()
-    {
-        
-    }
-
-
-
     public virtual void OnAttack()
     {
 
     }
     public override void OnDespawn()
     {
-        this.collider.enabled = false;
-        this.ChangAnim(Constants.ANIM_DIE);
+        
     }
     public void ChangAnim(string animName)
     {
@@ -80,22 +69,6 @@ public class Character : GameUnit
         }
     }
 
-    public virtual void UpScore(int addScore)
-    {
-        score += addScore;
-        targetIndicator.setScore(score);
-        attackRange++;
-        this.transform.localScale = Vector3.one + Vector3.one * (score * 0.2f);
-
-    }
-    //public void UpSize(int levelAdd)
-    //{
-    //    level += levelAdd;
-    //    float radius = sphere.radius += levelAdd;
-    //    circleAttack.transform.localScale = new Vector3(radius / 3, radius / 3, radius / 3);
-    //}
-
-
     public void GetTargetIndicator()
     {
         this.nameCharacter = Name.GetName();
@@ -106,6 +79,7 @@ public class Character : GameUnit
     }
     public void ThrowWeapon()
     {
+        
         WeaponImg.OnDisable();
         ThrowWeapon bullet = SimplePool.Spawn<ThrowWeapon>(typeWeapon, transform.position + Vector3.up*1f + transform.forward*1f,transform.rotation);
         if (bullet != null)
@@ -118,15 +92,13 @@ public class Character : GameUnit
     }
     public void RotateTarget()
     {
-        positionTarget = target.transform.position;
-        Vector3 directionToTarget = positionTarget - transform.position;
-        directionToTarget.y = 0f;
-
-        if (directionToTarget != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 100f);
-        }
+        
+        positionTarget = target.TF.position;
+        Vector3 targetAngle = positionTarget - TF.position;
+        float targetAngleY = Mathf.Atan2(targetAngle.x, targetAngle.z) * Mathf.Rad2Deg;
+        TF.rotation = Quaternion.Euler(0f, targetAngleY, 0f);
+        Quaternion targetRotation = Quaternion.Euler(0f, targetAngleY, 0f);
+        TF.rotation = Quaternion.Slerp(TF.rotation, targetRotation, Time.deltaTime * 50f);
     }
     public virtual bool checkTarget()
     {
@@ -182,6 +154,19 @@ public class Character : GameUnit
     {
         this.score += score;
         targetIndicator.setScore(this.score);
+    }
+
+    public void BuffUlti()
+    {
+        score += 10;
+        GrowthCharacter();
+    }
+
+    public void EndBuff()
+    {
+        isUlti = false;
+        score -= 10;
+        GrowthCharacter();
     }
 }
 

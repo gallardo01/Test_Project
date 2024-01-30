@@ -42,7 +42,15 @@ public class AttackState : IState<Bot>
             bot.IsWeapon = false;
             isThrow = true;
             bot.RotateTarget();
-            bot.ChangAnim(Constants.ANIM_ATTACK);
+            if (bot.isUlti)
+            {
+                bot.ChangAnim(Constants.ANIM_ULTI);
+
+            }
+            else
+            {
+                bot.ChangAnim(Constants.ANIM_ATTACK);
+            }
             bot.count.Start(Throw, 0.4f);
         }
          void Throw()

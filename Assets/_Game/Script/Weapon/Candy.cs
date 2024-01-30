@@ -18,6 +18,10 @@ public class Candy : ThrowWeapon
         child.Rotate(0f, speedRotate * Time.deltaTime, 0f, Space.World);
         if (Vector3.Distance(this.transform.position, startPoint) > this.character.attackRange)
         {
+            if (character.isUlti)
+            {
+                character.EndBuff();
+            }
             OnDespawn();
         }
     }

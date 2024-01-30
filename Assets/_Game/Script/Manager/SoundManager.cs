@@ -26,11 +26,6 @@ public class SoundManager : Singleton<SoundManager>
         this.RegisterListener(EventID.Lose, (param) => PlayLoseMusic());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public bool IsMuted()
     {
@@ -38,6 +33,7 @@ public class SoundManager : Singleton<SoundManager>
     }
     public void PlayWinMusic()
     {
+        
         SoundAudio.PlayOneShot(WinAudio);
     }
 

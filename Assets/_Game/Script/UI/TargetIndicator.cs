@@ -20,11 +20,7 @@ public class TargetIndicator : GameUnit
     Vector3 viewPoint_t;
     Vector3 screenHalf = new Vector2(Screen.width, Screen.height)/2;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()

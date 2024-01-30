@@ -10,14 +10,16 @@ public class MoveState : IState<Bot>
     public void OnEnter(Bot bot)
     {
         randomPos = LevelManager.Instance.GetRandomPointOnNavMesh();
-        randAttack = Random.Range(0, 2);
+        //randAttack = Random.Range(0, 2);
+        bot.SetDestionation(randomPos);
+        bot.ChangAnim(Constants.ANIM_RUN);
     }
 
     public void OnExecute(Bot bot)
     {
-        bot.SetDestionation(randomPos);
-        bot.ChangAnim(Constants.ANIM_RUN);
-        if (Vector3.Distance(bot.transform.position, randomPos) <= 0.0001f || (bot.checkTarget() && bot.IsWeapon && randAttack == 0))
+        
+        
+        if (Vector3.Distance(bot.transform.position, randomPos) <= 0.0001f || (bot.checkTarget() && bot.IsWeapon))
         {
             bot.changState(bot.idle);
         }

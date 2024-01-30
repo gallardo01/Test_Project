@@ -18,6 +18,10 @@ public class Axe : ThrowWeapon
         child.Rotate(Vector3.up * -6, Space.Self);
         if (Vector3.Distance(this.transform.position, startPoint) > this.character.attackRange)
         {
+            if (character.isUlti)
+            {
+                character.EndBuff();
+            }
             OnDespawn();
         }
     }

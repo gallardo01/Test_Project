@@ -16,6 +16,10 @@ public class Knife : ThrowWeapon
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
         if (Vector3.Distance(this.transform.position, startPoint) > this.character.attackRange)
         {
+            if (character.isUlti)
+            {
+                character.EndBuff();
+            }
             OnDespawn();
         }
     }

@@ -9,7 +9,7 @@ using static UnityEngine.GraphicsBuffer;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] GameObject Play;
-    [SerializeField] GameObject MainMenu; 
+    [SerializeField] GameObject MainMenu;
     [SerializeField] GameObject ShopWeapon;
     [SerializeField] GameObject ShopSkin;
     [SerializeField] GameObject Setting;
@@ -31,11 +31,7 @@ public class UIManager : Singleton<UIManager>
         this.OpenMainMenu();
         TurnOnCoinCanvas();
     }
-    private void Start()
-    {
-        
 
-    } 
     public void ChangeStateEndGame()
     {
         this.OpenCanvasUI(GameState.EndGame);
@@ -72,7 +68,7 @@ public class UIManager : Singleton<UIManager>
     }
     public void OpenMainMenu()
     {
-       
+
         GameManager.ChangeState(GameState.MainMenu);
         foreach (var state in dictStateGameObject)
         {
@@ -102,35 +98,5 @@ public class UIManager : Singleton<UIManager>
         dictStateGameObject.Add(GameState.Setting, Setting);
 
     }
-    public void FillCanvas()
-    {
-        MainMenu = GameObject.Find("MainMenu");
-        Play = GameObject.Find("Play");
-        ShopWeapon = GameObject.Find("ShopWeapon");
-        ShopSkin = GameObject.Find("ShopSkin");
-        Setting = GameObject.Find("Setting");
-        PauseGame = GameObject.Find("PauseGame");
-        EndGame = GameObject.Find("EndGame");
-        Coin = GameObject.Find("Coin");
-    }
-
-
 }
-#if UNITY_EDITOR
-[CustomEditor(typeof(UIManager))]
-public class UIManagerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        UIManager fillCanvas = (UIManager)target;
-
-        if (GUILayout.Button("Fill Canvas"))
-        {
-            fillCanvas.FillCanvas();
-        }
-    }
-}
-#endif
 

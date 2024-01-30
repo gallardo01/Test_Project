@@ -26,8 +26,11 @@ public class PauseGame : CanvasAbs
     {
         base.BackToMainMenu();
         SimplePool.CollectAll();
+        LevelManager.Instance.player.OnInit();
         LevelManager.Instance.player.ChangAnim(Constants.ANIM_IDLE);
         LevelManager.Instance.player.count.Cancel();
+        LevelManager.Instance.timAirDrop.Cancel();
+        LevelManager.Instance.OffAirDrop();
     }
 
     public override void ChangVolume()
