@@ -15,7 +15,7 @@ public class PauseGame : CanvasAbs
     {
         Home.onClick.AddListener(() => BackToMainMenu());
         Continue.onClick.AddListener(() => UIManager.Instance.OpenCanvasUI(GameState.GamePlay));
-        Volume.onClick.AddListener(ChangVolume);
+        Volume.onClick.AddListener(ChangeVolume);
         
     }
     private void OnEnable()
@@ -33,9 +33,9 @@ public class PauseGame : CanvasAbs
         LevelManager.Instance.OffAirDrop();
     }
 
-    public override void ChangVolume()
+    public override void ChangeVolume()
     {
-        base.ChangVolume();
+        base.ChangeVolume();
         ChangeImage();
     }
     private void ChangeImage()

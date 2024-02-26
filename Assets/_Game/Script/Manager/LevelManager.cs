@@ -34,6 +34,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         InitPointScale();
         player.OnInit();
+        player.ChangeSaveItem();
 
     }
 
@@ -145,8 +146,8 @@ public class LevelManager : Singleton<LevelManager>
         if (!AirDropPref.activeSelf)
         {
             AirDropPref.SetActive(true);
-            //AirDropPref.transform.position = GetRandomPointOnNavMesh() + Vector3.up * 10f;
-            AirDropPref.transform.position = player.transform.position + Vector3.up * 10f;
+            AirDropPref.transform.position = GetRandomPointOnNavMesh() + Vector3.up * 10f;
+            //AirDropPref.transform.position = player.transform.position + Vector3.up * 10f;
         }
     }
     private void InitPointScale()

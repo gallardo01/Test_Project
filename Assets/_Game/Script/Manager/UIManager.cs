@@ -16,6 +16,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] GameObject PauseGame;
     [SerializeField] GameObject EndGame;
     [SerializeField] GameObject Coin;
+    [SerializeField] GameObject GiftCode;
     [SerializeField] EndGame EndGameState;
     [SerializeField] TextMeshProUGUI text_Coin;
 
@@ -96,6 +97,7 @@ public class UIManager : Singleton<UIManager>
         dictStateGameObject.Add(GameState.PauseGame, PauseGame);
         dictStateGameObject.Add(GameState.EndGame, EndGame);
         dictStateGameObject.Add(GameState.Setting, Setting);
+        dictStateGameObject.Add(GameState.GiftCode, GiftCode);
 
     }
 }

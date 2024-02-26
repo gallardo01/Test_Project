@@ -11,12 +11,20 @@ public class ThrowWeapon : GameUnit
     public Character character;
     public Character Victim;
     public Vector3 startPoint;
-    public float speed = 8f;
+    protected float speed;
     [SerializeField] protected Transform child;
 
-    
+
     public override void OnInit()
     {
+        if(character.isUlti == true)
+        {
+            speed = Constants.SpeedBulletUlti;
+        }
+        else
+        {
+            speed = Constants.SpeedBulletDefault;
+        }
         this.TF.localScale = Vector3.one * character.currentScale;
         speed = this.character.attackRange * 1.2f;
         transform.forward = (target.position - transform.position + Vector3.up*1f).normalized;

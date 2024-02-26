@@ -29,7 +29,7 @@ public class AirDrop : MonoBehaviour
             Character character = Cache.GetScript(other);
             character.isUlti = true;
             character.BuffUlti();
-            LevelManager.Instance.timAirDrop.Start(LevelManager.Instance.DropGift, 2f);
+            LevelManager.Instance.timAirDrop.Start(LevelManager.Instance.DropGift, 5f);
         }
     }
 }

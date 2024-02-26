@@ -89,11 +89,12 @@ public class WeaponShop : CanvasAbs
     private void UpdateDataWeapon()
     {
         this.player.typeWeapon = LevelManager.Instance.weapons[weapon_index].weaponType;
-        this.player.ResetData();
+        this.player.ChangeWeaponImg();
+        //this.player.ResetData();
     }
     private void ChangeStateSelect(int index)
     {
-        Price.text = SaveManager.Instance.currentWeapon == index ? "Equiped" : "Select";
+        Price.text = SaveManager.Instance.currentWeapon == index ? Constants.equipedStringBtn: Constants.selectStringBtn;
     }
     private void NextWeapon()
     {

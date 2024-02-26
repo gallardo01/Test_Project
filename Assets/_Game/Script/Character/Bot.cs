@@ -89,7 +89,7 @@ public class Bot : Character
     public override void GrowthCharacter()
     {
         base.GrowthCharacter();
-        attackRange = 3f * currentScale;
+        attackRange = 5f * currentScale;
         agent.speed = 5f * currentScale;
     }
 

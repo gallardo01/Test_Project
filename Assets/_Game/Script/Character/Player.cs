@@ -28,7 +28,7 @@ public class Player : Character
         nameCharacter = "you";
         targetIndicator.textName.text = this.nameCharacter;
         GrowthCharacter();
-        this.ChangeSaveItem();
+//        this.ChangeSaveItem();
         targetIndicator.OnInit();
         targetIndicator.setScore(score);
         
@@ -36,7 +36,7 @@ public class Player : Character
     public void ResetData()
     {
         this.speed = 5f;
-        this.attackRange = 5f;
+        this.attackRange = 7f;
     }
     // Update is called once per frame
     void Update()
@@ -97,11 +97,23 @@ public class Player : Character
     public override void GrowthCharacter()
     {
         base.GrowthCharacter();
-        attackRange = 3f * currentScale;
+        attackRange = 5f * currentScale;
         speed = 5f * currentScale;
-        //circleAttack.transform.localScale = Vector3.one * (attackRange / 1.2f);
+        
     }
 
+
+    public override void BuffUlti()
+    {
+        base.BuffUlti();
+        circleAttack.transform.localScale = new Vector3(attackRange / 1.2f, attackRange / 1.2f, attackRange / 1.2f);
+    }
+
+    public override void EndBuff()
+    {
+        base.EndBuff();
+        circleAttack.transform.localScale = new Vector3(3f, 3f, 1f);
+    }
 
     public void ChangeSaveItem()
     {

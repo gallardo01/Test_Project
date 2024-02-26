@@ -18,5 +18,9 @@ using UnityEngine;
 
     public static readonly string selectStringBtn = "Select";
     public static readonly string equipedStringBtn = "Equiped";
+    public static readonly string giftCode = "TrongDepTrai";
+
+    public const float SpeedBulletDefault = 15f;
+    public const float SpeedBulletUlti = 50f;
 
 }

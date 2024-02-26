@@ -13,7 +13,7 @@ public class CanvasAbs : MonoBehaviour
 
     }
 
-    public virtual void ChangVolume()
+    public virtual void ChangeVolume()
     {
         SoundManager.Instance.ChangeVolume();
     }

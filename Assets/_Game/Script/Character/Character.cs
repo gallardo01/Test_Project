@@ -156,17 +156,14 @@ public class Character : GameUnit
         targetIndicator.setScore(this.score);
     }
 
-    public void BuffUlti()
+    public virtual void BuffUlti()
     {
-        score += 10;
-        GrowthCharacter();
+        attackRange += 3f;
     }
 
-    public void EndBuff()
+    public virtual void EndBuff()
     {
         isUlti = false;
-        score -= 10;
-        GrowthCharacter();
     }
 }
 

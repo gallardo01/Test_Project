@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState { MainMenu, GamePlay,PauseGame, EndGame, ShopWeapon,ShopSkin, Setting }
+public enum GameState { MainMenu, GamePlay,PauseGame, EndGame, ShopWeapon,ShopSkin, Setting, GiftCode }
 
 public class GameManager : Singleton<GameManager>
 {
@@ -19,7 +19,6 @@ public class GameManager : Singleton<GameManager>
         {
             Coin = PlayerPrefs.GetInt("Coin");
         }
-        UpdateCoin(4000);
     }
 
     public static void ChangeState(GameState state)

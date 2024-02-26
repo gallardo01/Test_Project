@@ -10,7 +10,7 @@ public class MainMenu : CanvasAbs
     [SerializeField] Button Play;
     [SerializeField] Button Weapon;
     [SerializeField] Button Skin;
-    [SerializeField] Button Setting;
+    [SerializeField] Button Code;
     [SerializeField] Button Volume;
     [SerializeField] RectTransform PosShop;
     [SerializeField] Image Sound;
@@ -22,7 +22,8 @@ public class MainMenu : CanvasAbs
         Play.onClick.AddListener(() => OnPlay());
         Weapon.onClick.AddListener(() => OpenShopWeapon());
         Skin.onClick.AddListener(() => OpenShopSkin());
-        Volume.onClick.AddListener(() => ChangVolume());
+        Volume.onClick.AddListener(() => ChangeVolume());
+        Code.onClick.AddListener(() => OpenGiftCode());
         
     }
     private void OnEnable()
@@ -46,9 +47,15 @@ public class MainMenu : CanvasAbs
         UIManager.Instance.TurnOnCoinCanvas();
         UIManager.Instance.OpenCanvasUI(GameState.ShopSkin);
     }
-    public override void ChangVolume()
+
+    private void OpenGiftCode()
     {
-        base.ChangVolume();
+        UIManager.Instance.TurnOffCoinCanvas();
+        UIManager.Instance.OpenCanvasUI(GameState.GiftCode);
+    }
+    public override void ChangeVolume()
+    {
+        base.ChangeVolume();
         ChangeImage();
     }
     private void ChangeImage()
