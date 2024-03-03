@@ -8,14 +8,16 @@ using UnityEngine.Pool;
 
 public class Player : MonoBehaviour
 {
-    public Transform hand;
+    public Transform rightHand;
     public Transform hat;
     public Renderer pant;
     public Transform accessory;
+    public Transform leftHand;
+    public Transform back;
+    public Renderer body;
 
     [SerializeField] protected Animator animator;
     [SerializeField] protected Transform player;
-    [SerializeField] protected Weapon weapon;
     [SerializeField] protected Collider collider;
     [SerializeField] protected LayerMask playerMask;
     [SerializeField] protected WeaponList weaponList;
@@ -34,6 +36,7 @@ public class Player : MonoBehaviour
     protected CounterTime counter;
     protected bool lockTarget;
     protected float attackRange;
+    protected Weapon weapon;
 
     private void Start() {
         counter = new CounterTime();
@@ -156,7 +159,7 @@ public class Player : MonoBehaviour
     public void ChangeWeapon(int index)
     {
         if (weapon) Destroy(weapon.gameObject);
-        weapon =  Instantiate(weaponList.GetWeapon(index), hand);
+        weapon =  Instantiate(weaponList.GetWeapon(index), rightHand);
         weapon.OnInit(this);
     }
 

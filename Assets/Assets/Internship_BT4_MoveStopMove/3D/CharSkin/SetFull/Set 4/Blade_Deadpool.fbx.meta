@@ -1,47 +1,11 @@
 fileFormatVersion: 2
 guid: 179b83d00d7f3394bacb6b1ba3701b89
 ModelImporter:
-  serializedVersion: 26
-  internalIDToNameTable:
-  - first:
-      74: 6267199037661708902
-    second: initialShadingGroup1.010|initialShadingGroup1.010Action
-  - first:
-      74: 4339664303718513683
-    second: initialShadingGroup1.010|GKB_avtAction
-  - first:
-      74: 209974417979416617
-    second: initialShadingGroup1.010|pasted__pCube2Action
-  - first:
-      74: 7183409826525542458
-    second: initialShadingGroup1.010|XGOK_SKULL_02Action
-  - first:
-      74: 80558661077689798
-    second: initialShadingGroup1.010|initialShadingGroup1.010Action.001
-  - first:
-      74: 6456840047743777452
-    second: initialShadingGroup1.017|Cube.001Action
-  - first:
-      74: -316043445980683891
-    second: initialShadingGroup1.017|GKB_avtAction
-  - first:
-      74: 8472408907485693792
-    second: initialShadingGroup1.017|initialShadingGroup1.010Action
-  - first:
-      74: -8996694802614920966
-    second: initialShadingGroup1.017|initialShadingGroup1.010Action.001
-  - first:
-      74: -6782668240316548420
-    second: initialShadingGroup1.017|initialShadingGroup1.010Action.002
-  - first:
-      74: -7108909757555167183
-    second: initialShadingGroup1.017|pasted__pCube2Action
-  - first:
-      74: -478106923007594030
-    second: initialShadingGroup1.017|XGOK_SKULL_02Action
+  serializedVersion: 21300
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -50,6 +14,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -79,20 +44,27 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -105,7 +77,6 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -123,8 +94,12 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

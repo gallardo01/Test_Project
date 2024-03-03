@@ -184,9 +184,17 @@ public class UIManager : MonoBehaviour
     private void OnSelectSkin(int page, int index)
     {
         data = skinData.GetSkin(page, index);
+        
+        // Erase the current skin at the desired position, not erase the item that is going to be equiped
+        // Check if because first time open shop currentSkinItem is null
+        if (currentSkinItem) currentSkinItem.UnEquip();
+        
+        // Declare new current skin
         currentSkinItem = data.skinItem;
+
         if (PlayerPrefs.GetInt(data.skinName, 0) == 0) skinPrice.text = data.cost.ToString();
         else skinPrice.text = (-1).ToString();
+
         currentSkinItem.Equip();
     }
 
@@ -194,6 +202,7 @@ public class UIManager : MonoBehaviour
     {
         PlayerPrefs.SetInt(data.skinName, 1);
         skinPrice.text = (-1).ToString();
+
         currentSkinItem.Equip();
     }
 

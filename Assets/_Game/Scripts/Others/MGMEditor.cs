@@ -13,7 +13,6 @@ public class MGMEditor : Editor
 
         if (GUILayout.Button("Start Another Game"))
         {
-            
             target.GetComponent<MyGameManager>().StartGame();
         }
     }

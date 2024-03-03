@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Sets
   m_EditorClassIdentifier: Assembly-CSharp::SingleSkinList
-  items: []
+  items:
+  - skinItem: {fileID: 7048576286583445644, guid: 4fe95de31b5390d46a6437c239cf002f, type: 3}
+    stats: []
+    cost: 0
+    sprite: {fileID: 21300000, guid: 10f805f9a39668441b0d858a53a90087, type: 3}
+    skinName: Devil

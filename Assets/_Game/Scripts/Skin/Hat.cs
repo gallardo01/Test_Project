@@ -6,7 +6,7 @@ public class Hat : SkinItem
 {
     public override void Equip()
     {
-        DoTheJob(LevelManager.Instance.MainCharacter.hat);
+        Equip(LevelManager.Instance.MainCharacter.hat);
     }
 
     public override void UnEquip()

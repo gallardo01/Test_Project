@@ -19,4 +19,3 @@ public class Stat {
     [SerializeField] private int effectValues;
     [SerializeField] private EffectType effectTypes;
 }
-
