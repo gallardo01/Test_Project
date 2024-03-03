@@ -5,23 +5,74 @@ public class SaveManager : Singleton<SaveManager>
 {
     [SerializeField] Player player;
 
-    public List<int> listBoughtPantID;
-    public List<int> listBoughtHatID;
-    public List<int> listBoughtShieldID;
-    public List<int> listBoughtWeaponID;
-    public int currentHat;
-    public int currentPant;
-    public int currentWeapon;
-
+    private List<int> listBoughtPantID = new List<int>();
+    public List<int> ListBoughtPantID { get => listBoughtPantID; set 
+        {
+            listBoughtPantID = value;
+            SaveGame();
+        }
+    }
+    private List<int> listBoughtHatID = new List<int>();
+    public List<int> ListBoughtHatID
+    {
+        get => listBoughtHatID; set
+        {
+            listBoughtHatID = value;
+            SaveGame();
+        }
+    }
+    private List<int> listBoughtShieldID;
+    public List<int> ListBoughtShieldID
+    {
+        get => listBoughtShieldID; set
+        {
+            listBoughtShieldID = value;
+            SaveGame();
+        }
+    }
+    private List<int> listBoughtWeaponID = new List<int>();
+    public List<int> ListBoughtWeaponID
+    {
+        get => listBoughtWeaponID; set
+        {
+            listBoughtWeaponID = value;
+            SaveGame();
+            Debug.Log("listWeapon");
+        }
+    }
+    private int currentHat;
+    public int CurrentHat { get => currentHat; set 
+        {
+            currentHat = value;
+            SaveGame();
+        } 
+    }
+    private int currentPant;
+    public int CurrentPant
+    {
+        get => currentPant; set
+        {
+            currentPant = value;
+            SaveGame();
+        }
+    }
+    private int currentWeapon;
+    public int CurrentWeapon
+    {
+        get => currentWeapon; set
+        {
+            currentWeapon = value;
+            SaveGame();
+            Debug.Log("currentweapon");
+        }
+    }
     private void Awake()
     {
         //PlayerPrefs.DeleteAll();
         LoadSave();
     }
-    private void OnApplicationQuit()
-    {
-        this.SaveGame();
-    }
+
+
     private void LoadSave()
     {
 
@@ -38,7 +89,6 @@ public class SaveManager : Singleton<SaveManager>
         {
             currentWeapon = 0;
             listBoughtWeaponID.Add(0);
-            PlayerPrefs.SetInt("Weapon", 0);
         }
         else
         {
@@ -86,11 +136,11 @@ public class SaveManager : Singleton<SaveManager>
     public void SaveGame()
     {
         PlayerPrefs.SetInt("Coin", GameManager.Instance.Coin);
-        PlayerPrefs.SetInt("Weapon", currentWeapon);
-        PlayerPrefs.SetInt("Hat", currentHat);
-        PlayerPrefs.SetInt("Pant", currentPant);
-        PlayerPrefs.SetString("ListWeapon", string.Join(",", listBoughtWeaponID));
-        PlayerPrefs.SetString("ListHat", string.Join(",", listBoughtHatID));
-        PlayerPrefs.SetString("ListPant", string.Join(",", listBoughtPantID));
+        PlayerPrefs.SetInt("Weapon", CurrentWeapon);
+        PlayerPrefs.SetInt("Hat", CurrentHat);
+        PlayerPrefs.SetInt("Pant", CurrentPant);
+        PlayerPrefs.SetString("ListWeapon", string.Join(",", ListBoughtWeaponID));
+        PlayerPrefs.SetString("ListHat", string.Join(",", ListBoughtHatID));
+        PlayerPrefs.SetString("ListPant", string.Join(",", ListBoughtPantID));
     }
 }

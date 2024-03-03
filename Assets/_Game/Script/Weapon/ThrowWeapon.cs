@@ -42,7 +42,10 @@ public class ThrowWeapon : GameUnit
 
     private void OnTriggerEnter(Collider other)
     {
-
+        if (other.CompareTag(Constants.TAG_OBSTACLE) && !this.character.isUlti)
+        {
+            this.OnDespawn();
+        }
         if (other.CompareTag(Constants.TAG_BOT) && this.character.gameObject != other.gameObject)
         {
             if (this.character.isUlti)

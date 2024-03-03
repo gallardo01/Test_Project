@@ -12,7 +12,7 @@ public enum ShopState
     FullSet = 3,
 }
 
-
+ 
 public class SkinShop : CanvasAbs
 {
     private Player player;
@@ -158,7 +158,7 @@ public class SkinShop : CanvasAbs
         currentHat = Instantiate(DataManager.Instance.hatDatas[index].Prefabs, player.HatPoint);
         Description.text = DataManager.Instance.hatDatas[index].Description;
         FrameChooseItem.transform.SetParent(pos, false);
-        if (SaveManager.Instance.listBoughtHatID.Contains(index))
+        if (SaveManager.Instance.ListBoughtHatID.Contains(index))
         {
             ChangeStateSelect();
             return;
@@ -196,7 +196,7 @@ public class SkinShop : CanvasAbs
         player.PanType.material = Pant.Material;
         Description.text = Pant.Description;
         FrameChooseItem.transform.SetParent(pos, false);
-        if (SaveManager.Instance.listBoughtPantID.Contains(index))
+        if (SaveManager.Instance.ListBoughtPantID.Contains(index))
         {
             ChangeStateSelect();
             return;
@@ -263,10 +263,10 @@ public class SkinShop : CanvasAbs
         switch (shopState)
         {
             case ShopState.Hat:
-                Price.text = SaveManager.Instance.currentHat == currentIndex ? "Equiped" : "Select";
+                Price.text = SaveManager.Instance.CurrentHat == currentIndex ? "Equiped" : "Select";
                 break;
             case ShopState.Pant:
-                Price.text = SaveManager.Instance.currentPant == currentIndex ? "Equiped" : "Select";
+                Price.text = SaveManager.Instance.CurrentPant == currentIndex ? "Equiped" : "Select";
                 break;
             default:
                 break;
@@ -277,10 +277,10 @@ public class SkinShop : CanvasAbs
         switch (shopState)
         {
             case ShopState.Hat:
-                SaveManager.Instance.currentHat = currentIndex;
+                SaveManager.Instance.CurrentHat = currentIndex;
                 break;
             case ShopState.Pant:
-                SaveManager.Instance.currentPant = currentIndex;
+                SaveManager.Instance.CurrentPant = currentIndex;
                 break;
             
         }
@@ -290,10 +290,10 @@ public class SkinShop : CanvasAbs
         switch (shopState)
         {
             case ShopState.Hat:
-                SaveManager.Instance.listBoughtHatID.Add(currentIndex);
+                SaveManager.Instance.ListBoughtHatID.Add(currentIndex);
                 break;
             case ShopState.Pant:
-                SaveManager.Instance.listBoughtPantID.Add(currentIndex);
+                SaveManager.Instance.ListBoughtPantID.Add(currentIndex);
                 break;
             
         }

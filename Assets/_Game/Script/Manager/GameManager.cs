@@ -7,7 +7,13 @@ public enum GameState { MainMenu, GamePlay,PauseGame, EndGame, ShopWeapon,ShopSk
 public class GameManager : Singleton<GameManager>
 {
     private static GameState gameState;
-    public int Coin;
+    private int coin;
+    public int Coin { get => coin; set 
+        {
+            coin = value;
+            SaveManager.Instance.SaveGame();
+        }
+    }
     private void Awake()
     {
         gameState = GameState.MainMenu;

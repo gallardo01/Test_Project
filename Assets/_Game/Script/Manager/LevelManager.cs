@@ -57,6 +57,24 @@ public class LevelManager : Singleton<LevelManager>
         this.PostEvent(EventID.OnPlay);
         this.DropGift();
     }
+
+    public void OnTargetIndicator(string name)
+    {
+        player.targetIndicator.gameObject.SetActive(true);
+        if(name == "")
+        {
+            player.targetIndicator.textName.text = "you";
+        }
+        else
+        {
+            player.targetIndicator.textName.text = name;
+        }
+
+    }
+    public void OffTargetIndicator()
+    {
+        player.targetIndicator.gameObject.SetActive(false);
+    }
     private void OnWeaponHitEnemy(ThrowWeapon weapon)
     {
 

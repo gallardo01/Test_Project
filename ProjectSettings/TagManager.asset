@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Bot
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Bullet
   - UIWeapon
   - Player
-  - 
+  - Obstacle
   - 
   - 
   - 

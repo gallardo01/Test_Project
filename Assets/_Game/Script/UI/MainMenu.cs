@@ -16,6 +16,7 @@ public class MainMenu : CanvasAbs
     [SerializeField] Image Sound;
     [SerializeField] Image Mute;
 
+    [SerializeField] TMP_InputField InputName;
 
     private void Start()
     {
@@ -36,6 +37,7 @@ public class MainMenu : CanvasAbs
         UIManager.Instance.OpenCanvasUI(GameState.GamePlay);
         LevelManager.Instance.OnInit();
         LevelManager.Instance.OnCircleAttack();
+        LevelManager.Instance.OnTargetIndicator(InputName.text.Trim());
     }
     private void OpenShopWeapon()
     {

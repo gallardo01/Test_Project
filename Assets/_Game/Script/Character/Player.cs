@@ -25,8 +25,6 @@ public class Player : Character
         ResetData();
         this.target = null;
         score = 1;
-        nameCharacter = "you";
-        targetIndicator.textName.text = this.nameCharacter;
         GrowthCharacter();
 //        this.ChangeSaveItem();
         targetIndicator.OnInit();
@@ -87,7 +85,7 @@ public class Player : Character
 
     public override void OnAttack()
     {
-        
+        Debug.Log("attack");
         base.OnAttack();
         IsWeapon = false;
         count.Start(ThrowWeapon, 0.35f);
@@ -118,21 +116,21 @@ public class Player : Character
     public void ChangeSaveItem()
     {
         
-        if (SaveManager.Instance.currentHat != -1)
+        if (SaveManager.Instance.CurrentHat != -1)
         {
-            hatCurrent = Instantiate(DataManager.Instance.hatDatas[SaveManager.Instance.currentHat].Prefabs, HatPoint);
-            attackRange += DataManager.Instance.hatDatas[SaveManager.Instance.currentHat].AttackRange*0.1f;
+            hatCurrent = Instantiate(DataManager.Instance.hatDatas[SaveManager.Instance.CurrentHat].Prefabs, HatPoint);
+            attackRange += DataManager.Instance.hatDatas[SaveManager.Instance.CurrentHat].AttackRange*0.1f;
         }
-        if (SaveManager.Instance.currentPant != -1)
+        if (SaveManager.Instance.CurrentPant != -1)
         {
-            pantCurrent = DataManager.Instance.panDatas[SaveManager.Instance.currentPant].Material;
+            pantCurrent = DataManager.Instance.panDatas[SaveManager.Instance.CurrentPant].Material;
             PanType.material = pantCurrent;
-            speed += DataManager.Instance.panDatas[SaveManager.Instance.currentPant].Speed*0.2f;
+            speed += DataManager.Instance.panDatas[SaveManager.Instance.CurrentPant].Speed*0.2f;
         }
-        int index = SaveManager.Instance.currentWeapon;
+        int index = SaveManager.Instance.CurrentWeapon;
         this.typeWeapon = LevelManager.Instance.GetCurrentWeapon(index).weaponType;
-        this.attackRange += LevelManager.Instance.weapons[SaveManager.Instance.currentWeapon].weaponData.AttackRange * 0.1f;
-        this.speed += LevelManager.Instance.weapons[SaveManager.Instance.currentWeapon].weaponData.Speed * 0.2f;
+        this.attackRange += LevelManager.Instance.weapons[SaveManager.Instance.CurrentWeapon].weaponData.AttackRange * 0.1f;
+        this.speed += LevelManager.Instance.weapons[SaveManager.Instance.CurrentWeapon].weaponData.Speed * 0.2f;
         base.ChangeWeaponImg();
     }
 

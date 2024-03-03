@@ -15,6 +15,7 @@ using UnityEngine;
     public const string TAG_BOT = "Bot";
     public const string TAG_PLAYER = "Player";
     public const string TAG_GROUND = "Ground";
+    public const string TAG_OBSTACLE = "Obstacle";
 
     public static readonly string selectStringBtn = "Select";
     public static readonly string equipedStringBtn = "Equiped";

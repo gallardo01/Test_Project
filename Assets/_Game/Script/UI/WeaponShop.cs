@@ -28,7 +28,7 @@ public class WeaponShop : CanvasAbs
     void Start()
     {
         this.player = LevelManager.Instance.player;
-        weapon_index = SaveManager.Instance.currentWeapon;
+        weapon_index = SaveManager.Instance.CurrentWeapon;
         total_weapon = LevelManager.Instance.weapons.Count;
         InitWeapon(weapon_index);
         Back.onClick.AddListener(() => PreviousWeapon());
@@ -52,7 +52,7 @@ public class WeaponShop : CanvasAbs
         weapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
         NameWeapon.text = weapon.weaponData.NameWeapon;
         Desciption.text = weapon.weaponData.Description;
-        if (SaveManager.Instance.listBoughtWeaponID.Contains(index))
+        if (SaveManager.Instance.ListBoughtWeaponID.Contains(index))
         {
             ChangeStateSelect(index);
             return;
@@ -70,7 +70,7 @@ public class WeaponShop : CanvasAbs
         if (string.Equals(Price.text, Constants.selectStringBtn))
         {
 
-            SaveManager.Instance.currentWeapon = weapon_index;
+            SaveManager.Instance.CurrentWeapon = weapon_index;
             UpdateDataWeapon();
             ChangeStateSelect(weapon_index);
             return;
@@ -78,10 +78,10 @@ public class WeaponShop : CanvasAbs
         if (GameManager.Instance.Coin >= int.Parse(Price.text))
         {
             GameManager.Instance.UpdateCoin(-int.Parse(Price.text));
-            SaveManager.Instance.currentWeapon = weapon_index;
+            SaveManager.Instance.CurrentWeapon = weapon_index;
             UpdateDataWeapon();
             ChangeStateSelect(weapon_index);
-            SaveManager.Instance.listBoughtWeaponID.Add(weapon_index);
+            SaveManager.Instance.ListBoughtWeaponID.Add(weapon_index);
             UIManager.Instance.UpDateCoinText();
 
         }
@@ -94,7 +94,7 @@ public class WeaponShop : CanvasAbs
     }
     private void ChangeStateSelect(int index)
     {
-        Price.text = SaveManager.Instance.currentWeapon == index ? Constants.equipedStringBtn: Constants.selectStringBtn;
+        Price.text = SaveManager.Instance.CurrentWeapon == index ? Constants.equipedStringBtn: Constants.selectStringBtn;
     }
     private void NextWeapon()
     {

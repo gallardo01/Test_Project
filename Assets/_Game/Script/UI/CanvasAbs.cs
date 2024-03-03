@@ -10,6 +10,7 @@ public class CanvasAbs : MonoBehaviour
         UIManager.Instance.TurnOnCoinCanvas();
         UIManager.Instance.OpenCanvasUI(GameState.MainMenu);
         LevelManager.Instance.OffCircleAttack();
+        LevelManager.Instance.OffTargetIndicator();
 
     }
 
