@@ -415,6 +415,7 @@ MonoBehaviour:
   weaponCanvas: {fileID: 613506411}
   endGameCanvas: {fileID: 1246910070}
   endGameText: {fileID: 1759242056}
+  gameStatus: 1
   weapons:
   - {fileID: 6477637429344604549, guid: 7b39203a2511a634c9c575b03b505c29, type: 3}
   - {fileID: 3584436900147848442, guid: de79cef83df9c7149b482eadaba3b7bc, type: 3}
@@ -2680,7 +2681,7 @@ MonoBehaviour:
   back: {fileID: 599966081}
   parent: {fileID: 2117829309}
   mainMenu: {fileID: 500529339}
-  weapon: {fileID: 0}
+  mainPlayer: {fileID: 1105816267}
 --- !u!1 &628666247
 GameObject:
   m_ObjectHideFlags: 0
@@ -3707,6 +3708,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 937577482}
   m_CullTransparentMesh: 1
+--- !u!1 &1035422012 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3584436900147848442, guid: de79cef83df9c7149b482eadaba3b7bc, type: 3}
+  m_PrefabInstance: {fileID: 229508904}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1075096537
 GameObject:
   m_ObjectHideFlags: 0
@@ -3783,6 +3789,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1075096537}
   m_CullTransparentMesh: 1
+--- !u!1 &1085589658 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6025792407087672041, guid: f00516a4974b9124580285ea96ddbdc5, type: 3}
+  m_PrefabInstance: {fileID: 405902861}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1098538439
 GameObject:
   m_ObjectHideFlags: 0
@@ -3905,6 +3916,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098538439}
   m_CullTransparentMesh: 1
+--- !u!1 &1104889855 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1007703847114638509, guid: e0e889183102f9445912c0b16bbaf8a1, type: 3}
+  m_PrefabInstance: {fileID: 1428846304}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1105816265
 GameObject:
   m_ObjectHideFlags: 0
@@ -3968,6 +3984,13 @@ MonoBehaviour:
   targetIndicator: {fileID: 0}
   isAttack: 0
   playerStatus: {fileID: 0}
+  weaponsList:
+  - {fileID: 1821573544}
+  - {fileID: 1035422012}
+  - {fileID: 1104889855}
+  - {fileID: 1220716639}
+  - {fileID: 1085589658}
+  weaponIndex: 2
   mainCharacter: {fileID: 1105816266}
   body: {fileID: 8296172668342972806}
   isDeath: 0
@@ -4236,6 +4259,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170421261}
   m_CullTransparentMesh: 1
+--- !u!1 &1220716639 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1200827015026778269, guid: 4a00a3ff7fcd305489ba8b95eb005c79, type: 3}
+  m_PrefabInstance: {fileID: 376297488}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1246910066
 GameObject:
   m_ObjectHideFlags: 0
@@ -5279,6 +5307,26 @@ MonoBehaviour:
     prefab: {fileID: 2249412962171485050, guid: 15eb79cf3bbeb5b4abf9047f778ceea8, type: 3}
     poolSize: 1
     fixedSize: 0
+  - poolName: Arrow
+    prefab: {fileID: 3584436900147848442, guid: de79cef83df9c7149b482eadaba3b7bc, type: 3}
+    poolSize: 1
+    fixedSize: 0
+  - poolName: Axe 1
+    prefab: {fileID: 2249412962171485050, guid: 15eb79cf3bbeb5b4abf9047f778ceea8, type: 3}
+    poolSize: 1
+    fixedSize: 0
+  - poolName: Boomerang
+    prefab: {fileID: 1007703847114638509, guid: e0e889183102f9445912c0b16bbaf8a1, type: 3}
+    poolSize: 1
+    fixedSize: 0
+  - poolName: Candy
+    prefab: {fileID: 1200827015026778269, guid: 4a00a3ff7fcd305489ba8b95eb005c79, type: 3}
+    poolSize: 1
+    fixedSize: 0
+  - poolName: Hammer
+    prefab: {fileID: 6025792407087672041, guid: f00516a4974b9124580285ea96ddbdc5, type: 3}
+    poolSize: 1
+    fixedSize: 0
 --- !u!1 &1759242054
 GameObject:
   m_ObjectHideFlags: 0
@@ -5497,6 +5545,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808228106}
   m_CullTransparentMesh: 1
+--- !u!1 &1821573544 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6477637429344604549, guid: 7b39203a2511a634c9c575b03b505c29, type: 3}
+  m_PrefabInstance: {fileID: 431716718}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1838279666
 GameObject:
   m_ObjectHideFlags: 0

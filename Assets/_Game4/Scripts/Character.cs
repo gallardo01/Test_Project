@@ -18,6 +18,9 @@ public class Character : AbstractCharacter
     int frameCount = 0;
     public bool isAttack = false;
     public Player playerStatus;
+    [SerializeField] public GameObject[] weaponsList;
+    public int weaponIndex;
+    
     //[SerializeField] protected GameObject bulletPrefab;
 
     // Start is called before the first frame update
@@ -41,6 +44,26 @@ public class Character : AbstractCharacter
         targetIndicator = LevelManager.Instance.CreateIndicatorPanel(indicatorPoint, range);
     }
 
+    public void EquipWeapon(int indexWeapon)
+    {
+        if (indexWeapon == -1)
+        {
+            indexWeapon = Random.Range(0, weaponsList.Length);
+        }
+        for (int i = 0; i < weaponsList.Length; i++)
+        {
+            if (i == indexWeapon)
+            {
+                weaponsList[i].SetActive(true);
+            }
+            else
+            {
+                weaponsList[i].SetActive(false);
+            }
+        }
+        weaponIndex = indexWeapon;
+    }
+    
     public override void OnDespawn()
     {
 
@@ -110,7 +133,7 @@ public class Character : AbstractCharacter
         if (range.target != null)
         {
             Bullet bullet = EasyObjectPool.instance.GetObjectFromPool("Bullet", rightHand.position, transform.rotation).GetComponent<Bullet>();
-            bullet.OnInit(this);
+            bullet.OnInit(this, rightHand.position);
             bullet.SetDestination((Vector3)range.target);
         }
     }

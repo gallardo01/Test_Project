@@ -18,7 +18,8 @@ public class WeaponShop : MonoBehaviour
 
     private int weapon_index = 0;
     private int total_weapon = 0;
-    public GameObject weapon;
+    private GameObject weapon;
+    [SerializeField] private Player mainPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +39,7 @@ public class WeaponShop : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        weapon = Instantiate(GameManager.Instance.GetCurrentWeapon(weapon_index), parent.position, Quaternion.identity, parent);
+        weapon = Instantiate(GameManager.Instance.GetCurrentWeapon(index), parent.position, Quaternion.identity, parent);
         weapon.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
@@ -71,6 +72,6 @@ public class WeaponShop : MonoBehaviour
     {
         equipText.text = "Equiped";
         equip.GetComponent<Image>().color = new Color(0f, 255f, 0f);
-        // Them bien trang thai equip/unequip
+        mainPlayer.EquipWeapon(weapon_index);
     }
 }

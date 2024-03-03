@@ -41,7 +41,7 @@ public class Player : Character
 
     public override void OnInit(){
         base.OnInit();
-        // if (WeaponShop.)
+        EquipWeapon(2);
     }
 
     public override void OnDeath(){

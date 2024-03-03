@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using MarchingBytes;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -14,10 +15,10 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Canvas endGameCanvas;
     [SerializeField] private TextMeshProUGUI endGameText;
     public bool gameStatus = true;
-
     [SerializeField] GameObject[] weapons;
     private int weapon_index = 0;
     public int total_weapon => weapons.Length;
+
     // Start is called before the first frame update
     void Start()
     {

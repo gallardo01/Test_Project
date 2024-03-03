@@ -11,7 +11,8 @@ public class Bullet : MonoBehaviour
     public Vector3 destination;
     private bool canMove = false;
     protected Character character;
-
+    [SerializeField] public GameObject[] weaponsList;
+    public int weaponIndex;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,9 +55,10 @@ public class Bullet : MonoBehaviour
     //         SetDestination(transform.position + transform.forward * 10f);
     //     }
     // }
-    public void OnInit(Character characterOnInit)
+    public void OnInit(Character characterOnInit, Vector3 point)
     {
         character = characterOnInit;
+        GameObject bullet = EasyObjectPool.instance.GetObjectFromPool(weaponsList[weaponIndex].gameObject.name, point, transform.rotation);
     }
     void CanMove()
     {
