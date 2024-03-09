@@ -18,3 +18,23 @@ MonoBehaviour:
     cost: 0
     sprite: {fileID: 21300000, guid: 10f805f9a39668441b0d858a53a90087, type: 3}
     skinName: Devil
+  - skinItem: {fileID: 3771269307079688806, guid: f7436c931d2651b4f8b95f33bb94e96a, type: 3}
+    stats: []
+    cost: 0
+    sprite: {fileID: 21300000, guid: 47489d63e5926ef478fda009b5f7b683, type: 3}
+    skinName: Angel
+  - skinItem: {fileID: 865385981670994569, guid: 486c39f592b838e4b944d8a8f9ac0297, type: 3}
+    stats: []
+    cost: 0
+    sprite: {fileID: 21300000, guid: cf2c2f0409a120d4084268be4362625f, type: 3}
+    skinName: Witch
+  - skinItem: {fileID: 5866931111863700212, guid: 3e906fb65f7bd954380d3d87211d66f5, type: 3}
+    stats: []
+    cost: 0
+    sprite: {fileID: 21300000, guid: 8f00f4e5c6662634d9d6fb1e2e2b01ce, type: 3}
+    skinName: Deadpool
+  - skinItem: {fileID: 1388527953437033161, guid: 92683192097b5b84d92b8ab9257347de, type: 3}
+    stats: []
+    cost: 0
+    sprite: {fileID: 21300000, guid: 74f22cae5f11d6049b5ad45d2c791d6d, type: 3}
+    skinName: Thor

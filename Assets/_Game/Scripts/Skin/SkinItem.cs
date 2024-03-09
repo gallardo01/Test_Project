@@ -6,8 +6,11 @@ using UnityEngine;
 // Inherit when new type require changes
 public abstract class SkinItem : MonoBehaviour
 {
-    
-    private Stat[] stats;
+    protected Stat[] stats;
+
+    [SerializeField] protected SkinPosition skinPosition;
+
+    public SkinPosition SkinPosition => skinPosition;
 
     // Call when wear, not when start game
     public void OnInit(Stat[] stats)
@@ -15,28 +18,13 @@ public abstract class SkinItem : MonoBehaviour
         this.stats = stats;
     }
 
-    public abstract void Equip();
-
-    // Remove the current skin at the desired position, not care about what being equipped
-    public abstract void UnEquip();
-
-    // Call inside Equip() to destroy the wearing skin and put the new one in 
-    protected void Equip(Transform position)
-    {
-        Instantiate(gameObject, position);  
-    }
-
-    // Call inside UnEquip to destroy trying skin
-    protected void UnEquip(Transform position) {
-        if (position.childCount > 0)
-        {
-            Destroy(position.GetChild(0).gameObject);
-        }
-    }
-
     // Change player stats based on the item
     public virtual void ApplyEffect(Player player) {
         
     }
+
+    public abstract void Equip(Player player);
+
+    public abstract void UnEquip();
 
 }

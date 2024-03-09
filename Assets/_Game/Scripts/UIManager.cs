@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private Player player;
+
     // Panel
     [Header("Panel")]
     [SerializeField] private GameObject decoration;
@@ -117,7 +119,6 @@ public class UIManager : MonoBehaviour
         weaponButton.onClick.AddListener(OpenWeaponShop);
 
         // Skin Shop
-
         for (int i = 0; i < skinData.SkinLists.Length; i++)
         {
             for (int j = 0; j < skinData.SkinLists[i].Items.Length; j++)
@@ -156,6 +157,7 @@ public class UIManager : MonoBehaviour
 
         // Other
         tryAgainButton.onClick.AddListener(OnRetry);
+
     }
 
     private void OnRetry()
@@ -185,17 +187,21 @@ public class UIManager : MonoBehaviour
     {
         data = skinData.GetSkin(page, index);
         
-        // Erase the current skin at the desired position, not erase the item that is going to be equiped
-        // Check if because first time open shop currentSkinItem is null
-        if (currentSkinItem) currentSkinItem.UnEquip();
-        
-        // Declare new current skin
         currentSkinItem = data.skinItem;
+
+        // Unequip the current skin at the desired position
+        if (player.EquippedSkin.ContainsKey(currentSkinItem.SkinPosition.ToString())) {
+            // Call the function inside the skin instead of that inside the player
+            // Only visual changes happen, player skin state remains unchange
+            // Player skin state is used to return the visual to original after closing the shop
+            player.EquippedSkin[currentSkinItem.SkinPosition.ToString()].UnEquip();
+        }
 
         if (PlayerPrefs.GetInt(data.skinName, 0) == 0) skinPrice.text = data.cost.ToString();
         else skinPrice.text = (-1).ToString();
 
-        currentSkinItem.Equip();
+        // Equip new skin without updating the player skin state
+        currentSkinItem.Equip(player);
     }
 
     private void GetSkin()
@@ -203,7 +209,13 @@ public class UIManager : MonoBehaviour
         PlayerPrefs.SetInt(data.skinName, 1);
         skinPrice.text = (-1).ToString();
 
-        currentSkinItem.Equip();
+        // Call the function inside the player to update the skin state because skin has been bought
+
+        if (player.EquippedSkin.ContainsKey(currentSkinItem.SkinPosition.ToString())) {
+            player.UnEquip(player.EquippedSkin[currentSkinItem.SkinPosition.ToString()]);
+        }
+
+        player.Equip(currentSkinItem);
     }
 
     // Load assets using addressable

@@ -22,4 +22,7 @@ public static class Constants
     // TAG
     public static string PLAYER_TAG = "Player";
 
+    // MATERIAL
+    public static Material Diffuse = new Material(Shader.Find("Diffuse"));
+
 }

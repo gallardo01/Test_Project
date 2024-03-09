@@ -6,6 +6,15 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Pool;
 
+public enum SkinPosition
+{
+    Hat = 0,
+    Accessory = 1,
+    Back = 2,
+    Pant = 0,
+    Set = 1,
+}
+
 public class Player : MonoBehaviour
 {
     public Transform rightHand;
@@ -23,6 +32,8 @@ public class Player : MonoBehaviour
     [SerializeField] protected WeaponList weaponList;
     [SerializeField] protected Vector3 scoreOffset;
     [SerializeField] protected Transform sprayTransform;
+    [SerializeField] protected Transform[] availableSkinPositions;
+    [SerializeField] protected Renderer[] skinRenderers;
 
     protected CameraFollow cameraFollow;
     protected string currentAnim;
@@ -37,15 +48,48 @@ public class Player : MonoBehaviour
     protected bool lockTarget;
     protected float attackRange;
     protected Weapon weapon;
+    protected Dictionary<string, SkinItem> equippedSkins;
+    protected string[] positionNames;
 
-    private void Start() {
+    public Transform[] AvailableSkinPositions => availableSkinPositions;
+    public Renderer[] SkinRenderers => skinRenderers;
+    public Dictionary<string, SkinItem> EquippedSkin => equippedSkins;
+
+    private void Start()
+    {
         counter = new CounterTime();
+
+        // Instantiate the available slots for skin
+        equippedSkins = new Dictionary<string, SkinItem>();
     }
 
-    public void SetScoreText(GameObject score) {
+    public void SetScoreText(GameObject score)
+    {
         scoreObject = score;
         scoreText = scoreObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         scoreText.SetText("0");
+    }
+
+    // Call player function to equip/unequip item, dont call skin function
+    public void Equip(SkinItem skin)
+    {
+        string skinType = skin.SkinPosition.ToString();
+
+        skin.Equip(this);
+        // Update equippedSkins
+        equippedSkins[skinType] = skin;
+    }
+
+    // Player responsible for keeping and updating the state
+    // Item responsible for showing/hiding the skin
+    // When trying skin, call function from the skin to avoid changing player original state
+    public void UnEquip(SkinItem skin) {
+        string skinType = skin.SkinPosition.ToString();
+        if (equippedSkins.ContainsKey(skinType))
+        {
+            equippedSkins[skinType].UnEquip();
+            equippedSkins.Remove(skinType);
+        }
     }
 
     // Check for nearby enemies
@@ -71,7 +115,8 @@ public class Player : MonoBehaviour
         if (minDistance != -1 && currentAnim == Constants.IDLE_ANIM && canAttack) Attack();
     }
 
-    private void LateUpdate() {
+    private void LateUpdate()
+    {
         // Score deleted when main character die but character is not deleted
         scoreObject.transform.position = Camera.main.WorldToScreenPoint(transform.position + scoreOffset);
     }
@@ -159,7 +204,7 @@ public class Player : MonoBehaviour
     public void ChangeWeapon(int index)
     {
         if (weapon) Destroy(weapon.gameObject);
-        weapon =  Instantiate(weaponList.GetWeapon(index), rightHand);
+        weapon = Instantiate(weaponList.GetWeapon(index), rightHand);
         weapon.OnInit(this);
     }
 
