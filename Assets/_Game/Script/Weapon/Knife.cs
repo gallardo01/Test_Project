@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Knife : ThrowWeapon
+public class Knife : Bullet
 {
     public override void OnInit()
     {

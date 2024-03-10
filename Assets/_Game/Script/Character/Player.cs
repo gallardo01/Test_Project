@@ -9,12 +9,9 @@ public class Player : Character
     [SerializeField] Rigidbody rb;
     [SerializeField] public float speed;
     public GameObject circleAttack;
-    
-    //private float defaultAttackRange =5f;
-    //private float defaultSpeed = 5f;
-
     public GameObject hatCurrent;
     public Material pantCurrent;
+
 
     public override void OnInit()
     {
@@ -26,7 +23,6 @@ public class Player : Character
         this.target = null;
         score = 1;
         GrowthCharacter();
-//        this.ChangeSaveItem();
         targetIndicator.OnInit();
         targetIndicator.setScore(score);
         
@@ -34,7 +30,7 @@ public class Player : Character
     public void ResetData()
     {
         this.speed = 5f;
-        this.attackRange = 7f;
+        this.attackRange = 5f;
     }
     // Update is called once per frame
     void Update()
@@ -64,8 +60,7 @@ public class Player : Character
             if (!Input.GetMouseButton(0))
             {
                 if (checkTarget() && IsWeapon)
-                {
-                    //Debug.Log("attack");
+                { 
                     ChangAnim(Constants.ANIM_IDLE);
                     RotateTarget();
                     if (isUlti)
@@ -85,12 +80,11 @@ public class Player : Character
 
     public override void OnAttack()
     {
-        Debug.Log("attack");
+        //Debug.Log("attack");
         base.OnAttack();
         IsWeapon = false;
-        count.Start(ThrowWeapon, 0.35f);
-        //ChangAnim(Constants.ANIM_IDLE);
-  
+        count.Start(Throw, 0.35f);
+        
     }
     public override void GrowthCharacter()
     {

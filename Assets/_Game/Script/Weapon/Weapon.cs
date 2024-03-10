@@ -17,8 +17,5 @@ public class Weapon : MonoBehaviour
     {
         child.SetActive(false); 
     }
-    // public bool HaveWeapon()
-    //{
-    //    return child.activeSelf;
-    //}
+
 }

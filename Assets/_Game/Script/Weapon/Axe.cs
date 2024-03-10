@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Axe : ThrowWeapon
+public class Axe : Bullet
 {
     public override void OnInit()
     {

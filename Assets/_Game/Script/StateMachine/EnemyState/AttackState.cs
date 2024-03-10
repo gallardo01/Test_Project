@@ -55,7 +55,7 @@ public class AttackState : IState<Bot>
         }
          void Throw()
         {
-            bot.ThrowWeapon();
+            bot.Throw();
             bot.changState(bot.move);
 
         }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Candy : ThrowWeapon
+public class Candy : Bullet
 {
     [SerializeField] float speedRotate;
     public override void OnInit()

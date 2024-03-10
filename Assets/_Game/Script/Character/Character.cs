@@ -13,33 +13,32 @@ public class Character : GameUnit
     [SerializeField] private Animator anim;
     [SerializeField] internal LayerMask characterLayer;
     [SerializeField] protected GameObject playerSkin;
-    public Renderer skinColor;
-    public Collider collider;
-    public float attackRange;
-    public Vector3 direct;
-    public List<Character> targets = new List<Character>();
-    public Vector3 positionTarget;
-    public Character target;
 
     private string currentAnim;
     private CounterTime counterTime = new CounterTime();
     public CounterTime count => counterTime;
-    
+
+
+    public Renderer skinColor;
+    public Collider collider;
+    public float attackRange;
+    public Vector3 direct;
+    public Vector3 positionTarget;
+    public Character target;    
     public Transform indicatorPoint;
     public TargetIndicator targetIndicator;
     public int score;
     public int deadScore;
     public float currentScale;
-    
     public string nameCharacter;
     public Weapon WeaponImg;
     public Transform WeaponPoint;
     public bool IsWeapon;
     public PoolType typeWeapon;
-
     public Transform HatPoint;
     public Transform ShieldPoint;
     public Renderer PanType;
+
 
     public bool isUlti;
     public override void OnInit()
@@ -77,11 +76,11 @@ public class Character : GameUnit
         targetIndicator.textName.text = this.nameCharacter;
         targetIndicator.OnInit();
     }
-    public void ThrowWeapon()
+    public void Throw()
     {
         
         WeaponImg.OnDisable();
-        ThrowWeapon bullet = SimplePool.Spawn<ThrowWeapon>(typeWeapon, transform.position + Vector3.up*1f + transform.forward*1f,transform.rotation);
+        Bullet bullet = SimplePool.Spawn<Bullet>(typeWeapon, transform.position + Vector3.up*1f + transform.forward*1f,transform.rotation);
         if (bullet != null)
         {
             bullet.character = this;

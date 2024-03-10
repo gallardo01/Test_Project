@@ -25,6 +25,8 @@ public class Bot : Character
     public override void OnInit()
     {
         base.OnInit();
+        this.target = null;
+        this.count.Cancel();
         score = LevelManager.Instance.RandomPoint();
         deadScore = 1;
         currentScale = 1;

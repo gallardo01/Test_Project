@@ -38,6 +38,7 @@ public class MainMenu : CanvasAbs
         LevelManager.Instance.OnInit();
         LevelManager.Instance.OnCircleAttack();
         LevelManager.Instance.OnTargetIndicator(InputName.text.Trim());
+        LevelManager.Instance.player.target = null;
     }
     private void OpenShopWeapon()
     {

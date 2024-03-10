@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ThrowWeapon : GameUnit
+public class Bullet : GameUnit
 {
     public Transform target;
     public Character character;

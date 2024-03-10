@@ -26,7 +26,7 @@ public class LevelManager : Singleton<LevelManager>
     private void Awake()
     {
 
-        this.RegisterListener(EventID.OnEnemyDead, (param) => OnWeaponHitEnemy((ThrowWeapon)param));
+        this.RegisterListener(EventID.OnEnemyDead, (param) => OnBulletHitEnemy((Bullet)param)); ;
 
     }
     // Start is called before the first frame update
@@ -75,20 +75,20 @@ public class LevelManager : Singleton<LevelManager>
     {
         player.targetIndicator.gameObject.SetActive(false);
     }
-    private void OnWeaponHitEnemy(ThrowWeapon weapon)
+    private void OnBulletHitEnemy(Bullet bullet)
     {
 
-        if (bots.Contains(weapon.Victim))
+        if (bots.Contains(bullet.Victim))
         {
-            this.bots.Remove(weapon.Victim);
+            this.bots.Remove(bullet.Victim);
         }
         this.PostEvent(EventID.UpdateAlive, this);
-        weapon.Victim.collider.enabled = false;
+        bullet.Victim.collider.enabled = false;
         this.SpawnEnemyInGame();
-        weapon.character.UpdateScore(weapon.Victim.deadScore);
-        weapon.character.GrowthCharacter();
-        weapon.Victim.OnDespawn();
-        weapon.OnDespawn();
+        bullet.character.UpdateScore(bullet.Victim.deadScore);
+        bullet.character.GrowthCharacter();
+        bullet.Victim.OnDespawn();
+        bullet.OnDespawn();
         if (bots.Count == 0)
         {
             this.PostEvent(EventID.Win);
@@ -123,22 +123,27 @@ public class LevelManager : Singleton<LevelManager>
     }
     public void SpawnBot()
     {
-        //Debug.Log("spawn");
         Vector3 pos = GetRandomPointOnNavMesh();
         Bot bot = SimplePool.Spawn<Bot>(PoolType.Bot);
         if(bot != null)
         {
-            bot.TF.position = pos;
+            foreach(Transform child in bot.HatPoint)
+            {
+                Destroy(child.gameObject);
+            }
             bot.skinColor.material = ColorManager.Instance.changColor((ColorType)Random.Range(1, 6));
-            bot.collider.enabled = true;
+            bot.PanType.material = DataManager.Instance.panDatas[Random.Range(0, DataManager.Instance.panDatas.Count)].Material;
+            Instantiate(DataManager.Instance.hatDatas[Random.Range(0, DataManager.Instance.hatDatas.Count)].Prefabs, bot.HatPoint);
             bot.GetTargetIndicator();
             bot.OnInit();
             bots.Add(bot);
-            
+            bot.TF.position = pos;
+            bot.collider.enabled = true;
             bot.changState(bot.move);
             CountBot++;
         }
     }
+
     private void SpawnEnemyInGame()
     {
         if (CountBot >= MaxBot) return;

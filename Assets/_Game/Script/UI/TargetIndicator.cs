@@ -14,11 +14,6 @@ public class TargetIndicator : GameUnit
     [SerializeField] private Image arrow;
     [SerializeField] private GameObject follow;
 
-    Vector3 viewPoint_t;
-    Vector3 screenHalf = new Vector2(Screen.width, Screen.height)/2;
-
-
-
     // Update is called once per frame
     void Update()
     {
