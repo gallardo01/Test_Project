@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c501e8dd09e95d549bf6089b242aabf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skinPosition: 4
   skinMaterial: {fileID: 2100000, guid: 7cd3ec822add55d4584203184ca9e7db, type: 2}
   itemsComeWithSkin:
-  - {fileID: 8567487575537333571, guid: 0d24d841c9c29da448c59ad84db6c120, type: 3}
-  - {fileID: 7039274554920184996, guid: e3aecae3d43575548a46e229d1638e24, type: 3}
-  - {fileID: -2208450914091407051, guid: 62af9db7e4e3c9348b87aeeea3be3dd9, type: 3}
-  - {fileID: 4793736615325749865, guid: a97b9e567e3e82349a77ce0d943343d3, type: 3}
+  - {fileID: 5407287907815833000, guid: 0d24d841c9c29da448c59ad84db6c120, type: 3}
+  - {fileID: 6478293681392165255, guid: e3aecae3d43575548a46e229d1638e24, type: 3}
+  - {fileID: 4910834196030405163, guid: 62af9db7e4e3c9348b87aeeea3be3dd9, type: 3}
+  - {fileID: 6645882670457228635, guid: a97b9e567e3e82349a77ce0d943343d3, type: 3}

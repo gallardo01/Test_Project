@@ -13,47 +13,47 @@ MonoBehaviour:
   m_Name: Pants
   m_EditorClassIdentifier: Assembly-CSharp::SingleSkinList
   items:
-  - skinItem: {fileID: -2357246670658176989, guid: 24c8148fceda13e42b569c7a7004f96e, type: 3}
+  - skinItem: {fileID: 8752557966554603695, guid: 24c8148fceda13e42b569c7a7004f96e, type: 3}
     stats: []
     cost: 0
     sprite: {fileID: 21300000, guid: 1f7e9eb236c8768498ad5d8078d2533d, type: 3}
     skinName: Batman
-  - skinItem: {fileID: -2357246670658176989, guid: 6d9050d0d15975f45aa1df4664f5f01a, type: 3}
+  - skinItem: {fileID: 6639841582222366079, guid: 6d9050d0d15975f45aa1df4664f5f01a, type: 3}
     stats: []
     cost: 0
     sprite: {fileID: 21300000, guid: 3ddbc9e0f3f883a46b1ba9635f87c222, type: 3}
     skinName: Chambi
-  - skinItem: {fileID: -2357246670658176989, guid: 716605e740e183a44a258476cb66ae81, type: 3}
+  - skinItem: {fileID: 8069273610854142282, guid: 716605e740e183a44a258476cb66ae81, type: 3}
     stats: []
     cost: 0
     sprite: {fileID: 21300000, guid: 2652851e5f7772041add8ebe7d548f2b, type: 3}
     skinName: Comy
-  - skinItem: {fileID: -2357246670658176989, guid: 799df4180ef08344083cf5ef8229ae9b, type: 3}
+  - skinItem: {fileID: 8981368796197290609, guid: 799df4180ef08344083cf5ef8229ae9b, type: 3}
     stats: []
     cost: 0
     sprite: {fileID: 21300000, guid: ae9d58ecee0e3f848b8fedb3f2c67648, type: 3}
     skinName: Dabao
-  - skinItem: {fileID: -2357246670658176989, guid: 2031665e4426a9141b117260484e9f4a, type: 3}
+  - skinItem: {fileID: 5478346147334769688, guid: 2031665e4426a9141b117260484e9f4a, type: 3}
     stats: []
     cost: 0
     sprite: {fileID: 21300000, guid: 5433d4b044040c44487399b59f52e2b4, type: 3}
     skinName: Onion
-  - skinItem: {fileID: -2357246670658176989, guid: d228004c4103f2644b3a78ef7b611e28, type: 3}
+  - skinItem: {fileID: 6678162774350002272, guid: d228004c4103f2644b3a78ef7b611e28, type: 3}
     stats: []
     cost: 0
     sprite: {fileID: 21300000, guid: ea8161e4ed231be438fe9e968bc8752c, type: 3}
     skinName: Pokemon
-  - skinItem: {fileID: -2357246670658176989, guid: bb7180830ff44c64089b43a827dbb8cd, type: 3}
+  - skinItem: {fileID: 1853346327462808186, guid: bb7180830ff44c64089b43a827dbb8cd, type: 3}
     stats: []
     cost: 0
     sprite: {fileID: 21300000, guid: 4d6b3cb74098a8640b03cd004d1dcdbb, type: 3}
     skinName: Rainbow
-  - skinItem: {fileID: -2357246670658176989, guid: 22b065111b4f0b04fa04dbb504625523, type: 3}
+  - skinItem: {fileID: 7471879242620252625, guid: 22b065111b4f0b04fa04dbb504625523, type: 3}
     stats: []
     cost: 0
     sprite: {fileID: 21300000, guid: a39a74b87842b704ab4bc6eec7e6c287, type: 3}
     skinName: Skull
-  - skinItem: {fileID: -2357246670658176989, guid: fb2844263ea5beb4a9c136943ff7e182, type: 3}
+  - skinItem: {fileID: 4475862685254747101, guid: fb2844263ea5beb4a9c136943ff7e182, type: 3}
     stats: []
     cost: 0
     sprite: {fileID: 21300000, guid: 343f00cc518f2c34090d54d64a12c62e, type: 3}

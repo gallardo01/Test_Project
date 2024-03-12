@@ -11,20 +11,16 @@ public enum SkinPosition
     Hat = 0,
     Accessory = 1,
     Back = 2,
-    Pant = 0,
-    Set = 1,
+    Pant = 3,
+    Set = 4,
+    LeftHand = 5,
+    Tail = 6,
 }
 
 public class Player : MonoBehaviour
 {
-    public Transform rightHand;
-    public Transform hat;
-    public Renderer pant;
-    public Transform accessory;
-    public Transform leftHand;
-    public Transform back;
-    public Renderer body;
 
+    [SerializeField] protected Transform rightHand;
     [SerializeField] protected Animator animator;
     [SerializeField] protected Transform player;
     [SerializeField] protected Collider collider;
@@ -32,8 +28,7 @@ public class Player : MonoBehaviour
     [SerializeField] protected WeaponList weaponList;
     [SerializeField] protected Vector3 scoreOffset;
     [SerializeField] protected Transform sprayTransform;
-    [SerializeField] protected Transform[] availableSkinPositions;
-    [SerializeField] protected Renderer[] skinRenderers;
+    [SerializeField] protected GameObject[] availableSkinPositions;
 
     protected CameraFollow cameraFollow;
     protected string currentAnim;
@@ -48,19 +43,18 @@ public class Player : MonoBehaviour
     protected bool lockTarget;
     protected float attackRange;
     protected Weapon weapon;
-    protected Dictionary<string, SkinItem> equippedSkins;
-    protected string[] positionNames;
+    protected SkinItem[] equippedSkins;
 
-    public Transform[] AvailableSkinPositions => availableSkinPositions;
-    public Renderer[] SkinRenderers => skinRenderers;
-    public Dictionary<string, SkinItem> EquippedSkin => equippedSkins;
+    public GameObject[] AvailableSkinPositions => availableSkinPositions;
+    public SkinItem[] EquippedSkin => equippedSkins;
 
     private void Start()
     {
         counter = new CounterTime();
+    }
 
-        // Instantiate the available slots for skin
-        equippedSkins = new Dictionary<string, SkinItem>();
+    public void InitEquipments() {
+        equippedSkins = new SkinItem[Enum.GetNames(typeof(SkinPosition)).Length];
     }
 
     public void SetScoreText(GameObject score)
@@ -68,28 +62,6 @@ public class Player : MonoBehaviour
         scoreObject = score;
         scoreText = scoreObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         scoreText.SetText("0");
-    }
-
-    // Call player function to equip/unequip item, dont call skin function
-    public void Equip(SkinItem skin)
-    {
-        string skinType = skin.SkinPosition.ToString();
-
-        skin.Equip(this);
-        // Update equippedSkins
-        equippedSkins[skinType] = skin;
-    }
-
-    // Player responsible for keeping and updating the state
-    // Item responsible for showing/hiding the skin
-    // When trying skin, call function from the skin to avoid changing player original state
-    public void UnEquip(SkinItem skin) {
-        string skinType = skin.SkinPosition.ToString();
-        if (equippedSkins.ContainsKey(skinType))
-        {
-            equippedSkins[skinType].UnEquip();
-            equippedSkins.Remove(skinType);
-        }
     }
 
     // Check for nearby enemies

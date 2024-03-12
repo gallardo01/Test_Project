@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1159814620883967334}
   - component: {fileID: 7873272911503091536}
   - component: {fileID: 4503584873773210537}
-  - component: {fileID: 3188068040085391433}
+  - component: {fileID: 1906947169094181964}
   m_Layer: 0
   m_Name: book_witch 1
   m_TagString: Untagged
@@ -85,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3188068040085391433
+--- !u!114 &1906947169094181964
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2757087633686474613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9df1ec2f148a0384e876348f61ebe08f, type: 3}
+  m_Script: {fileID: 11500000, guid: 451bf112118faae498d8a44ede5ea959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skinPosition: 5

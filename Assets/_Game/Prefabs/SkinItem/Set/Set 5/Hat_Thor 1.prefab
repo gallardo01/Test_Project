@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3758491223274206777}
   - component: {fileID: 254185441314584988}
   - component: {fileID: 2622215411293310294}
-  - component: {fileID: 7975144888117416173}
+  - component: {fileID: 545841351550596167}
   m_Layer: 0
   m_Name: Hat_Thor 1
   m_TagString: Untagged
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4567502651345792131}
-  m_Mesh: {fileID: 1238786473172427463, guid: f81e27bcf2377d44493aff1802e073eb, type: 3}
+  m_Mesh: {fileID: 1238786473172427463, guid: 29721c95c9068e149b0d86bf6039157c, type: 3}
 --- !u!23 &2622215411293310294
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: f81e27bcf2377d44493aff1802e073eb, type: 3}
+  - {fileID: 2100000, guid: 54e2c8598034e014691381592d693f4c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7975144888117416173
+--- !u!114 &545841351550596167
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,6 +93,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4567502651345792131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf9dce07d31ec8c488e1507d67369901, type: 3}
+  m_Script: {fileID: 11500000, guid: 451bf112118faae498d8a44ede5ea959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skinPosition: 0

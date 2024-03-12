@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private Player player;
+    private Player player;
 
     // Panel
     [Header("Panel")]
@@ -75,6 +75,9 @@ public class UIManager : MonoBehaviour
     private Image[] iconImages;
     private int currentSkinPage;
     private int currentTopButton;
+
+    // Equipped skin normally gets destroyed when equip is called
+    // This variable is used to store and destroy the trying equipment, which is not stored in the equipped set
     private SkinItem currentSkinItem;
     private SkinItemData data; // Data of skin currently viewed
 
@@ -93,6 +96,9 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        player = FindObjectOfType<Character>();
+        player.InitEquipments();
+
         // Panel
         decoration.SetActive(false);
         ingame.SetActive(false);
@@ -187,35 +193,23 @@ public class UIManager : MonoBehaviour
     {
         data = skinData.GetSkin(page, index);
         
+        if (currentSkinItem) currentSkinItem.UnEquip();
+
         currentSkinItem = data.skinItem;
+        int skinType = (int) currentSkinItem.SkinPosition;
+        
+        
 
-        // Unequip the current skin at the desired position
-        if (player.EquippedSkin.ContainsKey(currentSkinItem.SkinPosition.ToString())) {
-            // Call the function inside the skin instead of that inside the player
-            // Only visual changes happen, player skin state remains unchange
-            // Player skin state is used to return the visual to original after closing the shop
-            player.EquippedSkin[currentSkinItem.SkinPosition.ToString()].UnEquip();
-        }
-
+        // Set UI of buy button
         if (PlayerPrefs.GetInt(data.skinName, 0) == 0) skinPrice.text = data.cost.ToString();
         else skinPrice.text = (-1).ToString();
-
-        // Equip new skin without updating the player skin state
-        currentSkinItem.Equip(player);
     }
 
     private void GetSkin()
     {
         PlayerPrefs.SetInt(data.skinName, 1);
         skinPrice.text = (-1).ToString();
-
-        // Call the function inside the player to update the skin state because skin has been bought
-
-        if (player.EquippedSkin.ContainsKey(currentSkinItem.SkinPosition.ToString())) {
-            player.UnEquip(player.EquippedSkin[currentSkinItem.SkinPosition.ToString()]);
-        }
-
-        player.Equip(currentSkinItem);
+        data.skinItem.Equip(player, false);
     }
 
     // Load assets using addressable
@@ -230,6 +224,11 @@ public class UIManager : MonoBehaviour
         currentTopButton = index;
         ActiveTopButton();
 
+        // Call once to hide the currently equipped skin
+        if (player.EquippedSkin[skinType]) {
+            Destroy(player.EquippedSkin[skinType].gameObject);
+        }
+
         skinPage[currentSkinPage].gameObject.SetActive(true);
         scrollRect.content = skinPage[currentSkinPage];
         OnSelectSkin(currentSkinPage, 0);
@@ -243,6 +242,8 @@ public class UIManager : MonoBehaviour
         ActiveTopButton();
 
         skinShop.SetActive(true);
+
+        // Instead of set currentskinpage, call changeSkinPanel
         currentSkinPage = 0;
         skinPage[currentSkinPage].gameObject.SetActive(true);
         OnSelectSkin(0, 0);

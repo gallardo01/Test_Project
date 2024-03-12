@@ -5,11 +5,19 @@ using UnityEngine;
 // Skin equipped via Transform
 public class TransformSkinItem : SkinItem
 {
-    public override void Equip(Player player) {
-        Instantiate(gameObject, player.AvailableSkinPositions[(int) skinPosition]);
+    public override SkinItem Equip(Player player, bool trying) {
+
+        SkinItem si = Instantiate(gameObject, player.AvailableSkinPositions[(int) skinPosition].transform).GetComponent<SkinItem>();
+
+        if (!trying) {
+            player.EquippedSkin[(int) skinPosition] = si;
+        }
+
+        return si;
     }
 
     // Remove the current skin at the desired position, not care about what being equipped
+    // Not destroy this gameobject (in the scriptable) but destroy the one created in Equip function
     public override void UnEquip() {
         Destroy(gameObject);
     }

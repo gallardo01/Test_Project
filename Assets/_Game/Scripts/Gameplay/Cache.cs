@@ -4,7 +4,7 @@ using UnityEngine;
 public static class Cache
 {
 
-private static Dictionary<Collider, Player> players = new Dictionary<Collider, Player>();
+    private static Dictionary<Collider, Player> players = new Dictionary<Collider, Player>();
 
     public static Player GetPlayer(Collider collider)
     {
@@ -14,5 +14,15 @@ private static Dictionary<Collider, Player> players = new Dictionary<Collider, P
         }
 
         return players[collider];
+    }
+
+    private static Dictionary<GameObject, Renderer> rendererSkin = new Dictionary<GameObject, Renderer>();
+
+    public static Renderer GetRenderer(GameObject go) {
+        if (!rendererSkin.ContainsKey(go)) {
+            rendererSkin.Add(go, go.GetComponent<Renderer>());
+        }
+
+        return rendererSkin[go];
     }
 }

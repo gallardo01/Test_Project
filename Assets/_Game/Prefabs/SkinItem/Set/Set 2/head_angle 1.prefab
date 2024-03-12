@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8673355613900542900}
   - component: {fileID: 362245398043142530}
   - component: {fileID: 6213416274096706939}
-  - component: {fileID: -2208450914091407051}
+  - component: {fileID: 4910834196030405163}
   m_Layer: 0
   m_Name: head_angle 1
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-2208450914091407051
+--- !u!114 &4910834196030405163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,6 +93,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5622369350938288551}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf9dce07d31ec8c488e1507d67369901, type: 3}
+  m_Script: {fileID: 11500000, guid: 451bf112118faae498d8a44ede5ea959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skinPosition: 0

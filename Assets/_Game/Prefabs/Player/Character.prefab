@@ -288,6 +288,7 @@ Transform:
   - {fileID: 2288104688652266120}
   - {fileID: 6117231270751804959}
   - {fileID: 4512343707777678950}
+  - {fileID: 3851828644299322341}
   m_Father: {fileID: 4413998550342083661}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 1.6567013, y: -17.707647, z: 0.5933482}
@@ -939,6 +940,37 @@ Transform:
   m_Father: {fileID: 6606690963699852248}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 3.1682496, y: 1.3672861, z: 22.57669}
+--- !u!1 &3841037798080847052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3851828644299322341}
+  m_Layer: 0
+  m_Name: Tail
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3851828644299322341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3841037798080847052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.04276627, y: -0.04918673, z: -0.241354}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1305479763803823720}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4094372624333323625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1630,12 +1662,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rightHand: {fileID: 1766916960083885180}
-  hat: {fileID: 3679738329639199759}
-  pant: {fileID: 3705761367784833932}
-  accessory: {fileID: 2319747424703065127}
-  leftHand: {fileID: 7783344371282873847}
-  back: {fileID: 4512343707777678950}
-  body: {fileID: 5515959402641278703}
   animator: {fileID: 6934082089086342757}
   player: {fileID: 5461311522226908387}
   collider: {fileID: 5461311522226908317}
@@ -1645,6 +1671,14 @@ MonoBehaviour:
   weaponList: {fileID: 11400000, guid: fd00162092265084599d8c616550a43f, type: 2}
   scoreOffset: {x: 0, y: 8, z: 0}
   sprayTransform: {fileID: 3667910819302672959}
+  availableSkinPositions:
+  - {fileID: 6724322291124229835}
+  - {fileID: 5094987719329359074}
+  - {fileID: 5067247135967608326}
+  - {fileID: 1161545308774920811}
+  - {fileID: 4144877099559931968}
+  - {fileID: 2767490040358907728}
+  - {fileID: 3841037798080847052}
   speed: 8
   targetDecoration: {fileID: 5374750994553706402, guid: c140402ce34b3d744b962ce3671d90cb, type: 3}
   attackCircle: {fileID: 5461311520569519451}

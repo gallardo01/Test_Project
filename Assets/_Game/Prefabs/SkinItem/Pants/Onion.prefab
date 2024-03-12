@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1472674630251022442
+--- !u!1 &7118182836005654930
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1034650281236317595}
-  - component: {fileID: -2357246670658176989}
+  - component: {fileID: 4352746889335439901}
+  - component: {fileID: 5478346147334769688}
   m_Layer: 0
   m_Name: Onion
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1034650281236317595
+--- !u!4 &4352746889335439901
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472674630251022442}
+  m_GameObject: {fileID: 7118182836005654930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 472.7283, y: 992.32666, z: -68.48294}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,16 +32,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-2357246670658176989
+--- !u!114 &5478346147334769688
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472674630251022442}
+  m_GameObject: {fileID: 7118182836005654930}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 327377bee0b811b42a8442a4e0334e72, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bae4cf0d96a62a44bfee104e6e37608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 8e9f7294411eb8148ac5f9561d8e5c9a, type: 2}
+  skinPosition: 3
+  skinMaterial: {fileID: 2100000, guid: 8e9f7294411eb8148ac5f9561d8e5c9a, type: 2}

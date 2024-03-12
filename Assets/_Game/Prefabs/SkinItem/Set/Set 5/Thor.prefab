@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c501e8dd09e95d549bf6089b242aabf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skinPosition: 4
   skinMaterial: {fileID: 2100000, guid: ab924bc532f67a7489d307e9a029c939, type: 2}
   itemsComeWithSkin:
-  - {fileID: 7975144888117416173, guid: 4809fd789822f6c4b97d2bf0500e1dd7, type: 3}
+  - {fileID: 545841351550596167, guid: 4809fd789822f6c4b97d2bf0500e1dd7, type: 3}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7253130089728136210}
   - component: {fileID: 1869923879141404196}
   - component: {fileID: 5390743569545138909}
-  - component: {fileID: 9066165479813435712}
+  - component: {fileID: 1363590516685002522}
   m_Layer: 0
   m_Name: hat_witch 1
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9066165479813435712
+--- !u!114 &1363590516685002522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,6 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5977141727577220609}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf9dce07d31ec8c488e1507d67369901, type: 3}
+  m_Script: {fileID: 11500000, guid: 451bf112118faae498d8a44ede5ea959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skinPosition: 0
