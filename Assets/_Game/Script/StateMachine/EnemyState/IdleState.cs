@@ -8,7 +8,7 @@ public class IdleState : IState<Bot>
     public void OnEnter(Bot bot)
     {
 
-        bot.SetDestionation(bot.transform.position);
+        bot.SetDestionation(bot.TF.position);
         bot.ChangAnim(Constants.ANIM_IDLE);
         bot.count.Start(() => bot.changState(bot.move), Random.Range(1f, 3f));
     }

@@ -14,9 +14,9 @@ public class Candy : Bullet
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        TF.Translate(TF.forward * speed * Time.deltaTime, Space.World);
         child.Rotate(0f, speedRotate * Time.deltaTime, 0f, Space.World);
-        if (Vector3.Distance(this.transform.position, startPoint) > this.character.attackRange)
+        if (Vector3.Distance(this.TF.position, startPoint) > this.character.attackRange)
         {
             if (character.isUlti)
             {

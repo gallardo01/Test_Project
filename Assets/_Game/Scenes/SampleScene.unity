@@ -8707,7 +8707,7 @@ MonoBehaviour:
   TF: {fileID: 1025812628}
   player: {fileID: 2055645150}
   camera: {fileID: 1025812627}
-  offset: {x: 0, y: 8, z: -8}
+  offset: {x: 0, y: 5, z: -5}
   offsetInShop: {x: 0, y: 1, z: -10}
   BlurMaterial: {fileID: 2100000, guid: a393a4785d9b82f468e2dd9b5b8c29ca, type: 2}
   ObstacleLayer:

@@ -10,7 +10,7 @@ public class DeadState : IState<Bot>
     public void OnEnter(Bot bot)
     {
        
-        bot.SetDestionation(bot.transform.position);
+        bot.SetDestionation(bot.TF.position);
         bot.targetIndicator.OnDespawn();
         bot.ChangAnim(Constants.ANIM_DIE);
         bot.count.Start(Dead, 0.8f);

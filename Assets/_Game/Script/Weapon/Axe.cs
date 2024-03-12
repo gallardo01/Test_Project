@@ -14,9 +14,9 @@ public class Axe : Bullet
     void Update()
     {
         
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        TF.Translate(TF.forward * speed * Time.deltaTime, Space.World);
         child.Rotate(Vector3.up * -6, Space.Self);
-        if (Vector3.Distance(this.transform.position, startPoint) > this.character.attackRange)
+        if (Vector3.Distance(this.TF.position, startPoint) > this.character.attackRange)
         {
             if (character.isUlti)
             {

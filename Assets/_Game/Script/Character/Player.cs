@@ -16,8 +16,8 @@ public class Player : Character
     public override void OnInit()
     {
         base.OnInit();
-        this.transform.position = new Vector3(0, 0, 0);
-        this.transform.rotation = Quaternion.Euler(0, 180f, 0);
+        TF.position = new Vector3(0, 0, 0);
+        TF.rotation = Quaternion.Euler(0, 180f, 0);
         this.collider.enabled = true;
         ResetData();
         this.target = null;
@@ -45,8 +45,8 @@ public class Player : Character
             if (Input.GetMouseButton(0) && JoystickControl.direct != Vector3.zero)
             {
                 rb.MovePosition(rb.position + JoystickControl.direct * speed * Time.deltaTime);
-                transform.position = rb.position;
-                transform.forward = JoystickControl.direct;
+                TF.position = rb.position;
+                TF.forward = JoystickControl.direct;
                 ChangAnim(Constants.ANIM_RUN);
             }
             else

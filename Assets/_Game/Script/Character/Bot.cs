@@ -47,7 +47,7 @@ public class Bot : Character
         {
             currentState.OnExecute(this);
         }
-        if ((Mathf.Abs(destionation.x - transform.position.x) + Mathf.Abs(destionation.z - transform.position.z)) < 0.05f)
+        if ((Mathf.Abs(destionation.x - TF.position.x) + Mathf.Abs(destionation.z - TF.position.z)) < 0.05f)
         {
             IsDestintion = true;
         }
@@ -76,7 +76,7 @@ public class Bot : Character
 
     public override bool checkTarget()
     {
-        bool pos =  Camera.main.WorldToViewportPoint(this.transform.position).x < 1f && Camera.main.WorldToViewportPoint(this.transform.position).y < 1f;
+        bool pos =  Camera.main.WorldToViewportPoint(TF.position).x < 1f && Camera.main.WorldToViewportPoint(TF.position).y < 1f;
         return base.checkTarget()  && pos;
     }
 

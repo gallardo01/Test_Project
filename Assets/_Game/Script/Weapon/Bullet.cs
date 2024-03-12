@@ -27,8 +27,8 @@ public class Bullet : GameUnit
         }
         this.TF.localScale = Vector3.one * character.currentScale;
         speed = this.character.attackRange * 1.2f;
-        transform.forward = (target.position - transform.position + Vector3.up*1f).normalized;
-        startPoint = this.character.transform.position;
+        TF.forward = (target.position - TF.position + Vector3.up*1f).normalized;
+        startPoint = this.character.TF.position;
     }
 
 

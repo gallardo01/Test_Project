@@ -12,7 +12,7 @@ public class AttackState : IState<Bot>
     private int countAttack;
     public void OnEnter(Bot bot)
     {
-        bot.SetDestionation(bot.transform.position);
+        bot.SetDestionation(bot.TF.position);
         isThrow = false;
         timeCount = resetAttack;
         countAttack = 0;

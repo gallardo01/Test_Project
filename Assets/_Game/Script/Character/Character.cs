@@ -80,11 +80,11 @@ public class Character : GameUnit
     {
         
         WeaponImg.OnDisable();
-        Bullet bullet = SimplePool.Spawn<Bullet>(typeWeapon, transform.position + Vector3.up*1f + transform.forward*1f,transform.rotation);
+        Bullet bullet = SimplePool.Spawn<Bullet>(typeWeapon, TF.position + Vector3.up*1f + TF.forward*1f,TF.rotation);
         if (bullet != null)
         {
             bullet.character = this;
-            bullet.target = this.target.transform;
+            bullet.target = this.target.TF;
             bullet.OnInit();
             this.PostEvent(EventID.ThrowWeapon);
         }
@@ -101,8 +101,8 @@ public class Character : GameUnit
     }
     public virtual bool checkTarget()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
-        colliders = colliders.OrderBy(c => Vector3.Distance(c.bounds.center, transform.position)).ToArray();
+        Collider[] colliders = Physics.OverlapSphere(TF.position, attackRange, characterLayer);
+        colliders = colliders.OrderBy(c => Vector3.Distance(c.bounds.center, TF.position)).ToArray();
         if(colliders.Length > 1)
         {
             target = Cache.GetScript(colliders[1]);

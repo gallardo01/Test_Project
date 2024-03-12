@@ -19,7 +19,7 @@ public class MoveState : IState<Bot>
     {
         
         
-        if (Vector3.Distance(bot.transform.position, randomPos) <= 0.0001f || (bot.checkTarget() && bot.IsWeapon))
+        if (Vector3.Distance(bot.TF.position, randomPos) <= 0.0001f || (bot.checkTarget() && bot.IsWeapon))
         {
             bot.changState(bot.idle);
         }

@@ -41,7 +41,7 @@ public class TargetIndicator : GameUnit
              follow.transform.eulerAngles = Vector3.zero;
         }
 
-        this.transform.position = pos;
+        this.TF.position = pos;
 
     }
 
