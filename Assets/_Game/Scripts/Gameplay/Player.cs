@@ -9,10 +9,10 @@ using UnityEngine.Pool;
 public enum SkinPosition
 {
     Hat = 0,
-    Accessory = 1,
-    Back = 2,
-    Pant = 3,
-    Set = 4,
+    Pant = 1,
+    Accessory = 2,
+    Set = 3,
+    Back = 4,
     LeftHand = 5,
     Tail = 6,
 }
@@ -51,9 +51,11 @@ public class Player : MonoBehaviour
     private void Start()
     {
         counter = new CounterTime();
+        cameraFollow = FindObjectOfType<CameraFollow>();
     }
 
-    public void InitEquipments() {
+    public void InitEquipments()
+    {
         equippedSkins = new SkinItem[Enum.GetNames(typeof(SkinPosition)).Length];
     }
 
@@ -98,9 +100,8 @@ public class Player : MonoBehaviour
         OnInit();
     }
 
-    protected virtual void OnInit()
+    public virtual void OnInit()
     {
-        cameraFollow = FindObjectOfType<CameraFollow>();
         score = 0;
         targets = new Collider[LevelManager.Instance.botCount + 1];
         currentAnim = Constants.IDLE_ANIM;
@@ -108,12 +109,17 @@ public class Player : MonoBehaviour
         collider.enabled = true;
         lockTarget = false;
         attackRange = Constants.attackRange;
+        // Score object is not set before played for the first time
+        if (scoreObject) 
+        { 
+            scoreObject.SetActive(true); 
+            scoreText.SetText(score.ToString()); 
+        }
     }
 
     // Remove
     public virtual void OnDespawn()
     {
-        // Need Pooling
         // Destroy(scoreObject);
         scoreObject.SetActive(false);
     }
@@ -142,7 +148,7 @@ public class Player : MonoBehaviour
         UpSize();
 
         // Increase y axis so player not overlap with score
-        scoreOffset += Vector3.up * scoreOffset.y * 0.1f;
+        scoreOffset += Vector3.up * scoreOffset.y * 0.01f;
 
         score++;
         if (scoreText) scoreText.SetText(score.ToString());

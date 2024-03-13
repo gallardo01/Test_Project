@@ -20,7 +20,7 @@ public class Character : Player
         if (decoration) decoration.SetActive(false);
     }
 
-    protected override void OnInit()
+    public override void OnInit()
     {
         base.OnInit();
         if (!decoration) decoration = Instantiate(targetDecoration, Vector3.zero + Vector3.up * 0.3f, Quaternion.Euler(new Vector3(90, 0, 0)));

@@ -6,7 +6,7 @@ using UnityEngine;
 public class RendererSkinItem : SkinItem
 {
     [SerializeField] protected Material skinMaterial;
-    protected Player player;
+    public Player player;
 
     // Changing this type of skin does not require UnEquip so dont need to have separate player reference for each item
     // Assigning player variable only used for changing main character skin in shop
@@ -24,6 +24,7 @@ public class RendererSkinItem : SkinItem
 
     public override void UnEquip()
     {
-        Cache.GetRenderer(player.AvailableSkinPositions[(int)skinPosition]).material = Constants.Diffuse;
+        // When trying, skin state might be null
+        if (player.AvailableSkinPositions[(int)skinPosition]) Cache.GetRenderer(player.AvailableSkinPositions[(int)skinPosition]).material = Constants.Diffuse;
     }
 }

@@ -47,7 +47,6 @@ public class LevelManager : MonoBehaviour
 
         positions = new Vector3[4];
 
-
         Spawn();
     }
 
@@ -101,6 +100,7 @@ public class LevelManager : MonoBehaviour
         mainCharacter.transform.position = Vector3.zero;
         mainCharacter.transform.rotation = Quaternion.identity;
         mainCharacter.gameObject.SetActive(true);
+        mainCharacter.OnInit();
 
         OnPlay();
 

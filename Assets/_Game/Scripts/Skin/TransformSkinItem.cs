@@ -7,7 +7,7 @@ public class TransformSkinItem : SkinItem
 {
     public override SkinItem Equip(Player player, bool trying) {
 
-        SkinItem si = Instantiate(gameObject, player.AvailableSkinPositions[(int) skinPosition].transform).GetComponent<SkinItem>();
+        SkinItem si = Instantiate(this, player.AvailableSkinPositions[(int) skinPosition].transform);
 
         if (!trying) {
             player.EquippedSkin[(int) skinPosition] = si;

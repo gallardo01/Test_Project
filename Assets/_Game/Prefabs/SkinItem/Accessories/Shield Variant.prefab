@@ -86,4 +86,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 451bf112118faae498d8a44ede5ea959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinPosition: 1
+  skinPosition: 2

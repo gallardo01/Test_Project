@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
@@ -70,6 +69,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI skinPrice;
     [SerializeField] private TextMeshProUGUI skinEffect;
     [SerializeField] private Button buySkinButton;
+    [SerializeField] private Button equipSkinButton;
 
     private Image[] backgroundImages;
     private Image[] iconImages;
@@ -125,6 +125,10 @@ public class UIManager : MonoBehaviour
         weaponButton.onClick.AddListener(OpenWeaponShop);
 
         // Skin Shop
+        
+        // Before the skin shop is load, default page to -1
+        currentSkinPage = -1;
+
         for (int i = 0; i < skinData.SkinLists.Length; i++)
         {
             for (int j = 0; j < skinData.SkinLists[i].Items.Length; j++)
@@ -146,7 +150,7 @@ public class UIManager : MonoBehaviour
             topButtons[i].onClick.AddListener(delegate { ChangeSkinPanel(n); });
         }
 
-        closeSkinShopButton.onClick.AddListener(CloseSkinShop);
+        closeSkinShopButton.onClick.AddListener(OnCloseSkinShop);
 
         backgroundImages = new Image[topButtons.Count];
         iconImages = new Image[topButtons.Count];
@@ -157,7 +161,9 @@ public class UIManager : MonoBehaviour
             iconImages[i] = topButtons[i].transform.GetChild(0).GetComponent<Image>();
         }
 
-        buySkinButton.onClick.AddListener(GetSkin);
+        equipSkinButton.onClick.AddListener(OnBuySkin);
+
+        buySkinButton.onClick.AddListener(OnBuySkin);
 
         skinShop.SetActive(false);
 
@@ -172,12 +178,17 @@ public class UIManager : MonoBehaviour
         tryAgainButton.gameObject.SetActive(false);
     }
 
-    private void CloseSkinShop()
+    private void OnCloseSkinShop()
     {
         skinShop.SetActive(false);
         UnHideMenuButton();
         LevelManager.Instance.MainCharacter.ChangeAnim(Constants.IDLE_ANIM);
-        // currentSkinItem.UnEquip();        
+        DisableTopButton();
+
+        currentSkinItem.UnEquip();
+        if (player.EquippedSkin[currentSkinPage]) {
+            player.EquippedSkin[currentSkinPage].Equip(player, false);
+        }
     }
 
     private void Update()
@@ -192,41 +203,57 @@ public class UIManager : MonoBehaviour
     private void OnSelectSkin(int page, int index)
     {
         data = skinData.GetSkin(page, index);
-        
-        if (currentSkinItem) currentSkinItem.UnEquip();
 
-        currentSkinItem = data.skinItem;
-        int skinType = (int) currentSkinItem.SkinPosition;
-        
-        
+        EquipSkin(data, true);
 
         // Set UI of buy button
-        if (PlayerPrefs.GetInt(data.skinName, 0) == 0) skinPrice.text = data.cost.ToString();
-        else skinPrice.text = (-1).ToString();
+        if (PlayerPrefs.GetInt(data.skinName, 0) == 0) {
+            skinPrice.text = data.cost.ToString();
+            buySkinButton.gameObject.SetActive(true);
+            equipSkinButton.gameObject.SetActive(false);
+        }
+        else {
+            equipSkinButton.gameObject.SetActive(true);
+            buySkinButton.gameObject.SetActive(false);
+        }
     }
 
-    private void GetSkin()
+    private void OnBuySkin()
     {
         PlayerPrefs.SetInt(data.skinName, 1);
-        skinPrice.text = (-1).ToString();
-        data.skinItem.Equip(player, false);
+        buySkinButton.gameObject.SetActive(false);
+        equipSkinButton.gameObject.SetActive(true);
+        EquipSkin(data, false);
+    }
+
+    private void EquipSkin(SkinItemData data, bool trying) {
+        if (currentSkinItem) currentSkinItem.UnEquip();
+
+        // Set currentskinitem to refer to the current equipping one
+        currentSkinItem = data.skinItem.Equip(player, trying);
     }
 
     // Load assets using addressable
     private void ChangeSkinPanel(int index)
     {
-        // currentSkinItem.UnEquip();
-        skinPage[currentSkinPage].gameObject.SetActive(false);
+        if (currentSkinPage != -1) {
+            skinPage[currentSkinPage].gameObject.SetActive(false);
+            if (player.EquippedSkin[currentSkinPage]) {
+                player.EquippedSkin[currentSkinPage].Equip(player, false);
+            }
+        }
 
         currentSkinPage = index;
 
+        // Change color of the old top button to negative
         DisableTopButton();
         currentTopButton = index;
+        // Change color of the new top button to positive
         ActiveTopButton();
 
         // Call once to hide the currently equipped skin
-        if (player.EquippedSkin[skinType]) {
-            Destroy(player.EquippedSkin[skinType].gameObject);
+        if (player.EquippedSkin[index]) {
+            player.EquippedSkin[index].UnEquip();
         }
 
         skinPage[currentSkinPage].gameObject.SetActive(true);
@@ -243,11 +270,9 @@ public class UIManager : MonoBehaviour
 
         skinShop.SetActive(true);
 
-        // Instead of set currentskinpage, call changeSkinPanel
-        currentSkinPage = 0;
-        skinPage[currentSkinPage].gameObject.SetActive(true);
-        OnSelectSkin(0, 0);
         LevelManager.Instance.MainCharacter.ChangeAnim(Constants.SKIN_DANCE_ANIM);
+
+        ChangeSkinPanel(0);
     }
 
     private void DisableTopButton()

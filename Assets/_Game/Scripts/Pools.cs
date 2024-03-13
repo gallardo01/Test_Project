@@ -6,6 +6,7 @@ public class Pools : MonoBehaviour
 {
     [SerializeField] private GameObject bot;
     [SerializeField] private GameObject spray;
+    [SerializeField] private ScriptableObject bulletList;
 
     public static Pool<Bot> botPool;
     public static Pool<ParticleSystem> sprayPool;

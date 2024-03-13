@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5285615697278049010
+--- !u!1 &1193303109338210470
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7194519212095569605}
-  - component: {fileID: 6310387484532187059}
-  - component: {fileID: 5825986355381239375}
-  - component: {fileID: 1353108077280194130}
+  - component: {fileID: 1193303109338210469}
+  - component: {fileID: 1193303109338210468}
+  - component: {fileID: 1193303109338210471}
+  - component: {fileID: 3705831361026785817}
   m_Layer: 7
-  m_Name: Axe
+  m_Name: Boomerang 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7194519212095569605
+--- !u!4 &1193303109338210469
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5285615697278049010}
-  m_LocalRotation: {x: -0.00000039488071, y: 0.0000000037252899, z: -0.87050396, w: 0.49216148}
-  m_LocalPosition: {x: -0.17999992, y: 0.15000015, z: 0.08000003}
-  m_LocalScale: {x: 40, y: 40, z: 40}
+  m_GameObject: {fileID: 1193303109338210470}
+  m_LocalRotation: {x: 0.3230011, y: 0.26764563, z: -0.897107, w: 0.13869086}
+  m_LocalPosition: {x: -0.105, y: 0.379, z: 0.288}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &6310387484532187059
+  m_LocalEulerAnglesHint: {x: 34.737, y: -37.943, z: -174.698}
+--- !u!23 &1193303109338210468
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5285615697278049010}
+  m_GameObject: {fileID: 1193303109338210470}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -54,8 +54,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12ee8959f94d2b5478c80f9dfceffa79, type: 2}
-  - {fileID: 2100000, guid: 12ee8959f94d2b5478c80f9dfceffa79, type: 2}
+  - {fileID: 2100000, guid: 4af845effc1d11947b550b231adda420, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -77,27 +76,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &5825986355381239375
+--- !u!33 &1193303109338210471
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5285615697278049010}
-  m_Mesh: {fileID: 4300000, guid: 1c040a6e7d23e904b87e93fb9c66a037, type: 3}
---- !u!114 &1353108077280194130
+  m_GameObject: {fileID: 1193303109338210470}
+  m_Mesh: {fileID: 4300000, guid: cb6e597070ed41f4eb5cb9583c725959, type: 3}
+--- !u!114 &3705831361026785817
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5285615697278049010}
+  m_GameObject: {fileID: 1193303109338210470}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b902b9a1c1000a741b3c865e60c3fb76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   range: 12
-  weaponName: An Axe
-  price: 100
-  bullet: {fileID: 1517341974523540835, guid: 94195fea317777f4d9b28d59f40f90df, type: 3}
+  weaponName: Boomerang
+  price: 150
+  bullet: {fileID: 7294609367029726736, guid: 4afa6cab169545a4988ab0b05993c591, type: 3}

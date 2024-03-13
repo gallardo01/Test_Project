@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,7 +20,7 @@ public class Bot : Player
     public GameObject Arrow { set => arrow = value; }
     public Pool<Bot> Pool { set => pool = value; }
 
-    protected override void OnInit() {
+    public override void OnInit() {
         base.OnInit();
         canAttack = false;
         ChangeState(new PatrolState());

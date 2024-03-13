@@ -28,10 +28,12 @@ public abstract class SkinItem : MonoBehaviour
 
     // If trying, remove the old skin and apply the new one
     // If not trying, also update the new skin to equipped list
-    // Can return void but return gameobject because transform skin need it
-    // All players use the same renderer skin item in scriptable object
+    
+    // Equip is called on the scriptable object
+    // Return the actual equipped item to stored on the player
     public abstract SkinItem Equip(Player player, bool trying);
 
+    // Unequip is called on the actual equipped item
     public abstract void UnEquip();
 
 }
