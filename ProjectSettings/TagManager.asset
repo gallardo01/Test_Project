@@ -5,18 +5,20 @@ TagManager:
   serializedVersion: 2
   tags:
   - End
+  - Brick
+  - While
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Brick
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - floor
+  - root
+  - Purple
+  - While
+  - player
   - 
   - 
   - 
